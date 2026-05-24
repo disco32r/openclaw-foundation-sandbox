@@ -1,7 +1,7 @@
 {
   "schema_version": "2026-05-24",
   "authority": "governance/phase-gates.json",
-  "active_phase": "P2",
+  "active_phase": "P3",
   "gates": [
     {
       "id": "P0",
@@ -111,30 +111,47 @@
     },
     {
       "id": "P2",
+      "status": "PASS",
+      "owner": "Codex",
+      "evidence": [
+        {
+          "type": "file",
+          "path": "governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json",
+          "description": "intelligence-backed P2 pass gate review"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json",
+          "description": "repo-wide P2 pass gate action compliance report"
+        }
+      ],
+      "checks": [
+        "python3 tools/validate_governance.py",
+        "validate_fixtures",
+        "validate_schema_alignment"
+      ],
+      "anti_drift_confirmed": true,
+      "review_packet": "governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json",
+      "gate_action_report": "governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json",
+      "disposition": "P2 passed after anti-drift entrypoints, active phase ledger, fixtures, deny register, and custom-code requirement proof were validator-enforced."
+    },
+    {
+      "id": "P3",
       "status": "ACTIVE",
       "owner": "Codex",
       "evidence": [
         {
           "type": "file",
-          "path": "governance/gate-action-reports/P2-anti-drift-core-20260524T2325Z.json",
-          "description": "repo-wide P2 activation compliance report"
+          "path": "governance/gate-action-reports/P3-policy-checks-20260524T2340Z.json",
+          "description": "repo-wide P3 activation compliance report"
         }
       ],
       "checks": [
         "python3 tools/validate_governance.py"
       ],
       "anti_drift_confirmed": true,
-      "gate_action_report": "governance/gate-action-reports/P2-anti-drift-core-20260524T2325Z.json",
-      "disposition": "P2 is active. It is not pass-qualified until anti-drift core artifacts, fixtures, and enforcement checks receive a passing gate review."
-    },
-    {
-      "id": "P3",
-      "status": "NOT_STARTED",
-      "owner": "Codex",
-      "evidence": [],
-      "checks": [],
-      "anti_drift_confirmed": false,
-      "disposition": "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+      "gate_action_report": "governance/gate-action-reports/P3-policy-checks-20260524T2340Z.json",
+      "disposition": "P3 is active. It is not pass-qualified until policy rejection fixtures and enforcement reports receive a passing gate review."
     },
     {
       "id": "P4",

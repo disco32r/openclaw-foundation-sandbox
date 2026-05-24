@@ -1,0 +1,115 @@
+{
+  "gate_id": "P2",
+  "phase_name": "anti-drift-core",
+  "reviewed_commit": "72fe7b001699f33eb9e6c2e167e85d09432b9281",
+  "reviewer": "codex-governance-reviewer",
+  "reviewer_independence": "Lead agent performed the P2 review from current validator output, active gate reports, admission fixtures, deny register, custom-code decisions, and source-controlled agent entrypoints.",
+  "verdict": "pass",
+  "summary": "P2 passes. The anti-drift core is source-controlled and validator-enforced: agents have entrypoints, active phase is machine-readable, admission fixtures prove good/bad task behavior, gate reports are required for phase movement, denied patterns are registered, and custom code must prove it is required rather than merely convenient.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "Governance validation passed with required files, registers, schema alignment, admission fixtures, phase gates, agent entrypoint, community evidence contract, Codex access contract, gate review contract, and gate action review contract."
+  },
+  "criteria_results": [
+    {
+      "criterion": "agents have entrypoint",
+      "status": "pass",
+      "evidence": [
+        "AGENTS.md",
+        "governance/AGENTS.md",
+        "tools/validate_governance.py validate_agent_entrypoint"
+      ],
+      "assessment": "Root and governance agent entrypoints point agents to the blueprint, phase gates, ledger, access contract, gate review contract, and validator."
+    },
+    {
+      "criterion": "active phase is machine-readable",
+      "status": "pass",
+      "evidence": [
+        "governance/gate-ledger.json active_phase",
+        "governance/phase-gates.json phases",
+        "tools/validate_governance.py validate_phase_gates"
+      ],
+      "assessment": "The active phase and allowed phase statuses are encoded in JSON and validated against the phase definitions."
+    },
+    {
+      "criterion": "bad fixtures fail",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-vague-task.json",
+        "governance/admission-fixtures/bad-no-budget.json",
+        "governance/admission-fixtures/bad-local-model.json",
+        "governance/admission-fixtures/bad-second-control-plane.json",
+        "governance/admission-fixtures/bad-protected-without-approval.json",
+        "governance/admission-fixtures/bad-rejected-candidate-replay.json",
+        "tools/validate_governance.py validate_fixtures"
+      ],
+      "assessment": "The validator requires every bad fixture to fail admission validation, covering vague work, missing budget, local-model requirement, second control plane, protected mutation without approval, and rejected candidate replay."
+    },
+    {
+      "criterion": "good fixtures pass",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/good-mobile-builder-task.json",
+        "tools/validate_governance.py validate_fixtures"
+      ],
+      "assessment": "The validator requires the good mobile-builder fixture to pass the same admission schema and policy checks."
+    },
+    {
+      "criterion": "validator rejects missing phase evidence",
+      "status": "pass",
+      "evidence": [
+        "tools/validate_governance.py validate_gate_action_report",
+        "governance/gate-action-review-contract.md",
+        "prior validator failure: gate P0 requires gate_action_report"
+      ],
+      "assessment": "Phase movement now requires ledger-linked review packets and gate-action reports; missing gate evidence causes validator failure instead of warning-only drift."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "phase gate before work",
+      "status": "pass",
+      "evidence": [
+        "governance/gate-ledger.json",
+        "governance/AGENTS.md Execution Rule"
+      ],
+      "assessment": "The active phase is explicit and agents are instructed to work only the active phase unless Ryan changes direction."
+    },
+    {
+      "requirement": "budget and evidence before execution",
+      "status": "pass",
+      "evidence": [
+        "governance/task-admission.schema.json budget required fields",
+        "governance/policy-rules.json required_task_fields",
+        "tools/validate_governance.py validate_schema_alignment"
+      ],
+      "assessment": "Admission packets require budget, evidence target, stop condition, rollback, owner, tools, and admission result before execution."
+    },
+    {
+      "requirement": "deny-register replay blocked",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl",
+        "governance/admission-fixtures/bad-rejected-candidate-replay.json"
+      ],
+      "assessment": "Denied patterns are source-controlled and replay is covered by a bad admission fixture that must fail validation."
+    },
+    {
+      "requirement": "custom code requires native-gap proof",
+      "status": "pass",
+      "evidence": [
+        "CUSTOM-CODE-RULE.md",
+        "governance/custom-code-decisions.jsonl",
+        "tools/validate_governance.py custom-code decision validation"
+      ],
+      "assessment": "Custom code now requires a decision row proving native gap, requirement proof, alternatives checked, why alternatives are insufficient, rollback, kill switch, maintenance burden, and no-second-authority reason."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "repo_only",
+    "assessment": "P2 is enforced in the source repo by validator, fixtures, ledgers, gate reports, and agent entrypoints. Runtime admission enforcement begins in later OpenClaw phases."
+  },
+  "blocking_findings": [],
+  "next_action": "Mark P2 PASS, activate P3 policy-checks, and continue proving bad-task rejection behavior."
+}

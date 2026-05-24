@@ -1,0 +1,171 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-24T23:23:51Z",
+  "gate_id": "P3",
+  "phase_name": "policy-checks",
+  "gate_status": "ACTIVE",
+  "action": "activate",
+  "reviewed_commit": "72fe7b001699f33eb9e6c2e167e85d09432b9281",
+  "reviewer": "codex-repo-compliance-reviewer",
+  "overall_status": "blocked",
+  "repo_review_scope": [
+    "blueprint",
+    "phase-gates",
+    "gate-ledger",
+    "community-evidence",
+    "deny-register",
+    "custom-code-rule",
+    "codex-access-contract",
+    "changed-files",
+    "mechanical-checks",
+    "ryan-report"
+  ],
+  "tracked_file_summary": {
+    "tracked_file_count": 18349,
+    "governance_file_count": 39,
+    "tool_file_count": 4
+  },
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json",
+  "changed_files": [
+    "governance/gate-ledger.json"
+  ],
+  "untracked_files": [
+    "governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json"
+  ],
+  "required_artifact_results": [
+    {
+      "artifact": "tools/validate_governance.py",
+      "status": "pass",
+      "evidence": [
+        "tools/validate_governance.py"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/policy-rules.json",
+      "status": "pass",
+      "evidence": [
+        "governance/policy-rules.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/admission-fixtures/good-mobile-builder-task.json",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/good-mobile-builder-task.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/admission-fixtures/bad-vague-task.json",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-vague-task.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/admission-fixtures/bad-no-budget.json",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-no-budget.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/admission-fixtures/bad-local-model.json",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-local-model.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/admission-fixtures/bad-second-control-plane.json",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-second-control-plane.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/admission-fixtures/bad-protected-without-approval.json",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-protected-without-approval.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/admission-fixtures/bad-rejected-candidate-replay.json",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-rejected-candidate-replay.json"
+      ],
+      "assessment": "Required artifact exists."
+    }
+  ],
+  "mechanical_checks": [
+    {
+      "id": "git_status",
+      "ok": true,
+      "command": "git status --short --branch",
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json"
+    },
+    {
+      "id": "required_artifacts",
+      "ok": true,
+      "command": "repo artifact existence scan",
+      "output_summary": "all required artifacts exist"
+    },
+    {
+      "id": "gate_review_packet",
+      "ok": false,
+      "command": "load gate review packet",
+      "output_summary": "verdict:None"
+    }
+  ],
+  "plan_compliance_assessment": {
+    "status": "pass",
+    "assessment": "Blueprint, phase definition, ledger, and active phase alignment are present.",
+    "evidence": [
+      "gate:P3",
+      "phase:policy-checks",
+      "active:P3"
+    ]
+  },
+  "community_evidence_assessment": {
+    "status": "pass",
+    "assessment": "Candidate register satisfies community evidence structure.",
+    "evidence": [
+      "candidate_rows:4"
+    ]
+  },
+  "deny_register_assessment": {
+    "status": "pass",
+    "assessment": "Deny register is present and entries require re-review before replay.",
+    "evidence": [
+      "deny_rows:5"
+    ]
+  },
+  "custom_code_assessment": {
+    "status": "pass",
+    "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
+    "evidence": [
+      "CUSTOM-CODE-RULE.md"
+    ]
+  },
+  "access_contract_assessment": {
+    "status": "pass",
+    "assessment": "Codex access contract contains the required project-command boundary.",
+    "evidence": [
+      "governance/codex-access-contract.md"
+    ]
+  },
+  "gate_review_verdict": null,
+  "blocking_findings": [
+    "missing review_packet"
+  ],
+  "ryan_report": "Gate P3 (policy-checks) action activate: blocked. Reviewed commit 72fe7b001699f33eb9e6c2e167e85d09432b9281. Changed files: 1 tracked, 1 untracked. Blocking findings: 1."
+}
