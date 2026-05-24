@@ -1,0 +1,174 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-24T23:10:01Z",
+  "gate_id": "P1",
+  "phase_name": "foundation-repo",
+  "gate_status": "ACTIVE",
+  "action": "blocked_review",
+  "reviewed_commit": "1f7de13b4cf1cbcb5526f9c13d6de87ffdf28244",
+  "reviewer": "codex-repo-compliance-reviewer",
+  "overall_status": "blocked",
+  "repo_review_scope": [
+    "blueprint",
+    "phase-gates",
+    "gate-ledger",
+    "community-evidence",
+    "deny-register",
+    "custom-code-rule",
+    "codex-access-contract",
+    "changed-files",
+    "mechanical-checks",
+    "ryan-report"
+  ],
+  "tracked_file_summary": {
+    "tracked_file_count": 18340,
+    "governance_file_count": 31,
+    "tool_file_count": 3
+  },
+  "git_status": "## codex/foundation-governance-bootstrap\n M CUSTOM-CODE-RULE.md\n M governance/AGENTS.md\n M governance/custom-code-decisions.jsonl\n M governance/gate-ledger.json\n M governance/gate-review-contract.md\n M governance/phase-gates.json\n M tools/validate_governance.py\n?? governance/gate-action-reports/\n?? governance/gate-action-review-contract.md\n?? governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\n?? tools/generate_gate_action_report.py",
+  "changed_files": [
+    "CUSTOM-CODE-RULE.md",
+    "governance/AGENTS.md",
+    "governance/custom-code-decisions.jsonl",
+    "governance/gate-ledger.json",
+    "governance/gate-review-contract.md",
+    "governance/phase-gates.json",
+    "tools/validate_governance.py"
+  ],
+  "untracked_files": [
+    "governance/gate-action-reports/",
+    "governance/gate-action-review-contract.md",
+    "governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json",
+    "tools/generate_gate_action_report.py"
+  ],
+  "required_artifact_results": [
+    {
+      "artifact": "FOUNDATION.md",
+      "status": "pass",
+      "evidence": [
+        "FOUNDATION.md"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/p1-environment.example.json",
+      "status": "pass",
+      "evidence": [
+        "governance/p1-environment.example.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/branch-protection-plan.md",
+      "status": "pass",
+      "evidence": [
+        "governance/branch-protection-plan.md"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/candidate-register.jsonl",
+      "status": "pass",
+      "evidence": [
+        "governance/candidate-register.jsonl"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/deny-register.jsonl",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "tools/check_p1_environment.py",
+      "status": "pass",
+      "evidence": [
+        "tools/check_p1_environment.py"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "tools/setup_p1_github_environment.py",
+      "status": "pass",
+      "evidence": [
+        "tools/setup_p1_github_environment.py"
+      ],
+      "assessment": "Required artifact exists."
+    }
+  ],
+  "mechanical_checks": [
+    {
+      "id": "git_status",
+      "ok": true,
+      "command": "git status --short --branch",
+      "output_summary": "## codex/foundation-governance-bootstrap\n M CUSTOM-CODE-RULE.md\n M governance/AGENTS.md\n M governance/custom-code-decisions.jsonl\n M governance/gate-ledger.json\n M governance/gate-review-contract.md\n M governance/phase-gates.json\n M tools/validate_governance.py\n?? governance/gate-action-reports/\n?? governance/gate-action-review-contract.md\n?? governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\n?? tools/generate_gate_action_report.py"
+    },
+    {
+      "id": "required_artifacts",
+      "ok": true,
+      "command": "repo artifact existence scan",
+      "output_summary": "all required artifacts exist"
+    },
+    {
+      "id": "gate_review_packet",
+      "ok": true,
+      "command": "load gate review packet",
+      "output_summary": "verdict:blocked"
+    },
+    {
+      "id": "p1_environment_check",
+      "ok": false,
+      "command": "python3 tools/check_p1_environment.py",
+      "output_summary": "{\n  \"ok\": false,\n  \"root\": \"/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source\",\n  \"phase\": \"P1\",\n  \"checks\": [\n    {\n      \"id\": \"git_status_clean\",\n      \"ok\": false,\n      \"observed\": \"## codex/foundation-governance-bootstrap\\n M CUSTOM-CODE-RULE.md\\n M governance/AGENTS.md\\n M governance/custom-code-decisions.jsonl\\n M governance/gate-ledger.json\\n M governance/gate-review-contract.md\\n M governance/phase-gates.json\\n M tools/validate_governance.py\\n?? governance/gate-action-reports/\\n?? governance/gate-action-review-contract.md\\n?? governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\\n?? tools/generate_gate_action_report.py\",\n      \"required\": \"working tree clean on a named branch\"\n    },\n    {\n      \"id\": \"branch_named\",\n      \"ok\": true,\n      \"observed\": \"codex/foundation-governance-bootstrap\",\n      \"required\": \"current branch is named\"\n    },\n    {\n      \"id\": \"origin_is_ryan_fork\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/disco32r/openclaw.git\",\n      \"required\": \"origin points to the configured Ryan-owned fork, not openclaw/openclaw\"\n    },\n    {\n      \"id\": \"upstream_is_openclaw\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/openclaw/openclaw.git\",\n      \"required\": \"upstream points to openclaw/openclaw\"\n    },\n    {\n      \"id\": \"github_tooling_available\",\n      \"ok\": true,\n      \"observed\": \"tools/setup_p1_github_environment.py\",\n      \"required\": \"gh CLI available or source-controlled authenticated GitHub setup tooling exists\"\n    },\n    {\n      \"id\": \"branch_protection_evidence\",\n      \"ok\": false,\n      \"observed\": \"missing\",\n      \"required\": \"captured branch protection proof for the fork\"\n    },\n    {\n      \"id\": \"p1_environment_config\",\n      \"ok\": true,\n      \"observed\": \"governance/p1-environment.json\",\n      \"required\": \"governance/p1-environment.json exists without OWNER placeholders\"\n    }\n  ],\n  \"next_action\": \"Resolve failed checks or keep P1 blocked with approval packet.\"\n}"
+    }
+  ],
+  "plan_compliance_assessment": {
+    "status": "pass",
+    "assessment": "Blueprint, phase definition, ledger, and active phase alignment are present.",
+    "evidence": [
+      "gate:P1",
+      "phase:foundation-repo",
+      "active:P1"
+    ]
+  },
+  "community_evidence_assessment": {
+    "status": "pass",
+    "assessment": "Candidate register satisfies community evidence structure.",
+    "evidence": [
+      "candidate_rows:4"
+    ]
+  },
+  "deny_register_assessment": {
+    "status": "pass",
+    "assessment": "Deny register is present and entries require re-review before replay.",
+    "evidence": [
+      "deny_rows:5"
+    ]
+  },
+  "custom_code_assessment": {
+    "status": "pass",
+    "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
+    "evidence": [
+      "CUSTOM-CODE-RULE.md",
+      "tools/validate_governance.py",
+      "tools/generate_gate_action_report.py"
+    ]
+  },
+  "access_contract_assessment": {
+    "status": "pass",
+    "assessment": "Codex access contract contains the required project-command boundary.",
+    "evidence": [
+      "governance/codex-access-contract.md"
+    ]
+  },
+  "gate_review_verdict": "blocked",
+  "blocking_findings": [
+    "Remote branch protection evidence is missing at governance/evidence/p1-branch-protection.json.",
+    "P1 cannot pass until python3 tools/check_p1_environment.py succeeds on a clean tree.",
+    "P1 environment check is not pass-qualified."
+  ],
+  "ryan_report": "Gate P1 (foundation-repo) action blocked_review: blocked. Reviewed commit 1f7de13b4cf1cbcb5526f9c13d6de87ffdf28244. Changed files: 7 tracked, 4 untracked. Blocking findings: 3."
+}

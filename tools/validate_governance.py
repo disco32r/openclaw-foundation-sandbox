@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -35,9 +36,11 @@ REQUIRED_FILES = [
     GOV / "community-evidence-contract.md",
     GOV / "codex-access-contract.md",
     GOV / "gate-review-contract.md",
+    GOV / "gate-action-review-contract.md",
     GOV / "p1-environment.example.json",
     GOV / "policy-rules.json",
     ROOT / "tools" / "check_p1_environment.py",
+    ROOT / "tools" / "generate_gate_action_report.py",
     ROOT / "tools" / "setup_p1_github_environment.py",
 ]
 
@@ -83,6 +86,46 @@ COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 REVIEW_VERDICTS = {"pass", "fail", "blocked"}
 REVIEW_ITEM_STATUSES = {"pass", "fail", "blocked", "needs_review"}
 RUNTIME_ENFORCEMENT_STATUSES = {"not_applicable", "repo_only", "openclaw_enforced", "approval_required", "blocked"}
+GATE_ACTION_REPORT_STATUSES = {"pass", "blocked", "fail"}
+GATE_ACTIONS = {"activate", "pass_review", "blocked_review", "reject_review", "status_review"}
+REQUIRED_GATE_ACTION_REPORT_FIELDS = {
+    "schema_version",
+    "generated_at",
+    "gate_id",
+    "phase_name",
+    "gate_status",
+    "action",
+    "reviewed_commit",
+    "reviewer",
+    "overall_status",
+    "repo_review_scope",
+    "tracked_file_summary",
+    "git_status",
+    "changed_files",
+    "untracked_files",
+    "required_artifact_results",
+    "mechanical_checks",
+    "plan_compliance_assessment",
+    "community_evidence_assessment",
+    "deny_register_assessment",
+    "custom_code_assessment",
+    "access_contract_assessment",
+    "gate_review_verdict",
+    "blocking_findings",
+    "ryan_report",
+}
+REQUIRED_GATE_ACTION_SCOPE = {
+    "blueprint",
+    "phase-gates",
+    "gate-ledger",
+    "community-evidence",
+    "deny-register",
+    "custom-code-rule",
+    "codex-access-contract",
+    "changed-files",
+    "mechanical-checks",
+    "ryan-report",
+}
 
 
 def load_json(path: Path) -> Any:
@@ -112,6 +155,18 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise AssertionError(message)
+
+
+def run_git(*args: str) -> tuple[int, str]:
+    proc = subprocess.run(
+        ["git", *args],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    return proc.returncode, proc.stdout.strip()
 
 
 def validate_required_files() -> None:
@@ -151,6 +206,55 @@ def validate_registers() -> None:
         require(not missing, f"deny entry {row.get('id')} missing {sorted(missing)}")
         require(row["status"] == "denied", f"deny entry {row['id']} status must be denied")
         require(isinstance(row["reason"], str) and len(row["reason"].strip()) >= 20, f"deny entry {row['id']} reason too thin")
+
+    custom_decisions = load_jsonl(GOV / "custom-code-decisions.jsonl")
+    custom_required = {
+        "id",
+        "status",
+        "native_gap",
+        "requirement_proof",
+        "existing_alternatives_checked",
+        "alternative_failure_evidence",
+        "scope",
+        "interface",
+        "state_ownership",
+        "failure_mode",
+        "kill_switch",
+        "rollback",
+        "tests",
+        "maintenance_burden",
+        "no_second_authority_reason",
+    }
+    for row in custom_decisions:
+        missing = custom_required - set(row)
+        require(not missing, f"custom-code decision {row.get('id')} missing {sorted(missing)}")
+        require(row["status"] in {"accepted", "rejected", "superseded"}, f"custom-code decision {row['id']} invalid status")
+        for field in custom_required - {"alternative_failure_evidence", "existing_alternatives_checked", "status"}:
+            require(isinstance(row[field], str) and len(row[field].strip()) >= 20, f"custom-code decision {row['id']} {field} too thin")
+        require(
+            isinstance(row["existing_alternatives_checked"], list) and len(row["existing_alternatives_checked"]) >= 2,
+            f"custom-code decision {row['id']} must list alternatives checked",
+        )
+        require(
+            isinstance(row["alternative_failure_evidence"], list) and len(row["alternative_failure_evidence"]) >= 2,
+            f"custom-code decision {row['id']} must explain why alternatives are insufficient",
+        )
+
+    code, tracked = run_git("ls-files", "tools/*.py")
+    if code == 0:
+        tracked_tools = [line.strip() for line in tracked.splitlines() if line.strip()]
+        governance_tools = [
+            path
+            for path in tracked_tools
+            if path.startswith("tools/")
+            and path.endswith(".py")
+            and path not in {"tools/validate_governance.py", "tools/check_p1_environment.py"}
+        ]
+        for path in governance_tools:
+            require(
+                any(path in str(row.get("scope", "")) or path in str(row.get("interface", "")) for row in custom_decisions),
+                f"custom-code decision required for {path}",
+            )
 
 
 def validate_task_packet(packet: dict[str, Any], rules: dict[str, Any]) -> list[str]:
@@ -345,6 +449,77 @@ def validate_review_packet(gate: dict[str, Any], phase: dict[str, Any]) -> None:
         require(all(row["status"] == "pass" for row in anti_drift), f"gate {gate_id} PASS requires all anti-drift rows pass")
 
 
+def validate_action_assessment(gate_id: str, report: dict[str, Any], field: str) -> None:
+    assessment = report[field]
+    require(isinstance(assessment, dict), f"gate {gate_id} action report {field} must be an object")
+    require(assessment.get("status") in GATE_ACTION_REPORT_STATUSES, f"gate {gate_id} action report {field} has invalid status")
+    require(
+        isinstance(assessment.get("assessment"), str) and len(assessment["assessment"].strip()) >= 25,
+        f"gate {gate_id} action report {field} assessment too thin",
+    )
+    require(isinstance(assessment.get("evidence"), list), f"gate {gate_id} action report {field} evidence must be a list")
+
+
+def validate_gate_action_report(gate: dict[str, Any], phase: dict[str, Any]) -> None:
+    gate_id = gate["id"]
+    report_path_value = gate.get("gate_action_report")
+    require(isinstance(report_path_value, str) and report_path_value.strip(), f"gate {gate_id} requires gate_action_report")
+    require(
+        report_path_value.startswith("governance/gate-action-reports/"),
+        f"gate {gate_id} gate_action_report must live under governance/gate-action-reports",
+    )
+    report_path = ROOT / report_path_value
+    require(report_path.exists(), f"gate {gate_id} action report missing: {report_path_value}")
+    report = load_json(report_path)
+    require(isinstance(report, dict), f"gate {gate_id} action report must be an object")
+    missing = REQUIRED_GATE_ACTION_REPORT_FIELDS - set(report)
+    require(not missing, f"gate {gate_id} action report missing {sorted(missing)}")
+    require(report["gate_id"] == gate_id, f"gate {gate_id} action report gate_id mismatch")
+    require(report["phase_name"] == phase["name"], f"gate {gate_id} action report phase_name mismatch")
+    require(report["gate_status"] == gate["status"], f"gate {gate_id} action report gate_status mismatch")
+    require(report["action"] in GATE_ACTIONS, f"gate {gate_id} action report invalid action: {report['action']}")
+    require(isinstance(report["reviewed_commit"], str) and COMMIT_RE.match(report["reviewed_commit"]), f"gate {gate_id} action report reviewed_commit must be a 40-char commit")
+    require(isinstance(report["reviewer"], str) and len(report["reviewer"].strip()) >= 4, f"gate {gate_id} action report reviewer too thin")
+    require(report["overall_status"] in GATE_ACTION_REPORT_STATUSES, f"gate {gate_id} action report invalid overall_status")
+
+    scope = report["repo_review_scope"]
+    require(isinstance(scope, list), f"gate {gate_id} action report repo_review_scope must be a list")
+    require(REQUIRED_GATE_ACTION_SCOPE <= set(scope), f"gate {gate_id} action report missing review scope: {sorted(REQUIRED_GATE_ACTION_SCOPE - set(scope))}")
+
+    for field in ["tracked_file_summary", "required_artifact_results"]:
+        require(isinstance(report[field], (dict, list)), f"gate {gate_id} action report {field} malformed")
+    for field in ["changed_files", "untracked_files", "blocking_findings"]:
+        require(isinstance(report[field], list), f"gate {gate_id} action report {field} must be a list")
+
+    mechanical = report["mechanical_checks"]
+    require(isinstance(mechanical, list) and mechanical, f"gate {gate_id} action report mechanical_checks required")
+    for row in mechanical:
+        require(isinstance(row, dict), f"gate {gate_id} action report mechanical row must be an object")
+        for field in ["id", "ok", "command", "output_summary"]:
+            require(field in row, f"gate {gate_id} action report mechanical row missing {field}")
+        require(isinstance(row["ok"], bool), f"gate {gate_id} action report mechanical ok must be boolean")
+        require(isinstance(row["command"], str) and row["command"].strip(), f"gate {gate_id} action report mechanical command required")
+
+    for field in [
+        "plan_compliance_assessment",
+        "community_evidence_assessment",
+        "deny_register_assessment",
+        "custom_code_assessment",
+        "access_contract_assessment",
+    ]:
+        validate_action_assessment(gate_id, report, field)
+
+    require(isinstance(report["ryan_report"], str) and len(report["ryan_report"].strip()) >= 50, f"gate {gate_id} action report ryan_report too thin")
+
+    if gate["status"] == "PASS":
+        require(report["overall_status"] == "pass", f"gate {gate_id} PASS requires action report overall_status pass")
+        require(not report["blocking_findings"], f"gate {gate_id} PASS requires action report with no blocking findings")
+        require(
+            all(row.get("ok") for row in mechanical),
+            f"gate {gate_id} PASS requires all action report mechanical checks ok",
+        )
+
+
 def validate_phase_gates() -> None:
     phase_doc = load_json(GOV / "phase-gates.json")
     ledger = load_json(GOV / "gate-ledger.json")
@@ -410,6 +585,7 @@ def validate_phase_gates() -> None:
 
         if status == "PASS":
             validate_review_packet(gate, phase_by_id[gate_id])
+            validate_gate_action_report(gate, phase_by_id[gate_id])
             if phase_by_id[gate_id]["ryan_required"]:
                 require(isinstance(gate.get("ryan_approval"), dict) and gate["ryan_approval"].get("status") == "approved", f"gate {gate_id} requires Ryan approval")
             for artifact in phase_by_id[gate_id]["required_artifacts"]:
@@ -424,8 +600,10 @@ def validate_phase_gates() -> None:
             if evidence["type"] == "file":
                 require(path_exists_for_evidence(evidence["path"]), f"gate {gate_id} evidence file missing: {evidence['path']}")
 
-        if status == "ACTIVE" and gate.get("review_packet"):
-            validate_review_packet(gate, phase_by_id[gate_id])
+        if status == "ACTIVE":
+            if gate.get("review_packet"):
+                validate_review_packet(gate, phase_by_id[gate_id])
+            validate_gate_action_report(gate, phase_by_id[gate_id])
 
     require(set(gate_by_id) == set(phase_by_id), "gate ledger ids must match phase-gate ids")
     require(active_gates == [active_phase], f"exactly one ACTIVE gate must match active_phase; got {active_gates}, expected {[active_phase]}")
@@ -448,7 +626,9 @@ def validate_agent_entrypoint() -> None:
         "governance/gate-ledger.json",
         "governance/codex-access-contract.md",
         "governance/gate-review-contract.md",
+        "governance/gate-action-review-contract.md",
         "tools/validate_governance.py",
+        "tools/generate_gate_action_report.py",
     ]:
         require(required in agent_text, f"governance/AGENTS.md must point agents to {required}")
     require("ACTIVE" in agent_text and "ACTIVE" in readme_text, "agent entry/readme must mention active phase execution")
@@ -477,12 +657,29 @@ def validate_gate_review_contract() -> None:
     text = (GOV / "gate-review-contract.md").read_text(encoding="utf-8")
     for required in [
         "governance/gate-reviews/",
+        "governance/gate-action-reports/",
         "every `completion_criteria` item",
         "every `anti_drift_requirements` item",
         "A phase may be marked `PASS` only when",
         "Independence Limits",
     ]:
         require(required in text, f"gate review contract missing: {required}")
+
+
+def validate_gate_action_review_contract() -> None:
+    text = (GOV / "gate-action-review-contract.md").read_text(encoding="utf-8")
+    for required in [
+        "governance/gate-action-reports/",
+        "blueprint authority",
+        "community evidence requirements",
+        "deny register",
+        "custom-code rule compliance",
+        "Codex access contract compliance",
+        "changed files and untracked files",
+        "Ryan-facing report text",
+        "python3 tools/generate_gate_action_report.py",
+    ]:
+        require(required in text, f"gate action review contract missing: {required}")
 
 
 def main() -> int:
@@ -496,6 +693,7 @@ def main() -> int:
         validate_community_evidence_contract,
         validate_codex_access_contract,
         validate_gate_review_contract,
+        validate_gate_action_review_contract,
     ]
     try:
         for check in checks:

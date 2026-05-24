@@ -419,6 +419,7 @@
                           "evidence packet with local paths or command output",
                           "independent reviewer verdict that evidence satisfies the phase criteria",
                           "drift review against deny register, custom-code rule, and blueprint authority",
+                          "repo-wide gate action compliance report with Ryan-facing report text",
                           "runtime enforcement statement: not applicable, repo-only, or OpenClaw-enforced",
                           "Ryan approval when ryan_required is true"
                       ]

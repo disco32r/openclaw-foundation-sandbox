@@ -1,0 +1,87 @@
+{
+  "gate_id": "P1",
+  "phase_name": "foundation-repo",
+  "reviewed_commit": "1f7de13b4cf1cbcb5526f9c13d6de87ffdf28244",
+  "reviewer": "codex-governance-reviewer",
+  "reviewer_independence": "Lead agent performed this current blocked review after an independent manual report-card agent identified stale review text and missing gate-action ledger wiring.",
+  "verdict": "blocked",
+  "summary": "P1 remains active but not pass-qualified. The fork remote and upstream remote are now configured for disco32r/openclaw and openclaw/openclaw, and the non-secret P1 environment config is committed. The remaining blocker is branch protection evidence on the fork, plus clean-tree validation after current governance report wiring is committed.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py && python3 tools/check_p1_environment.py",
+    "ok": false,
+    "output_summary": "Governance validation currently fails until P0 and P1 gate-action reports are linked in the gate ledger. P1 readiness currently fails because branch protection evidence is missing and the working tree contains in-progress governance-report wiring."
+  },
+  "criteria_results": [
+    {
+      "criterion": "clean fork exists",
+      "status": "blocked",
+      "evidence": [
+        "governance/p1-environment.json",
+        "git remote -v shows origin https://github.com/disco32r/openclaw.git and upstream https://github.com/openclaw/openclaw.git"
+      ],
+      "assessment": "The fork remote shape is now correct, but P1 cannot pass until the branch is pushed and remote branch protection evidence is captured."
+    },
+    {
+      "criterion": "upstream pinned",
+      "status": "pass",
+      "evidence": [
+        "governance/candidate-register.jsonl source_commit 43252c809910df22e22d533ea3c23062fbf8b1d7"
+      ],
+      "assessment": "The selected foundation candidate records a pinned upstream source commit and remains sufficient for the foundation selection criterion."
+    },
+    {
+      "criterion": "branch policy defined",
+      "status": "blocked",
+      "evidence": [
+        "governance/branch-protection-plan.md",
+        "missing governance/evidence/p1-branch-protection.json"
+      ],
+      "assessment": "The policy is documented, but the gate requires configured remote branch-protection evidence before P1 can pass."
+    },
+    {
+      "criterion": "quarantine remains reference only",
+      "status": "pass",
+      "evidence": [
+        "FOUNDATION.md",
+        "governance/deny-register.jsonl"
+      ],
+      "assessment": "The foundation files keep old project material as reference only and deny wholesale graveyard import."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no old runtime code import",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl",
+        "git status --short --branch"
+      ],
+      "assessment": "The in-progress changes are governance/report tooling only; old runtime code is still not imported as authority."
+    },
+    {
+      "requirement": "deny register blocks graveyard replay",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl"
+      ],
+      "assessment": "The deny register still blocks old artifact replay and requires re-review before any similar pattern can return."
+    },
+    {
+      "requirement": "candidate register records selected foundation",
+      "status": "pass",
+      "evidence": [
+        "governance/candidate-register.jsonl"
+      ],
+      "assessment": "The selected OpenClaw foundation remains recorded with URL, pinned commit, score, verdict, and re-review condition."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "repo_only",
+    "assessment": "P1 is currently enforced by source-repo governance, validator checks, and gate review packets. OpenClaw runtime admission is not active until later phases."
+  },
+  "blocking_findings": [
+    "Remote branch protection evidence is missing at governance/evidence/p1-branch-protection.json.",
+    "P1 cannot pass until python3 tools/check_p1_environment.py succeeds on a clean tree."
+  ],
+  "next_action": "Wire gate-action reports into the ledger, rerun the validator, then finish the approved GitHub branch protection proof and rerun P1 readiness."
+}

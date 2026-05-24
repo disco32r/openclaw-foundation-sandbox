@@ -22,12 +22,14 @@ Custom code is allowed only when native OpenClaw primitives and existing open to
 - Mobile bot that bypasses OpenClaw.
 - Middleware that owns tasks, approvals, schedules, routing, or promotion decisions.
 
-## Required Proof Before Any Custom Code
+## Required Qualification Before Any Custom Code
 
-Every custom-code proposal must have a `custom-code-decisions.jsonl` entry with:
+Every custom-code proposal must qualify before implementation. Qualification does not require Ryan intervention for safe-local governance, validation, proof, or read-only reporting glue. It does require a `custom-code-decisions.jsonl` entry proving the code is necessary and bounded.
 
 - native gap,
+- requirement proof,
 - existing alternatives checked,
+- why those alternatives are insufficient,
 - scope,
 - interface,
 - state ownership,
@@ -38,3 +40,4 @@ Every custom-code proposal must have a `custom-code-decisions.jsonl` entry with:
 - maintenance burden,
 - reason it does not become a second authority.
 
+Ryan intervention is required only when the custom code crosses a protected boundary: runtime config, scheduler/cron, Docker/container/session state, network, Home Assistant, UniFi, secrets/auth, external accounts, public channels, or destructive cleanup.

@@ -1,0 +1,49 @@
+# Gate Action Review Contract
+
+A gate action is any phase status movement, pass review, blocked review, or activation claim recorded in `governance/gate-ledger.json`.
+
+Every gate action must produce a repo-wide compliance report under:
+
+`governance/gate-action-reports/`
+
+The report is separate from the judgment packet in `governance/gate-reviews/`. The review packet decides whether phase criteria are met. The gate action report proves the repo was checked against the whole plan before that decision is used.
+
+## Required Coverage
+
+Each gate action report must cover:
+
+- blueprint authority,
+- phase definition and gate ledger alignment,
+- active phase status,
+- required artifacts,
+- required checks,
+- community evidence requirements,
+- deny register and rejected-pattern replay,
+- custom-code rule compliance,
+- Codex access contract compliance,
+- changed files and untracked files,
+- mechanical check output,
+- blocking findings,
+- Ryan-facing report text.
+
+## Required Command
+
+Generate a report from the repo root:
+
+```sh
+python3 tools/generate_gate_action_report.py --gate P1 --action blocked_review --out governance/gate-action-reports/P1-foundation-repo-YYYYMMDDTHHMMZ.json
+```
+
+Then reference the report from the matching gate ledger row as `gate_action_report` and include it in that gate's evidence list.
+
+## Promotion Rule
+
+A phase may be marked `PASS` only when:
+
+- the gate review packet verdict is `pass`,
+- the gate action report exists,
+- the gate action report `overall_status` is `pass`,
+- the gate action report has no blocking findings,
+- the validator accepts both the review packet and the action report.
+
+For `ACTIVE` gates, blocking findings are allowed only when the gate disposition says the phase is active but not pass-qualified.

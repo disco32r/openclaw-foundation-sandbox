@@ -32,6 +32,11 @@
           "type": "file",
           "path": "governance/gate-reviews/P0-command-and-source-rules-20260524T1835Z.json",
           "description": "intelligence-backed P0 gate review"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json",
+          "description": "repo-wide P0 gate action compliance report"
         }
       ],
       "checks": [
@@ -40,6 +45,7 @@
       ],
       "anti_drift_confirmed": true,
       "review_packet": "governance/gate-reviews/P0-command-and-source-rules-20260524T1835Z.json",
+      "gate_action_report": "governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json",
       "disposition": "P0 passed after deterministic validation and explicit gate review. P1 is now active."
     },
     {
@@ -74,13 +80,18 @@
         },
         {
           "type": "file",
-          "path": "governance/gate-reviews/P1-foundation-repo-20260524T1842Z.json",
-          "description": "intelligence-backed P1 gate review"
+          "path": "governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json",
+          "description": "current intelligence-backed P1 blocked gate review"
         },
         {
           "type": "file",
           "path": "governance/approval-requests/P1-foundation-fork-branch-protection-20260524T1855Z.md",
           "description": "Ryan approval packet for external GitHub fork and branch protection work"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-action-reports/P1-foundation-repo-20260524T1905Z.json",
+          "description": "repo-wide P1 gate action compliance report"
         }
       ],
       "checks": [
@@ -89,8 +100,9 @@
         "python3 tools/check_p1_environment.py"
       ],
       "anti_drift_confirmed": true,
-      "review_packet": "governance/gate-reviews/P1-foundation-repo-20260524T1842Z.json",
-      "disposition": "Active gate reviewed as blocked. Approval packet is prepared for the external GitHub fork and branch protection work needed to unblock P1."
+      "review_packet": "governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json",
+      "gate_action_report": "governance/gate-action-reports/P1-foundation-repo-20260524T1905Z.json",
+      "disposition": "Active gate reviewed as blocked. Fork and upstream remotes are configured, but branch protection evidence is missing, so P1 is not pass-qualified."
     },
     {
       "id": "P2",

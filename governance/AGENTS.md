@@ -10,6 +10,7 @@ This directory defines the project guardrails. Before changing governance, admis
 - `governance/community-evidence-contract.md`
 - `governance/codex-access-contract.md`
 - `governance/gate-review-contract.md`
+- `governance/gate-action-review-contract.md`
 - `CUSTOM-CODE-RULE.md`
 
 ## Required Check
@@ -26,6 +27,12 @@ For P1 foundation repo work, also run:
 
 ```sh
 python3 tools/check_p1_environment.py
+```
+
+For every phase gate action, generate and attach a repo-wide action report before claiming status:
+
+```sh
+python3 tools/generate_gate_action_report.py --gate P1 --action blocked_review --out governance/gate-action-reports/P1-foundation-repo-YYYYMMDDTHHMMZ.json
 ```
 
 ## Execution Rule
