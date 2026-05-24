@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:27:36Z",
+  "generated_at": "2026-05-24T23:28:08Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "2f3dda420d614ccfff23bd602f0839140a4118dc",
+  "reviewed_commit": "634dcff2084716138652b2952bcffa8e1ba6244d",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -21,17 +21,13 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18352,
-    "governance_file_count": 42,
+    "tracked_file_count": 18355,
+    "governance_file_count": 45,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-ledger.json\n?? governance/gate-reviews/P3-policy-checks-20260524T2355Z.json",
-  "changed_files": [
-    "governance/gate-ledger.json"
-  ],
-  "untracked_files": [
-    "governance/gate-reviews/P3-policy-checks-20260524T2355Z.json"
-  ],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 3]",
+  "changed_files": [],
+  "untracked_files": [],
   "required_artifact_results": [
     {
       "artifact": "runtime health evidence",
@@ -79,7 +75,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-ledger.json\n?? governance/gate-reviews/P3-policy-checks-20260524T2355Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 3]"
     },
     {
       "id": "required_artifacts",
@@ -136,5 +132,5 @@
     "Missing required artifacts: ['runtime health evidence', 'readiness evidence', 'private exposure evidence', 'model status evidence', 'approval behavior evidence']",
     "missing review_packet"
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 2f3dda420d614ccfff23bd602f0839140a4118dc. Changed files: 1 tracked, 1 untracked. Blocking findings: 2."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 634dcff2084716138652b2952bcffa8e1ba6244d. Changed files: 0 tracked, 0 untracked. Blocking findings: 2."
 }
