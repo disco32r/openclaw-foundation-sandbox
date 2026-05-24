@@ -113,12 +113,26 @@ def main() -> int:
     )
 
     branch_proof = ROOT / "governance" / "evidence" / "p1-branch-protection.json"
+    branch_proof_data: dict[str, object] = {}
+    if branch_proof.exists():
+        try:
+            branch_proof_data = json.loads(branch_proof.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            branch_proof_data = {"error": str(exc)}
     checks.append(
         {
             "id": "branch_protection_evidence",
-            "ok": branch_proof.exists(),
-            "observed": str(branch_proof.relative_to(ROOT)) if branch_proof.exists() else "missing",
-            "required": "captured branch protection proof for the fork",
+            "ok": branch_proof.exists()
+            and branch_proof_data.get("ok") is True
+            and branch_proof_data.get("repo_fork") is True
+            and isinstance(branch_proof_data.get("branch_protection_status"), int)
+            and 200 <= int(branch_proof_data["branch_protection_status"]) < 300
+            and bool(
+                isinstance(branch_proof_data.get("branch_protection_summary"), dict)
+                and branch_proof_data["branch_protection_summary"].get("required_pull_request_reviews")
+            ),
+            "observed": branch_proof_data if branch_proof.exists() else "missing",
+            "required": "captured successful branch protection proof for an actual fork with required pull request reviews",
         }
     )
 

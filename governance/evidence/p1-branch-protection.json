@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "generated_at": "2026-05-24T23:16:02Z",
+  "fork_full_name": "disco32r/openclaw",
+  "default_branch": "main",
+  "repo_status": 200,
+  "repo_private": true,
+  "repo_fork": false,
+  "default_branch_status": 200,
+  "default_branch_sha": "b48e5a0847c6568c6ebf4eea06fae9c53e1c18ee",
+  "branch_protection_status": 403,
+  "branch_protection_summary": {
+    "required_pull_request_reviews": false,
+    "message": "Upgrade to GitHub Pro or make this repository public to enable this feature."
+  },
+  "next_options": [
+    "do not treat disco32r/openclaw as the foundation fork because GitHub reports repo_fork false",
+    "create or select an actual fork of openclaw/openclaw under a non-conflicting repo name or owner",
+    "use a GitHub plan/account that supports branch protection for the selected fork if it remains private",
+    "make the selected fork public only after explicit public-exposure approval",
+    "revise P1 branch-protection requirement only through explicit gate review"
+  ]
+}

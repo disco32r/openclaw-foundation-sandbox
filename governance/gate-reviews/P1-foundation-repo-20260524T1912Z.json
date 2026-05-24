@@ -5,11 +5,11 @@
   "reviewer": "codex-governance-reviewer",
   "reviewer_independence": "Lead agent performed this current blocked review after an independent manual report-card agent identified stale review text and missing gate-action ledger wiring.",
   "verdict": "blocked",
-  "summary": "P1 remains active but not pass-qualified. The fork remote and upstream remote are now configured for disco32r/openclaw and openclaw/openclaw, and the non-secret P1 environment config is committed. The remaining blocker is branch protection evidence on the fork, plus clean-tree validation after current governance report wiring is committed.",
+  "summary": "P1 remains active but not pass-qualified. The origin and upstream remotes are configured, but GitHub API evidence shows disco32r/openclaw is not an actual fork of openclaw/openclaw. Branch protection also failed on the private repo with GitHub's account-plan/public-visibility restriction. P1 cannot pass until an actual fork is selected and successful branch-protection evidence is captured.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py && python3 tools/check_p1_environment.py",
     "ok": false,
-    "output_summary": "Governance validation currently fails until P0 and P1 gate-action reports are linked in the gate ledger. P1 readiness currently fails because branch protection evidence is missing and the working tree contains in-progress governance-report wiring."
+    "output_summary": "Governance validation passes structurally after gate-action report wiring. P1 readiness fails because branch protection evidence is not successful and GitHub reports disco32r/openclaw is not a fork."
   },
   "criteria_results": [
     {
@@ -19,7 +19,7 @@
         "governance/p1-environment.json",
         "git remote -v shows origin https://github.com/disco32r/openclaw.git and upstream https://github.com/openclaw/openclaw.git"
       ],
-      "assessment": "The fork remote shape is now correct, but P1 cannot pass until the branch is pushed and remote branch protection evidence is captured."
+      "assessment": "The remote URL shape is configured, but GitHub API evidence reports repo_fork false for disco32r/openclaw. P1 requires an actual fork, so this criterion remains blocked."
     },
     {
       "criterion": "upstream pinned",
@@ -34,9 +34,9 @@
       "status": "blocked",
       "evidence": [
         "governance/branch-protection-plan.md",
-        "missing governance/evidence/p1-branch-protection.json"
+        "governance/evidence/p1-branch-protection.json branch_protection_status 403"
       ],
-      "assessment": "The policy is documented, but the gate requires configured remote branch-protection evidence before P1 can pass."
+      "assessment": "The policy is documented, but GitHub rejected branch protection for the private repo with an account-plan/public-visibility restriction. The gate requires successful configured branch-protection evidence before P1 can pass."
     },
     {
       "criterion": "quarantine remains reference only",
@@ -80,8 +80,9 @@
     "assessment": "P1 is currently enforced by source-repo governance, validator checks, and gate review packets. OpenClaw runtime admission is not active until later phases."
   },
   "blocking_findings": [
-    "Remote branch protection evidence is missing at governance/evidence/p1-branch-protection.json.",
+    "GitHub API evidence reports disco32r/openclaw repo_fork false, so the configured origin is not a valid foundation fork.",
+    "Branch protection evidence exists but is unsuccessful: GitHub returned 403 with an account-plan/public-visibility restriction.",
     "P1 cannot pass until python3 tools/check_p1_environment.py succeeds on a clean tree."
   ],
-  "next_action": "Wire gate-action reports into the ledger, rerun the validator, then finish the approved GitHub branch protection proof and rerun P1 readiness."
+  "next_action": "Select or create an actual fork of openclaw/openclaw under a non-conflicting repo name or owner, then capture successful branch-protection evidence and rerun P1 readiness."
 }

@@ -130,9 +130,25 @@ def ensure_fork(config: dict[str, Any], token: str) -> tuple[int, Any]:
     owner, repo = config["fork_full_name"].split("/", 1)
     repo_status, repo_data = api(token, "GET", f"/repos/{owner}/{repo}")
     if repo_status == 200:
+        if not (
+            isinstance(repo_data, dict)
+            and repo_data.get("fork") is True
+            and isinstance(repo_data.get("parent"), dict)
+            and repo_data["parent"].get("full_name") == UPSTREAM
+        ):
+            return 409, {
+                "message": f"{config['fork_full_name']} exists but is not a fork of {UPSTREAM}",
+                "observed_fork": repo_data.get("fork") if isinstance(repo_data, dict) else None,
+                "observed_parent": (
+                    repo_data.get("parent", {}).get("full_name")
+                    if isinstance(repo_data, dict) and isinstance(repo_data.get("parent"), dict)
+                    else None
+                ),
+            }
         return repo_status, repo_data
 
-    create_status, create_data = api(token, "POST", f"/repos/{UPSTREAM}/forks", {})
+    body = {"name": repo} if repo != UPSTREAM.split("/", 1)[1] else {}
+    create_status, create_data = api(token, "POST", f"/repos/{UPSTREAM}/forks", body)
     if create_status not in {200, 201, 202}:
         return create_status, create_data
 

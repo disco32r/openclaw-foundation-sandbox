@@ -1,9 +1,9 @@
 {
-  "fork_full_name": "disco32r/openclaw",
+  "fork_full_name": "disco32r/openclaw-foundation-sandbox",
   "default_branch": "main",
   "working_branch": "codex/foundation-governance-bootstrap",
   "upstream_remote": "https://github.com/openclaw/openclaw.git",
-  "origin_remote": "https://github.com/disco32r/openclaw.git",
+  "origin_remote": "https://github.com/disco32r/openclaw-foundation-sandbox.git",
   "branch_protection": {
     "required_pull_request_reviews": true,
     "required_approving_review_count": 1,
