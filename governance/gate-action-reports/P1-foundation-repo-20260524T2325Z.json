@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:36:23Z",
+  "generated_at": "2026-05-24T23:43:56Z",
   "gate_id": "P1",
   "phase_name": "foundation-repo",
   "gate_status": "PASS",
   "action": "pass_review",
-  "reviewed_commit": "77c78d1792e94b7c957fa2b552d67f7aaae522c4",
+  "reviewed_commit": "fa1d75edc3592514d9b5f1e0cdf41469a9cf756a",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -22,8 +22,8 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18355,
-    "governance_file_count": 45,
+    "tracked_file_count": 18358,
+    "governance_file_count": 48,
     "tool_file_count": 4
   },
   "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]",
@@ -154,16 +154,18 @@
     "status": "pass",
     "requires_ryan_now": false,
     "protected_boundary_pending": false,
+    "approval_packet_present": true,
     "safe_local_next_actions": [],
     "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
     "evidence": [
       "phase_ryan_required:False",
       "gate_status:PASS",
       "artifact_failures:0",
-      "review_verdict:pass"
+      "review_verdict:pass",
+      "approval_packet_present:True"
     ]
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P1 (foundation-repo) action pass_review: pass. Reviewed commit 77c78d1792e94b7c957fa2b552d67f7aaae522c4. Changed files: 0 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
+  "ryan_report": "Gate P1 (foundation-repo) action pass_review: pass. Reviewed commit fa1d75edc3592514d9b5f1e0cdf41469a9cf756a. Changed files: 0 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
 }
