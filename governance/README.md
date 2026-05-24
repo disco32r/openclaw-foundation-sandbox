@@ -8,8 +8,23 @@ Work must flow through:
 
 The validator in `../tools/validate_governance.py` is the first blocking check. A later implementation may replace or supplement it with OPA/Conftest, but warning-only checks do not count.
 
+## Agent Entry
+
+Agents working on governance, admission, routing, candidates, skills/plugins, dashboards, approvals, or builder flow must start with:
+
+- `governance/AGENTS.md`
+- `governance/blueprint.md`
+- `governance/phase-gates.json`
+- `governance/gate-ledger.json`
+
+Only the `ACTIVE` phase in `gate-ledger.json` is executable unless Ryan explicitly changes direction.
+
 ## Files
 
+- `blueprint.md`: canonical implementation blueprint and tipping-point definition.
+- `AGENTS.md`: scoped agent entrypoint for this governance packet.
+- `phase-gates.json`: machine-readable phase definitions, required artifacts, required checks, completion criteria, and anti-drift requirements.
+- `gate-ledger.json`: current phase status; exactly one phase must be `ACTIVE`.
 - `operating-method.md`: required lifecycle and agent rules.
 - `task-admission.schema.json`: required task intake shape.
 - `admission-fixtures/`: good and bad packets used to prove gates.
@@ -19,5 +34,5 @@ The validator in `../tools/validate_governance.py` is the first blocking check. 
 - `skill-plugin-register.jsonl`: admitted skills/plugins. Empty means none admitted.
 - `custom-code-decisions.jsonl`: admitted custom code. Empty means no custom code admitted.
 - `evidence-contract.md`: what counts as proof.
+- `community-evidence-contract.md`: required evidence for candidate nomination and promotion.
 - `policy-rules.json`: machine-readable gate rules for the validator.
-
