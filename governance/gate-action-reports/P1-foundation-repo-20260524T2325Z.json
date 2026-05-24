@@ -1,13 +1,13 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:21:05Z",
+  "generated_at": "2026-05-24T23:34:58Z",
   "gate_id": "P1",
   "phase_name": "foundation-repo",
   "gate_status": "PASS",
   "action": "pass_review",
-  "reviewed_commit": "a57ae987d57b196ad016a19cf23394ea654e940b",
+  "reviewed_commit": "f25a3b69cc4654f67babd15c5ec2d061c4eea7f3",
   "reviewer": "codex-repo-compliance-reviewer",
-  "overall_status": "pass",
+  "overall_status": "blocked",
   "repo_review_scope": [
     "blueprint",
     "phase-gates",
@@ -18,15 +18,22 @@
     "codex-access-contract",
     "changed-files",
     "mechanical-checks",
+    "intervention-balance",
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18348,
-    "governance_file_count": 38,
+    "tracked_file_count": 18355,
+    "governance_file_count": 45,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]",
-  "changed_files": [],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py",
+  "changed_files": [
+    "governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json",
+    "governance/gate-action-review-contract.md",
+    "governance/operating-method.md",
+    "tools/generate_gate_action_report.py",
+    "tools/validate_governance.py"
+  ],
   "untracked_files": [],
   "required_artifact_results": [
     {
@@ -91,7 +98,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py"
     },
     {
       "id": "required_artifacts",
@@ -107,9 +114,9 @@
     },
     {
       "id": "p1_environment_check",
-      "ok": true,
+      "ok": false,
       "command": "python3 tools/check_p1_environment.py",
-      "output_summary": "{\n  \"ok\": true,\n  \"root\": \"/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source\",\n  \"phase\": \"P1\",\n  \"checks\": [\n    {\n      \"id\": \"git_status_clean\",\n      \"ok\": true,\n      \"observed\": \"## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]\",\n      \"required\": \"working tree clean on a named branch\"\n    },\n    {\n      \"id\": \"branch_named\",\n      \"ok\": true,\n      \"observed\": \"codex/foundation-governance-bootstrap\",\n      \"required\": \"current branch is named\"\n    },\n    {\n      \"id\": \"origin_is_ryan_fork\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/disco32r/openclaw-foundation-sandbox.git\",\n      \"required\": \"origin points to the configured Ryan-owned fork, not openclaw/openclaw\"\n    },\n    {\n      \"id\": \"upstream_is_openclaw\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/openclaw/openclaw.git\",\n      \"required\": \"upstream points to openclaw/openclaw\"\n    },\n    {\n      \"id\": \"github_tooling_available\",\n      \"ok\": true,\n      \"observed\": \"tools/setup_p1_github_environment.py\",\n      \"required\": \"gh CLI available or source-controlled authenticated GitHub setup tooling exists\"\n    },\n    {\n      \"id\": \"branch_protection_evidence\",\n      \"ok\": true,\n      \"observed\": {\n        \"ok\": true,\n        \"fork_full_name\": \"disco32r/openclaw-foundation-sandbox\",\n        \"default_branch\": \"main\",\n        \"working_branch\": \"codex/foundation-governance-bootstrap\",\n        \"remote_status\": \"origin\\thttps://github.com/disco32r/openclaw-foundation-sandbox.git (fetch)\\norigin\\thttps://github.com/disco32r/openclaw-foundation-sandbox.git (push)\\nupstream\\thttps://github.com/openclaw/openclaw.git (fetch)\\nupstream\\thttps://github.com/openclaw/openclaw.git (push)\",\n        \"git_status\": \"## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\\n M governance/gate-action-reports/P1-foundation-repo-20260524T1905Z.json\",\n        \"repo_private\": false,\n        \"repo_fork\": tr"
+      "output_summary": "{\n  \"ok\": false,\n  \"root\": \"/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source\",\n  \"phase\": \"P1\",\n  \"checks\": [\n    {\n      \"id\": \"git_status_clean\",\n      \"ok\": false,\n      \"observed\": \"## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\\n M governance/gate-action-review-contract.md\\n M governance/operating-method.md\\n M tools/generate_gate_action_report.py\\n M tools/validate_governance.py\",\n      \"required\": \"working tree clean on a named branch\"\n    },\n    {\n      \"id\": \"branch_named\",\n      \"ok\": true,\n      \"observed\": \"codex/foundation-governance-bootstrap\",\n      \"required\": \"current branch is named\"\n    },\n    {\n      \"id\": \"origin_is_ryan_fork\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/disco32r/openclaw-foundation-sandbox.git\",\n      \"required\": \"origin points to the configured Ryan-owned fork, not openclaw/openclaw\"\n    },\n    {\n      \"id\": \"upstream_is_openclaw\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/openclaw/openclaw.git\",\n      \"required\": \"upstream points to openclaw/openclaw\"\n    },\n    {\n      \"id\": \"github_tooling_available\",\n      \"ok\": true,\n      \"observed\": \"tools/setup_p1_github_environment.py\",\n      \"required\": \"gh CLI available or source-controlled authenticated GitHub setup tooling exists\"\n    },\n    {\n      \"id\": \"branch_protection_evidence\",\n      \"ok\": true,\n      \"observed\": {\n        \"ok\": true,\n        \"fork_full_name\": \"disco32r/openclaw-foundation-sandbox\",\n        \"default_branch\": \"main\",\n        \"working_branch\": \"codex/foundation-governance-bootstrap\",\n        \"remote_status\": \"origin\\thttps://github.com/disco32r/openclaw-foundation-sandbox.git (fetch)\\norigin\\thttps://github.com/disco32r/openclaw-foundation-sandbox.git (push)\\nupstream\\thttps://github.com/openclaw/openclaw.git (fetch)\\nupstream\\thttps://github.com/openclaw/openclaw.git (push)\",\n        \"gi"
     }
   ],
   "plan_compliance_assessment": {
@@ -118,7 +125,7 @@
     "evidence": [
       "gate:P1",
       "phase:foundation-repo",
-      "active:P2"
+      "active:P4"
     ]
   },
   "community_evidence_assessment": {
@@ -139,7 +146,9 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md"
+      "CUSTOM-CODE-RULE.md",
+      "tools/generate_gate_action_report.py",
+      "tools/validate_governance.py"
     ]
   },
   "access_contract_assessment": {
@@ -149,7 +158,24 @@
       "governance/codex-access-contract.md"
     ]
   },
+  "intervention_balance_assessment": {
+    "status": "pass",
+    "requires_ryan_now": false,
+    "protected_boundary_pending": false,
+    "safe_local_next_actions": [
+      "validate, review, and commit/push current repo-local changes"
+    ],
+    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "evidence": [
+      "phase_ryan_required:False",
+      "gate_status:PASS",
+      "artifact_failures:0",
+      "review_verdict:pass"
+    ]
+  },
   "gate_review_verdict": "pass",
-  "blocking_findings": [],
-  "ryan_report": "Gate P1 (foundation-repo) action pass_review: pass. Reviewed commit a57ae987d57b196ad016a19cf23394ea654e940b. Changed files: 0 tracked, 0 untracked. Blocking findings: 0."
+  "blocking_findings": [
+    "P1 environment check is not pass-qualified."
+  ],
+  "ryan_report": "Gate P1 (foundation-repo) action pass_review: blocked. Reviewed commit f25a3b69cc4654f67babd15c5ec2d061c4eea7f3. Changed files: 5 tracked, 0 untracked. Blocking findings: 1. Ryan needed now: no."
 }

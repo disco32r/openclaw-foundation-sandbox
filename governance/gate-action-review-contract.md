@@ -23,6 +23,7 @@ Each gate action report must cover:
 - Codex access contract compliance,
 - changed files and untracked files,
 - mechanical check output,
+- intervention balance,
 - blocking findings,
 - Ryan-facing report text.
 
@@ -47,3 +48,9 @@ A phase may be marked `PASS` only when:
 - the validator accepts both the review packet and the action report.
 
 For `ACTIVE` gates, blocking findings are allowed only when the gate disposition says the phase is active but not pass-qualified.
+
+## Intervention Balance Rule
+
+Every gate action report must state whether Ryan is needed now. The default answer is no. A report may say Ryan is needed only when the next action crosses a protected boundary and no safe-local evidence, review, or approval-packet drafting remains.
+
+The report must also list safe-local next actions. If the list is empty while the phase is not pass-qualified, the report must identify the exact protected boundary, affected systems, validation command, rollback command, and stop condition.

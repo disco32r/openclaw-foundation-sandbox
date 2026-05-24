@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:24:00Z",
+  "generated_at": "2026-05-24T23:34:58Z",
   "gate_id": "P2",
   "phase_name": "anti-drift-core",
   "gate_status": "PASS",
   "action": "pass_review",
-  "reviewed_commit": "45e0197b7f28a4b88e34774e9012db3b619e0864",
+  "reviewed_commit": "f25a3b69cc4654f67babd15c5ec2d061c4eea7f3",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -18,15 +18,23 @@
     "codex-access-contract",
     "changed-files",
     "mechanical-checks",
+    "intervention-balance",
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18351,
-    "governance_file_count": 41,
+    "tracked_file_count": 18355,
+    "governance_file_count": 45,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]",
-  "changed_files": [],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py",
+  "changed_files": [
+    "governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json",
+    "governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json",
+    "governance/gate-action-review-contract.md",
+    "governance/operating-method.md",
+    "tools/generate_gate_action_report.py",
+    "tools/validate_governance.py"
+  ],
   "untracked_files": [],
   "required_artifact_results": [
     {
@@ -115,7 +123,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py"
     },
     {
       "id": "required_artifacts",
@@ -136,7 +144,7 @@
     "evidence": [
       "gate:P2",
       "phase:anti-drift-core",
-      "active:P3"
+      "active:P4"
     ]
   },
   "community_evidence_assessment": {
@@ -157,7 +165,9 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md"
+      "CUSTOM-CODE-RULE.md",
+      "tools/generate_gate_action_report.py",
+      "tools/validate_governance.py"
     ]
   },
   "access_contract_assessment": {
@@ -167,7 +177,22 @@
       "governance/codex-access-contract.md"
     ]
   },
+  "intervention_balance_assessment": {
+    "status": "pass",
+    "requires_ryan_now": false,
+    "protected_boundary_pending": false,
+    "safe_local_next_actions": [
+      "validate, review, and commit/push current repo-local changes"
+    ],
+    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "evidence": [
+      "phase_ryan_required:False",
+      "gate_status:PASS",
+      "artifact_failures:0",
+      "review_verdict:pass"
+    ]
+  },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P2 (anti-drift-core) action pass_review: pass. Reviewed commit 45e0197b7f28a4b88e34774e9012db3b619e0864. Changed files: 0 tracked, 0 untracked. Blocking findings: 0."
+  "ryan_report": "Gate P2 (anti-drift-core) action pass_review: pass. Reviewed commit f25a3b69cc4654f67babd15c5ec2d061c4eea7f3. Changed files: 6 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
 }

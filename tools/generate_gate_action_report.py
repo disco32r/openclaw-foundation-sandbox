@@ -211,6 +211,49 @@ def access_contract_assessment() -> dict[str, Any]:
     )
 
 
+def intervention_balance_assessment(
+    phase: dict[str, Any],
+    gate: dict[str, Any],
+    artifact_failures: list[str],
+    review_verdict: str | None,
+    changed: list[str],
+    untracked: list[str],
+) -> dict[str, Any]:
+    safe_local_next_actions: list[str] = []
+    if changed or untracked:
+        safe_local_next_actions.append("validate, review, and commit/push current repo-local changes")
+    if artifact_failures:
+        safe_local_next_actions.append(f"produce or attach missing phase evidence: {', '.join(artifact_failures)}")
+    if review_verdict is None and gate["status"] in {"ACTIVE", "PASS"}:
+        safe_local_next_actions.append("generate or attach the phase gate review packet")
+    if gate["status"] == "ACTIVE":
+        safe_local_next_actions.append("refresh the gate action report after safe-local evidence changes")
+    if phase.get("ryan_required") and gate["status"] == "ACTIVE":
+        safe_local_next_actions.append("draft the protected-boundary approval packet before any mutation")
+
+    protected_boundary_pending = bool(phase.get("ryan_required") and gate["status"] in {"ACTIVE", "PASS"})
+    requires_ryan_now = bool(protected_boundary_pending and not safe_local_next_actions)
+    status = "blocked" if requires_ryan_now else "pass"
+    assessment = (
+        "Ryan is needed now because no safe-local prep remains and the next action crosses a protected boundary."
+        if requires_ryan_now
+        else "Safe-local work remains available or the gate does not currently require Ryan intervention."
+    )
+    return {
+        "status": status,
+        "requires_ryan_now": requires_ryan_now,
+        "protected_boundary_pending": protected_boundary_pending,
+        "safe_local_next_actions": safe_local_next_actions,
+        "assessment": assessment,
+        "evidence": [
+            f"phase_ryan_required:{phase.get('ryan_required')}",
+            f"gate_status:{gate['status']}",
+            f"artifact_failures:{len(artifact_failures)}",
+            f"review_verdict:{review_verdict}",
+        ],
+    }
+
+
 def current_commit() -> str:
     code, output = run("git", "rev-parse", "HEAD")
     return output if code == 0 else "0" * 40
@@ -244,6 +287,7 @@ def build_report(gate_id: str, action: str) -> dict[str, Any]:
     access = access_contract_assessment()
     review_verdict, review_blockers = gate_review_summary(gate)
     tracked = tracked_file_summary()
+    intervention = intervention_balance_assessment(phase, gate, artifact_failures, review_verdict, changed, untracked)
 
     mechanical_checks = [
         {
@@ -309,7 +353,8 @@ def build_report(gate_id: str, action: str) -> dict[str, Any]:
         f"Gate {gate_id} ({phase['name']}) action {action}: {overall_status}. "
         f"Reviewed commit {current_commit()}. "
         f"Changed files: {len(changed)} tracked, {len(untracked)} untracked. "
-        f"Blocking findings: {len(blocking_findings)}."
+        f"Blocking findings: {len(blocking_findings)}. "
+        f"Ryan needed now: {'yes' if intervention['requires_ryan_now'] else 'no'}."
     )
 
     return {
@@ -332,6 +377,7 @@ def build_report(gate_id: str, action: str) -> dict[str, Any]:
             "codex-access-contract",
             "changed-files",
             "mechanical-checks",
+            "intervention-balance",
             "ryan-report",
         ],
         "tracked_file_summary": tracked,
@@ -345,6 +391,7 @@ def build_report(gate_id: str, action: str) -> dict[str, Any]:
         "deny_register_assessment": denies,
         "custom_code_assessment": custom,
         "access_contract_assessment": access,
+        "intervention_balance_assessment": intervention,
         "gate_review_verdict": review_verdict,
         "blocking_findings": blocking_findings,
         "ryan_report": ryan_report,

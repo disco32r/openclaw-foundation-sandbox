@@ -47,6 +47,18 @@ Admitted work becomes an OpenClaw-tracked task or Task Flow step. It must have f
 
 Agents may not expand scope. Adjacent work becomes a new intake packet.
 
+## Intervention Balance
+
+Agents must keep moving on safe-local work without Ryan intervention. Safe-local work includes source inspection, repo-local edits, validators, fixture checks, evidence generation, gate reviews, gate action reports, approval packet drafting, and read-only runtime discovery.
+
+Ryan intervention is allowed only when all three are true:
+
+- the next action crosses a protected boundary listed in `governance/policy-rules.json`,
+- no remaining safe-local evidence or prep work can reduce uncertainty first,
+- the request includes exact apply, rollback, validation, affected systems, risk, and stop conditions.
+
+If a phase has `ryan_required=true`, that does not make every step human-blocked. It means phase promotion cannot be claimed until the exact protected action or approval requirement has been satisfied. Before that point, agents must continue bounded safe-local work and report the remaining protected boundary directly.
+
 ## Proof
 
 Completion requires concrete evidence: task record, test output, audit output, diff, screenshot, health check, cost report, rollback proof, approval packet, or failure proof.
@@ -72,4 +84,3 @@ Retrospectives are short structured records, not essays.
 Rejected tools, task shapes, patterns, workflows, and unsafe shortcuts are recorded in `deny-register.jsonl` with reason and re-review condition.
 
 Future agents must check this before re-nominating or rebuilding similar work.
-

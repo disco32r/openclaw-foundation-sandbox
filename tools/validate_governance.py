@@ -110,6 +110,7 @@ REQUIRED_GATE_ACTION_REPORT_FIELDS = {
     "deny_register_assessment",
     "custom_code_assessment",
     "access_contract_assessment",
+    "intervention_balance_assessment",
     "gate_review_verdict",
     "blocking_findings",
     "ryan_report",
@@ -124,6 +125,7 @@ REQUIRED_GATE_ACTION_SCOPE = {
     "codex-access-contract",
     "changed-files",
     "mechanical-checks",
+    "intervention-balance",
     "ryan-report",
 }
 
@@ -521,8 +523,29 @@ def validate_gate_action_report(gate: dict[str, Any], phase: dict[str, Any]) -> 
         "deny_register_assessment",
         "custom_code_assessment",
         "access_contract_assessment",
+        "intervention_balance_assessment",
     ]:
         validate_action_assessment(gate_id, report, field)
+
+    intervention = report["intervention_balance_assessment"]
+    require(isinstance(intervention.get("requires_ryan_now"), bool), f"gate {gate_id} intervention requires_ryan_now must be boolean")
+    require(
+        isinstance(intervention.get("protected_boundary_pending"), bool),
+        f"gate {gate_id} intervention protected_boundary_pending must be boolean",
+    )
+    require(
+        isinstance(intervention.get("safe_local_next_actions"), list),
+        f"gate {gate_id} intervention safe_local_next_actions must be a list",
+    )
+    if intervention["requires_ryan_now"]:
+        require(
+            phase["ryan_required"],
+            f"gate {gate_id} may require Ryan now only when the phase is marked ryan_required",
+        )
+        require(
+            not intervention["safe_local_next_actions"],
+            f"gate {gate_id} cannot require Ryan while safe-local next actions remain",
+        )
 
     require(isinstance(report["ryan_report"], str) and len(report["ryan_report"].strip()) >= 50, f"gate {gate_id} action report ryan_report too thin")
 
@@ -691,10 +714,23 @@ def validate_gate_action_review_contract() -> None:
         "custom-code rule compliance",
         "Codex access contract compliance",
         "changed files and untracked files",
+        "intervention balance",
         "Ryan-facing report text",
         "python3 tools/generate_gate_action_report.py",
     ]:
         require(required in text, f"gate action review contract missing: {required}")
+
+
+def validate_intervention_balance_contract() -> None:
+    text = (GOV / "operating-method.md").read_text(encoding="utf-8")
+    for required in [
+        "Intervention Balance",
+        "safe-local work",
+        "Ryan intervention is allowed only when all three are true",
+        "If a phase has `ryan_required=true`, that does not make every step human-blocked",
+        "agents must continue bounded safe-local work",
+    ]:
+        require(required in text, f"operating method missing intervention balance rule: {required}")
 
 
 def main() -> int:
@@ -709,6 +745,7 @@ def main() -> int:
         validate_codex_access_contract,
         validate_gate_review_contract,
         validate_gate_action_review_contract,
+        validate_intervention_balance_contract,
     ]
     try:
         for check in checks:

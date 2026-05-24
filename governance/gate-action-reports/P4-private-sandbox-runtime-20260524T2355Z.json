@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:28:08Z",
+  "generated_at": "2026-05-24T23:34:59Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "634dcff2084716138652b2952bcffa8e1ba6244d",
+  "reviewed_commit": "f25a3b69cc4654f67babd15c5ec2d061c4eea7f3",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -18,6 +18,7 @@
     "codex-access-contract",
     "changed-files",
     "mechanical-checks",
+    "intervention-balance",
     "ryan-report"
   ],
   "tracked_file_summary": {
@@ -25,8 +26,17 @@
     "governance_file_count": 45,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 3]",
-  "changed_files": [],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json\n M governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py",
+  "changed_files": [
+    "governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json",
+    "governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json",
+    "governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json",
+    "governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json",
+    "governance/gate-action-review-contract.md",
+    "governance/operating-method.md",
+    "tools/generate_gate_action_report.py",
+    "tools/validate_governance.py"
+  ],
   "untracked_files": [],
   "required_artifact_results": [
     {
@@ -75,7 +85,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 3]"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json\n M governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py"
     },
     {
       "id": "required_artifacts",
@@ -117,7 +127,9 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md"
+      "CUSTOM-CODE-RULE.md",
+      "tools/generate_gate_action_report.py",
+      "tools/validate_governance.py"
     ]
   },
   "access_contract_assessment": {
@@ -127,10 +139,29 @@
       "governance/codex-access-contract.md"
     ]
   },
+  "intervention_balance_assessment": {
+    "status": "pass",
+    "requires_ryan_now": false,
+    "protected_boundary_pending": true,
+    "safe_local_next_actions": [
+      "validate, review, and commit/push current repo-local changes",
+      "produce or attach missing phase evidence: runtime health evidence, readiness evidence, private exposure evidence, model status evidence, approval behavior evidence",
+      "generate or attach the phase gate review packet",
+      "refresh the gate action report after safe-local evidence changes",
+      "draft the protected-boundary approval packet before any mutation"
+    ],
+    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "evidence": [
+      "phase_ryan_required:True",
+      "gate_status:ACTIVE",
+      "artifact_failures:5",
+      "review_verdict:None"
+    ]
+  },
   "gate_review_verdict": null,
   "blocking_findings": [
     "Missing required artifacts: ['runtime health evidence', 'readiness evidence', 'private exposure evidence', 'model status evidence', 'approval behavior evidence']",
     "missing review_packet"
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 634dcff2084716138652b2952bcffa8e1ba6244d. Changed files: 0 tracked, 0 untracked. Blocking findings: 2."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit f25a3b69cc4654f67babd15c5ec2d061c4eea7f3. Changed files: 8 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: no."
 }
