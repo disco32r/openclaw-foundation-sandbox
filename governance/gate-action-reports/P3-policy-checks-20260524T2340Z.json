@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:23:51Z",
+  "generated_at": "2026-05-24T23:24:15Z",
   "gate_id": "P3",
   "phase_name": "policy-checks",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "72fe7b001699f33eb9e6c2e167e85d09432b9281",
+  "reviewed_commit": "9509b1c82c93b409e8a195ab3f4282485afe9fe4",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -21,17 +21,13 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18349,
-    "governance_file_count": 39,
+    "tracked_file_count": 18352,
+    "governance_file_count": 42,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json",
-  "changed_files": [
-    "governance/gate-ledger.json"
-  ],
-  "untracked_files": [
-    "governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json"
-  ],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]",
+  "changed_files": [],
+  "untracked_files": [],
   "required_artifact_results": [
     {
       "artifact": "tools/validate_governance.py",
@@ -111,7 +107,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/gate-reviews/P2-anti-drift-core-20260524T2340Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]"
     },
     {
       "id": "required_artifacts",
@@ -167,5 +163,5 @@
   "blocking_findings": [
     "missing review_packet"
   ],
-  "ryan_report": "Gate P3 (policy-checks) action activate: blocked. Reviewed commit 72fe7b001699f33eb9e6c2e167e85d09432b9281. Changed files: 1 tracked, 1 untracked. Blocking findings: 1."
+  "ryan_report": "Gate P3 (policy-checks) action activate: blocked. Reviewed commit 9509b1c82c93b409e8a195ab3f4282485afe9fe4. Changed files: 0 tracked, 0 untracked. Blocking findings: 1."
 }
