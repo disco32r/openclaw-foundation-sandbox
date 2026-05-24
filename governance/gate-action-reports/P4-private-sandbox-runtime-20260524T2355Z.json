@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:39:34Z",
+  "generated_at": "2026-05-24T23:44:03Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "55bdd9e6230654fd9211af77e4d384b1c33c53e2",
+  "reviewed_commit": "5e260d9b2530ce665592571123ca2608230d7f11",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -22,11 +22,11 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18355,
-    "governance_file_count": 45,
+    "tracked_file_count": 18358,
+    "governance_file_count": 48,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]",
   "changed_files": [],
   "untracked_files": [],
   "required_artifact_results": [
@@ -76,7 +76,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]"
     },
     {
       "id": "required_artifacts",
@@ -86,9 +86,9 @@
     },
     {
       "id": "gate_review_packet",
-      "ok": false,
+      "ok": true,
       "command": "load gate review packet",
-      "output_summary": "verdict:None"
+      "output_summary": "verdict:blocked"
     }
   ],
   "plan_compliance_assessment": {
@@ -132,24 +132,28 @@
     "status": "pass",
     "requires_ryan_now": false,
     "protected_boundary_pending": true,
+    "approval_packet_present": true,
     "safe_local_next_actions": [
-      "produce or attach missing phase evidence: runtime health evidence, readiness evidence, private exposure evidence, model status evidence, approval behavior evidence",
-      "generate or attach the phase gate review packet",
-      "refresh the gate action report after safe-local evidence changes",
-      "draft the protected-boundary approval packet before any mutation"
+      "refresh the gate action report after safe-local evidence changes"
     ],
     "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
     "evidence": [
       "phase_ryan_required:True",
       "gate_status:ACTIVE",
       "artifact_failures:5",
-      "review_verdict:None"
+      "review_verdict:blocked",
+      "approval_packet_present:True"
     ]
   },
-  "gate_review_verdict": null,
+  "gate_review_verdict": "blocked",
   "blocking_findings": [
     "Missing required artifacts: ['runtime health evidence', 'readiness evidence', 'private exposure evidence', 'model status evidence', 'approval behavior evidence']",
-    "missing review_packet"
+    "Missing runtime health evidence.",
+    "Missing readiness evidence.",
+    "Missing private exposure evidence.",
+    "Missing model status evidence.",
+    "Missing approval behavior evidence.",
+    "Protected Docker/runtime mutation is required before those proofs can be produced."
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 55bdd9e6230654fd9211af77e4d384b1c33c53e2. Changed files: 0 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: no."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 5e260d9b2530ce665592571123ca2608230d7f11. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: no."
 }
