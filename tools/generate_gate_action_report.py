@@ -235,7 +235,7 @@ def intervention_balance_assessment(
         safe_local_next_actions.append(f"produce or attach missing phase evidence: {', '.join(artifact_failures)}")
     if review_verdict is None and gate["status"] in {"ACTIVE", "PASS"} and not (protected_boundary_pending and has_approval_packet):
         safe_local_next_actions.append("generate or attach the phase gate review packet")
-    if gate["status"] == "ACTIVE":
+    if gate["status"] == "ACTIVE" and (changed or untracked):
         safe_local_next_actions.append("refresh the gate action report after safe-local evidence changes")
     if phase.get("ryan_required") and gate["status"] == "ACTIVE" and not has_approval_packet:
         safe_local_next_actions.append("draft the protected-boundary approval packet before any mutation")
