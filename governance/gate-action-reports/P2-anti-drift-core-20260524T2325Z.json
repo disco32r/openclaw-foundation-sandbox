@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:20:32Z",
+  "generated_at": "2026-05-24T23:21:53Z",
   "gate_id": "P2",
   "phase_name": "anti-drift-core",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "4e56d02dffd91b899b80808e3362a15b9e16a030",
+  "reviewed_commit": "fa3067ca1df0126b130d423cab64385cde074ab8",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -21,18 +21,13 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18346,
-    "governance_file_count": 36,
+    "tracked_file_count": 18349,
+    "governance_file_count": 39,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-ledger.json\n?? governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n?? governance/gate-reviews/P1-foundation-repo-20260524T2325Z.json",
-  "changed_files": [
-    "governance/gate-ledger.json"
-  ],
-  "untracked_files": [
-    "governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json",
-    "governance/gate-reviews/P1-foundation-repo-20260524T2325Z.json"
-  ],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap",
+  "changed_files": [],
+  "untracked_files": [],
   "required_artifact_results": [
     {
       "artifact": "governance/blueprint.md",
@@ -120,7 +115,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-ledger.json\n?? governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n?? governance/gate-reviews/P1-foundation-repo-20260524T2325Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
     },
     {
       "id": "required_artifacts",
@@ -176,5 +171,5 @@
   "blocking_findings": [
     "missing review_packet"
   ],
-  "ryan_report": "Gate P2 (anti-drift-core) action activate: blocked. Reviewed commit 4e56d02dffd91b899b80808e3362a15b9e16a030. Changed files: 1 tracked, 2 untracked. Blocking findings: 1."
+  "ryan_report": "Gate P2 (anti-drift-core) action activate: blocked. Reviewed commit fa3067ca1df0126b130d423cab64385cde074ab8. Changed files: 0 tracked, 0 untracked. Blocking findings: 1."
 }
