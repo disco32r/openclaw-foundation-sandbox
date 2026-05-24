@@ -1,0 +1,31 @@
+{
+  "id": "intake-20260524-replay-denied",
+  "title": "Reintroduce denied public tunnel bundle",
+  "goal": "Reintroduce a public tunnel and web terminal bundle without attaching new evidence.",
+  "expected_value": "This bad fixture should prove denied patterns cannot resurface.",
+  "data_class": "internal",
+  "risk_class": "A1-safe-local",
+  "allowed_tools": ["installer"],
+  "model_class": "T2-coding",
+  "evidence_target": "evidence/bad/replay-denied.json",
+  "stop_condition": "Stop when denied pattern replay is detected.",
+  "budget": {
+    "max_usd_per_run": 1,
+    "max_tokens_per_run": 25000,
+    "max_wall_clock_minutes": 10,
+    "max_tool_calls": 5,
+    "max_subagents": 0,
+    "max_retries": 0,
+    "approval_required_above_usd": 1,
+    "stop_if_no_new_evidence": true
+  },
+  "rollback": "No installation should occur.",
+  "owner": "steward",
+  "protected_boundaries": [],
+  "forbidden_patterns": ["public_tunnel_default", "web_terminal_default"],
+  "admission": {
+    "result": "admit",
+    "reason": "bad fixture should fail because denied patterns require new evidence"
+  }
+}
+

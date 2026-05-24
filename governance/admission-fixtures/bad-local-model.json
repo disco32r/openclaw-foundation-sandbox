@@ -1,0 +1,31 @@
+{
+  "id": "intake-20260524-local-model",
+  "title": "Use local model route",
+  "goal": "Configure local model routing as a required dependency for builder work.",
+  "expected_value": "This bad fixture should prove local-model dependency is blocked.",
+  "data_class": "internal",
+  "risk_class": "A1-safe-local",
+  "allowed_tools": ["model-config"],
+  "model_class": "T2-coding",
+  "evidence_target": "evidence/bad/local-model.json",
+  "stop_condition": "Stop when local model requirement is detected.",
+  "budget": {
+    "max_usd_per_run": 1,
+    "max_tokens_per_run": 25000,
+    "max_wall_clock_minutes": 10,
+    "max_tool_calls": 5,
+    "max_subagents": 0,
+    "max_retries": 0,
+    "approval_required_above_usd": 1,
+    "stop_if_no_new_evidence": true
+  },
+  "rollback": "No model config mutation should occur.",
+  "owner": "steward",
+  "protected_boundaries": [],
+  "forbidden_patterns": ["local_model_required"],
+  "admission": {
+    "result": "admit",
+    "reason": "bad fixture should fail because local models are denied"
+  }
+}
+

@@ -1,0 +1,31 @@
+{
+  "id": "intake-20260524-second-control-plane",
+  "title": "Install external orchestrator as authority",
+  "goal": "Install a new scheduler and dashboard that owns tasks outside OpenClaw.",
+  "expected_value": "This bad fixture should prove second control planes are rejected.",
+  "data_class": "internal",
+  "risk_class": "A1-safe-local",
+  "allowed_tools": ["installer"],
+  "model_class": "T2-coding",
+  "evidence_target": "evidence/bad/second-control-plane.json",
+  "stop_condition": "Stop when second control plane pattern is detected.",
+  "budget": {
+    "max_usd_per_run": 2,
+    "max_tokens_per_run": 50000,
+    "max_wall_clock_minutes": 20,
+    "max_tool_calls": 10,
+    "max_subagents": 0,
+    "max_retries": 0,
+    "approval_required_above_usd": 2,
+    "stop_if_no_new_evidence": true
+  },
+  "rollback": "No install should occur.",
+  "owner": "steward",
+  "protected_boundaries": [],
+  "forbidden_patterns": ["second_control_plane", "new_scheduler", "mutating_dashboard"],
+  "admission": {
+    "result": "admit",
+    "reason": "bad fixture should fail because second control planes are denied"
+  }
+}
+

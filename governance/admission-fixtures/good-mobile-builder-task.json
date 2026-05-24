@@ -1,0 +1,30 @@
+{
+  "id": "intake-20260524-mobile-builder-proof",
+  "title": "Prove mobile to builder loop in sandbox",
+  "goal": "From mobile, submit one harmless software-builder goal and return tracked evidence.",
+  "expected_value": "Proves the tipping-point loop without requiring Codex Desktop as the operator surface.",
+  "data_class": "internal",
+  "risk_class": "A1-safe-local",
+  "allowed_tools": ["openclaw-task", "git-branch", "test-runner", "codex-harness"],
+  "model_class": "T2-coding",
+  "evidence_target": "evidence/mobile-builder-proof/intake-20260524-mobile-builder-proof.json",
+  "stop_condition": "Stop after one branch, one test run, one evidence artifact, or any protected-boundary request.",
+  "budget": {
+    "max_usd_per_run": 5,
+    "max_tokens_per_run": 250000,
+    "max_wall_clock_minutes": 90,
+    "max_tool_calls": 60,
+    "max_subagents": 2,
+    "max_retries": 1,
+    "approval_required_above_usd": 5,
+    "stop_if_no_new_evidence": true
+  },
+  "rollback": "Delete the sandbox branch and remove only artifacts listed in the task evidence manifest.",
+  "owner": "steward",
+  "protected_boundaries": [],
+  "admission": {
+    "result": "sandbox",
+    "reason": "Safe-local proof of the mobile builder loop with bounded scope and evidence target."
+  }
+}
+

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openclaw.local/governance/task-admission.schema.json",
+  "title": "OpenClaw Task Admission Packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "goal",
+    "expected_value",
+    "data_class",
+    "risk_class",
+    "allowed_tools",
+    "model_class",
+    "evidence_target",
+    "stop_condition",
+    "budget",
+    "rollback",
+    "owner",
+    "protected_boundaries",
+    "admission"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^intake-[0-9]{8}-[a-z0-9-]+$" },
+    "title": { "type": "string", "minLength": 12 },
+    "goal": { "type": "string", "minLength": 20 },
+    "expected_value": { "type": "string", "minLength": 20 },
+    "data_class": {
+      "type": "string",
+      "enum": ["public", "internal", "personal", "sensitive_personal", "secret_reference"]
+    },
+    "risk_class": {
+      "type": "string",
+      "enum": ["A0-readonly", "A1-safe-local", "A2-approval-required", "A3-prohibited"]
+    },
+    "allowed_tools": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 2 },
+      "uniqueItems": true
+    },
+    "model_class": {
+      "type": "string",
+      "enum": [
+        "T0-local-readonly",
+        "T1-research",
+        "T2-coding",
+        "T3-architecture",
+        "T4-sensitive-personal",
+        "T5-background-batch",
+        "T6-escalation"
+      ]
+    },
+    "evidence_target": { "type": "string", "minLength": 10 },
+    "stop_condition": { "type": "string", "minLength": 20 },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_usd_per_run",
+        "max_tokens_per_run",
+        "max_wall_clock_minutes",
+        "max_tool_calls",
+        "max_subagents",
+        "max_retries",
+        "approval_required_above_usd",
+        "stop_if_no_new_evidence"
+      ],
+      "properties": {
+        "max_usd_per_run": { "type": "number", "minimum": 0 },
+        "max_tokens_per_run": { "type": "integer", "minimum": 1 },
+        "max_wall_clock_minutes": { "type": "integer", "minimum": 1 },
+        "max_tool_calls": { "type": "integer", "minimum": 0 },
+        "max_subagents": { "type": "integer", "minimum": 0 },
+        "max_retries": { "type": "integer", "minimum": 0 },
+        "approval_required_above_usd": { "type": "number", "minimum": 0 },
+        "stop_if_no_new_evidence": { "type": "boolean" }
+      }
+    },
+    "rollback": { "type": "string", "minLength": 20 },
+    "owner": { "type": "string", "minLength": 2 },
+    "protected_boundaries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "runtime_config",
+          "docker_container",
+          "cron_scheduler",
+          "gateway_restart",
+          "network",
+          "home_assistant",
+          "unifi",
+          "secrets",
+          "auth",
+          "external_account",
+          "public_channel",
+          "finance_write",
+          "medical_export",
+          "device_control",
+          "delete_or_prune"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "reason"],
+      "properties": {
+        "result": {
+          "type": "string",
+          "enum": ["reject", "needs_clarification", "sandbox", "approval_required", "admit"]
+        },
+        "reason": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}
+

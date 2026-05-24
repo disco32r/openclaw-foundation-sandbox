@@ -1,0 +1,20 @@
+{
+  "id": "intake-20260524-no-budget",
+  "title": "Research candidates without budget",
+  "goal": "Research candidate systems without a budget or stop condition for the task.",
+  "expected_value": "This bad fixture should prove missing budget is blocked before token burn.",
+  "data_class": "public",
+  "risk_class": "A0-readonly",
+  "allowed_tools": ["web-research"],
+  "model_class": "T1-research",
+  "evidence_target": "evidence/bad/no-budget.json",
+  "stop_condition": "Stop when validator rejects this fixture.",
+  "rollback": "No runtime mutation is allowed by this fixture.",
+  "owner": "steward",
+  "protected_boundaries": [],
+  "admission": {
+    "result": "admit",
+    "reason": "bad fixture should fail"
+  }
+}
+

@@ -1,0 +1,71 @@
+{
+  "schema_version": "2026-05-24",
+  "forbidden_patterns": [
+    "new_scheduler",
+    "new_queue",
+    "new_approval_ledger",
+    "agent_manager",
+    "runtime_orchestrator",
+    "mutating_dashboard",
+    "mobile_bypass_bot",
+    "second_control_plane",
+    "public_admin_surface",
+    "public_tunnel_default",
+    "web_terminal_default",
+    "broad_file_manager_default",
+    "local_model_required",
+    "dashboard_as_authority",
+    "prompt_only_protected_governance"
+  ],
+  "required_task_fields": [
+    "id",
+    "title",
+    "goal",
+    "expected_value",
+    "data_class",
+    "risk_class",
+    "allowed_tools",
+    "model_class",
+    "evidence_target",
+    "stop_condition",
+    "budget",
+    "rollback",
+    "owner",
+    "protected_boundaries",
+    "admission"
+  ],
+  "allowed_admission_results": [
+    "reject",
+    "needs_clarification",
+    "sandbox",
+    "approval_required",
+    "admit"
+  ],
+  "protected_boundaries": [
+    "runtime_config",
+    "docker_container",
+    "cron_scheduler",
+    "gateway_restart",
+    "network",
+    "home_assistant",
+    "unifi",
+    "secrets",
+    "auth",
+    "external_account",
+    "public_channel",
+    "finance_write",
+    "medical_export",
+    "device_control",
+    "delete_or_prune"
+  ],
+  "allowed_model_classes": [
+    "T0-local-readonly",
+    "T1-research",
+    "T2-coding",
+    "T3-architecture",
+    "T4-sensitive-personal",
+    "T5-background-batch",
+    "T6-escalation"
+  ]
+}
+

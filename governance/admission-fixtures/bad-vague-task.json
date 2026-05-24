@@ -1,0 +1,30 @@
+{
+  "id": "intake-20260524-vague",
+  "title": "Build this",
+  "goal": "Build this",
+  "expected_value": "",
+  "data_class": "internal",
+  "risk_class": "A1-safe-local",
+  "allowed_tools": ["codex-harness"],
+  "model_class": "T2-coding",
+  "evidence_target": "",
+  "stop_condition": "",
+  "budget": {
+    "max_usd_per_run": 5,
+    "max_tokens_per_run": 250000,
+    "max_wall_clock_minutes": 90,
+    "max_tool_calls": 60,
+    "max_subagents": 2,
+    "max_retries": 1,
+    "approval_required_above_usd": 5,
+    "stop_if_no_new_evidence": true
+  },
+  "rollback": "",
+  "owner": "steward",
+  "protected_boundaries": [],
+  "admission": {
+    "result": "admit",
+    "reason": "bad fixture should fail"
+  }
+}
+

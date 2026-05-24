@@ -1,0 +1,30 @@
+{
+  "id": "intake-20260524-protected-no-approval",
+  "title": "Create Docker sandbox without approval",
+  "goal": "Create a Docker container and mutate runtime/container state without an approval packet.",
+  "expected_value": "This bad fixture should prove protected container work cannot be admitted directly.",
+  "data_class": "internal",
+  "risk_class": "A1-safe-local",
+  "allowed_tools": ["docker"],
+  "model_class": "T2-coding",
+  "evidence_target": "evidence/bad/protected-no-approval.json",
+  "stop_condition": "Stop when protected boundary is detected.",
+  "budget": {
+    "max_usd_per_run": 2,
+    "max_tokens_per_run": 50000,
+    "max_wall_clock_minutes": 20,
+    "max_tool_calls": 10,
+    "max_subagents": 0,
+    "max_retries": 0,
+    "approval_required_above_usd": 2,
+    "stop_if_no_new_evidence": true
+  },
+  "rollback": "No Docker/container mutation should occur.",
+  "owner": "steward",
+  "protected_boundaries": ["docker_container"],
+  "admission": {
+    "result": "admit",
+    "reason": "bad fixture should fail because protected boundary needs approval_required"
+  }
+}
+
