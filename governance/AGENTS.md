@@ -9,6 +9,7 @@ This directory defines the project guardrails. Before changing governance, admis
 - `governance/evidence-contract.md`
 - `governance/community-evidence-contract.md`
 - `governance/codex-access-contract.md`
+- `governance/gate-review-contract.md`
 - `CUSTOM-CODE-RULE.md`
 
 ## Required Check
@@ -36,3 +37,7 @@ Do not create a new scheduler, queue, approval ledger, runtime orchestrator, age
 ## Proof Rule
 
 Markdown can explain a decision, but it does not prove completion. Evidence must be a task record, check output, audit output, diff, branch, screenshot, cost report, rollback proof, approval packet, or candidate sandbox proof.
+
+## Review Rule
+
+No phase is complete until a gate review packet under `governance/gate-reviews/` gives a pass verdict for every completion criterion and anti-drift requirement. The validator checks packet structure; the reviewer supplies judgment.

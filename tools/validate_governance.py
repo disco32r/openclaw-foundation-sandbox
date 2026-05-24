@@ -34,6 +34,7 @@ REQUIRED_FILES = [
     GOV / "evidence-contract.md",
     GOV / "community-evidence-contract.md",
     GOV / "codex-access-contract.md",
+    GOV / "gate-review-contract.md",
     GOV / "policy-rules.json",
 ]
 
@@ -51,6 +52,21 @@ REQUIRED_PHASE_FIELDS = {
     "ryan_required",
 }
 REQUIRED_PASS_REVIEW_FIELDS = {"reviewer", "verdict", "evidence_assessment", "drift_assessment", "runtime_enforcement_assessment"}
+REQUIRED_REVIEW_PACKET_FIELDS = {
+    "gate_id",
+    "phase_name",
+    "reviewed_commit",
+    "reviewer",
+    "reviewer_independence",
+    "verdict",
+    "summary",
+    "mechanical_validation",
+    "criteria_results",
+    "anti_drift_results",
+    "runtime_enforcement",
+    "blocking_findings",
+    "next_action",
+}
 REQUIRED_LEDGER_FIELDS = {
     "id",
     "status",
@@ -61,6 +77,9 @@ REQUIRED_LEDGER_FIELDS = {
     "disposition",
 }
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
+REVIEW_VERDICTS = {"pass", "fail", "blocked"}
+REVIEW_ITEM_STATUSES = {"pass", "fail", "blocked", "needs_review"}
+RUNTIME_ENFORCEMENT_STATUSES = {"not_applicable", "repo_only", "openclaw_enforced", "approval_required", "blocked"}
 
 
 def load_json(path: Path) -> Any:
@@ -253,6 +272,76 @@ def path_exists_for_evidence(path_value: str) -> bool:
     return (ROOT / path_value).exists()
 
 
+def validate_review_packet(gate: dict[str, Any], phase: dict[str, Any]) -> None:
+    gate_id = gate["id"]
+    review_path_value = gate.get("review_packet")
+    require(isinstance(review_path_value, str) and review_path_value.strip(), f"gate {gate_id} requires review_packet")
+    require(review_path_value.startswith("governance/gate-reviews/"), f"gate {gate_id} review_packet must live under governance/gate-reviews")
+    review_path = ROOT / review_path_value
+    require(review_path.exists(), f"gate {gate_id} review packet missing: {review_path_value}")
+    review = load_json(review_path)
+    require(isinstance(review, dict), f"gate {gate_id} review packet must be an object")
+    missing = REQUIRED_REVIEW_PACKET_FIELDS - set(review)
+    require(not missing, f"gate {gate_id} review packet missing {sorted(missing)}")
+    require(review["gate_id"] == gate_id, f"gate {gate_id} review packet gate_id mismatch")
+    require(review["phase_name"] == phase["name"], f"gate {gate_id} review packet phase_name mismatch")
+    require(isinstance(review["reviewed_commit"], str) and COMMIT_RE.match(review["reviewed_commit"]), f"gate {gate_id} review reviewed_commit must be a 40-char commit")
+    require(isinstance(review["reviewer"], str) and len(review["reviewer"].strip()) >= 4, f"gate {gate_id} reviewer too thin")
+    require(isinstance(review["reviewer_independence"], str) and len(review["reviewer_independence"].strip()) >= 20, f"gate {gate_id} reviewer_independence too thin")
+    require(review["verdict"] in REVIEW_VERDICTS, f"gate {gate_id} invalid review verdict: {review['verdict']}")
+    require(isinstance(review["summary"], str) and len(review["summary"].strip()) >= 40, f"gate {gate_id} review summary too thin")
+
+    mechanical = review["mechanical_validation"]
+    require(isinstance(mechanical, dict), f"gate {gate_id} mechanical_validation must be an object")
+    for field in ["command", "ok", "output_summary"]:
+        require(field in mechanical, f"gate {gate_id} mechanical_validation missing {field}")
+    require(isinstance(mechanical["command"], str) and mechanical["command"].strip(), f"gate {gate_id} mechanical command required")
+    require(isinstance(mechanical["ok"], bool), f"gate {gate_id} mechanical ok must be boolean")
+    require(isinstance(mechanical["output_summary"], str) and len(mechanical["output_summary"].strip()) >= 20, f"gate {gate_id} mechanical output summary too thin")
+
+    criteria = review["criteria_results"]
+    require(isinstance(criteria, list) and criteria, f"gate {gate_id} criteria_results required")
+    criteria_by_name: dict[str, dict[str, Any]] = {}
+    for row in criteria:
+        require(isinstance(row, dict), f"gate {gate_id} criteria rows must be objects")
+        for field in ["criterion", "status", "evidence", "assessment"]:
+            require(field in row, f"gate {gate_id} criteria row missing {field}")
+        require(row["status"] in REVIEW_ITEM_STATUSES, f"gate {gate_id} invalid criterion status: {row['status']}")
+        require(isinstance(row["evidence"], list) and row["evidence"], f"gate {gate_id} criterion evidence required: {row['criterion']}")
+        require(isinstance(row["assessment"], str) and len(row["assessment"].strip()) >= 25, f"gate {gate_id} criterion assessment too thin: {row['criterion']}")
+        criteria_by_name[row["criterion"]] = row
+    require(set(criteria_by_name) == set(phase["completion_criteria"]), f"gate {gate_id} criteria must match phase completion criteria")
+
+    anti_drift = review["anti_drift_results"]
+    require(isinstance(anti_drift, list) and anti_drift, f"gate {gate_id} anti_drift_results required")
+    drift_by_name: dict[str, dict[str, Any]] = {}
+    for row in anti_drift:
+        require(isinstance(row, dict), f"gate {gate_id} anti-drift rows must be objects")
+        for field in ["requirement", "status", "evidence", "assessment"]:
+            require(field in row, f"gate {gate_id} anti-drift row missing {field}")
+        require(row["status"] in REVIEW_ITEM_STATUSES, f"gate {gate_id} invalid anti-drift status: {row['status']}")
+        require(isinstance(row["evidence"], list) and row["evidence"], f"gate {gate_id} anti-drift evidence required: {row['requirement']}")
+        require(isinstance(row["assessment"], str) and len(row["assessment"].strip()) >= 25, f"gate {gate_id} anti-drift assessment too thin: {row['requirement']}")
+        drift_by_name[row["requirement"]] = row
+    require(set(drift_by_name) == set(phase["anti_drift_requirements"]), f"gate {gate_id} anti-drift rows must match phase requirements")
+
+    runtime = review["runtime_enforcement"]
+    require(isinstance(runtime, dict), f"gate {gate_id} runtime_enforcement must be an object")
+    require(runtime.get("status") in RUNTIME_ENFORCEMENT_STATUSES, f"gate {gate_id} invalid runtime enforcement status: {runtime.get('status')}")
+    require(isinstance(runtime.get("assessment"), str) and len(runtime["assessment"].strip()) >= 30, f"gate {gate_id} runtime enforcement assessment too thin")
+
+    blocking = review["blocking_findings"]
+    require(isinstance(blocking, list), f"gate {gate_id} blocking_findings must be a list")
+    require(isinstance(review["next_action"], str) and len(review["next_action"].strip()) >= 20, f"gate {gate_id} next_action too thin")
+
+    if gate["status"] == "PASS":
+        require(review["verdict"] == "pass", f"gate {gate_id} PASS requires review verdict pass")
+        require(mechanical["ok"], f"gate {gate_id} PASS requires mechanical validation ok")
+        require(not blocking, f"gate {gate_id} PASS requires no blocking findings")
+        require(all(row["status"] == "pass" for row in criteria), f"gate {gate_id} PASS requires all criteria pass")
+        require(all(row["status"] == "pass" for row in anti_drift), f"gate {gate_id} PASS requires all anti-drift rows pass")
+
+
 def validate_phase_gates() -> None:
     phase_doc = load_json(GOV / "phase-gates.json")
     ledger = load_json(GOV / "gate-ledger.json")
@@ -317,13 +406,7 @@ def validate_phase_gates() -> None:
             require(gate["anti_drift_confirmed"], f"gate {gate_id} {status} requires anti_drift_confirmed=true")
 
         if status == "PASS":
-            review = gate.get("review")
-            require(isinstance(review, dict), f"gate {gate_id} PASS requires independent review object")
-            missing_review = REQUIRED_PASS_REVIEW_FIELDS - set(review)
-            require(not missing_review, f"gate {gate_id} review missing {sorted(missing_review)}")
-            require(review.get("verdict") == "pass", f"gate {gate_id} PASS requires review.verdict=pass")
-            for field in REQUIRED_PASS_REVIEW_FIELDS - {"verdict"}:
-                require(isinstance(review.get(field), str) and len(review[field].strip()) >= 20, f"gate {gate_id} review.{field} too thin")
+            validate_review_packet(gate, phase_by_id[gate_id])
             if phase_by_id[gate_id]["ryan_required"]:
                 require(isinstance(gate.get("ryan_approval"), dict) and gate["ryan_approval"].get("status") == "approved", f"gate {gate_id} requires Ryan approval")
             for artifact in phase_by_id[gate_id]["required_artifacts"]:
@@ -338,6 +421,9 @@ def validate_phase_gates() -> None:
             if evidence["type"] == "file":
                 require(path_exists_for_evidence(evidence["path"]), f"gate {gate_id} evidence file missing: {evidence['path']}")
 
+        if status == "ACTIVE" and gate.get("review_packet"):
+            validate_review_packet(gate, phase_by_id[gate_id])
+
     require(set(gate_by_id) == set(phase_by_id), "gate ledger ids must match phase-gate ids")
     require(active_gates == [active_phase], f"exactly one ACTIVE gate must match active_phase; got {active_gates}, expected {[active_phase]}")
 
@@ -350,6 +436,7 @@ def validate_agent_entrypoint() -> None:
         "governance/phase-gates.json",
         "governance/gate-ledger.json",
         "governance/codex-access-contract.md",
+        "governance/gate-review-contract.md",
         "tools/validate_governance.py",
     ]:
         require(required in agent_text, f"governance/AGENTS.md must point agents to {required}")
@@ -375,6 +462,18 @@ def validate_codex_access_contract() -> None:
         require(required in text, f"codex access contract missing: {required}")
 
 
+def validate_gate_review_contract() -> None:
+    text = (GOV / "gate-review-contract.md").read_text(encoding="utf-8")
+    for required in [
+        "governance/gate-reviews/",
+        "every `completion_criteria` item",
+        "every `anti_drift_requirements` item",
+        "A phase may be marked `PASS` only when",
+        "Independence Limits",
+    ]:
+        require(required in text, f"gate review contract missing: {required}")
+
+
 def main() -> int:
     checks = [
         validate_required_files,
@@ -385,6 +484,7 @@ def main() -> int:
         validate_agent_entrypoint,
         validate_community_evidence_contract,
         validate_codex_access_contract,
+        validate_gate_review_contract,
     ]
     try:
         for check in checks:

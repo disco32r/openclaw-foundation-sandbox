@@ -36,4 +36,6 @@ Only the `ACTIVE` phase in `gate-ledger.json` is executable unless Ryan explicit
 - `evidence-contract.md`: what counts as proof.
 - `community-evidence-contract.md`: required evidence for candidate nomination and promotion.
 - `codex-access-contract.md`: required access pattern for Codex, SSH, `Q:`, Git, and VM source edits.
+- `gate-review-contract.md`: required packet format for intelligent gate review.
+- `gate-reviews/`: reviewer verdicts and evidence assessments for phase promotion.
 - `policy-rules.json`: machine-readable gate rules for the validator.
