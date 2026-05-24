@@ -1,0 +1,95 @@
+{
+  "gate_id": "P3",
+  "phase_name": "policy-checks",
+  "reviewed_commit": "2f3dda420d614ccfff23bd602f0839140a4118dc",
+  "reviewer": "codex-governance-reviewer",
+  "reviewer_independence": "Lead agent performed the P3 review after tightening fixture validation to require expected rejection reasons and rerunning the deterministic validator.",
+  "verdict": "pass",
+  "summary": "P3 passes. Policy checks now fail closed for bad tasks, protected actions, denied candidates, second-control-plane patterns, local-model requirements, and vague work. Bad fixtures must fail for declared expected errors, not merely fail generically.",
+  "mechanical_validation": {
+    "command": "python3 -m py_compile tools/validate_governance.py && python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "Validator compiled and passed after enforcing expected_errors on every bad admission fixture."
+  },
+  "criteria_results": [
+    {
+      "criterion": "all rejection tests fail for the intended reason",
+      "status": "pass",
+      "evidence": [
+        "governance/admission-fixtures/bad-vague-task.json expected_errors",
+        "governance/admission-fixtures/bad-no-budget.json expected_errors",
+        "governance/admission-fixtures/bad-local-model.json expected_errors",
+        "governance/admission-fixtures/bad-second-control-plane.json expected_errors",
+        "governance/admission-fixtures/bad-protected-without-approval.json expected_errors",
+        "governance/admission-fixtures/bad-rejected-candidate-replay.json expected_errors",
+        "tools/validate_governance.py validate_fixtures"
+      ],
+      "assessment": "The validator now requires each bad fixture to produce its declared expected error, so P3 is no longer satisfied by generic bad-fixture failure."
+    },
+    {
+      "criterion": "validator command is documented",
+      "status": "pass",
+      "evidence": [
+        "governance/AGENTS.md Required Check",
+        "governance/README.md",
+        "governance/phase-gates.json"
+      ],
+      "assessment": "The governance entrypoint and phase gates document the validator command agents must run before claiming gate completion."
+    },
+    {
+      "criterion": "gate ledger can mark P3 PASS with evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/gate-ledger.json",
+        "governance/gate-reviews/P3-policy-checks-20260524T2355Z.json",
+        "governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json"
+      ],
+      "assessment": "P3 has the review and action-report artifacts required for a PASS ledger transition."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no warning-only checks accepted",
+      "status": "pass",
+      "evidence": [
+        "tools/validate_governance.py",
+        "python3 tools/validate_governance.py"
+      ],
+      "assessment": "Policy failures raise assertions and return nonzero; they are not warnings or dashboard-only notices."
+    },
+    {
+      "requirement": "no dashboard as authority",
+      "status": "pass",
+      "evidence": [
+        "governance/dashboard-read-model.md",
+        "governance/blueprint.md",
+        "governance/policy-rules.json forbidden_patterns"
+      ],
+      "assessment": "Dashboards remain read-only projections and dashboard-as-authority is a forbidden pattern."
+    },
+    {
+      "requirement": "no second control plane",
+      "status": "pass",
+      "evidence": [
+        "governance/policy-rules.json forbidden_patterns",
+        "governance/admission-fixtures/bad-second-control-plane.json"
+      ],
+      "assessment": "Second control planes, new schedulers, and mutating dashboards are denied patterns with an intended-reason rejection fixture."
+    },
+    {
+      "requirement": "no local model requirement",
+      "status": "pass",
+      "evidence": [
+        "governance/policy-rules.json forbidden_patterns",
+        "governance/admission-fixtures/bad-local-model.json"
+      ],
+      "assessment": "Local-model requirements remain denied and are covered by an intended-reason rejection fixture."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "repo_only",
+    "assessment": "P3 policy checks are enforced in source governance by the validator and fixtures. Runtime admission enforcement is not yet live and is part of later phases."
+  },
+  "blocking_findings": [],
+  "next_action": "Mark P3 PASS, activate P4 private-sandbox-runtime, and prepare runtime approval/evidence work."
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": "2026-05-24",
   "authority": "governance/phase-gates.json",
-  "active_phase": "P3",
+  "active_phase": "P4",
   "gates": [
     {
       "id": "P0",
@@ -137,30 +137,47 @@
     },
     {
       "id": "P3",
+      "status": "PASS",
+      "owner": "Codex",
+      "evidence": [
+        {
+          "type": "file",
+          "path": "governance/gate-reviews/P3-policy-checks-20260524T2355Z.json",
+          "description": "intelligence-backed P3 pass gate review"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json",
+          "description": "repo-wide P3 pass gate action compliance report"
+        }
+      ],
+      "checks": [
+        "python3 -m py_compile tools/validate_governance.py",
+        "python3 tools/validate_governance.py",
+        "expected_errors enforced for bad fixtures"
+      ],
+      "anti_drift_confirmed": true,
+      "review_packet": "governance/gate-reviews/P3-policy-checks-20260524T2355Z.json",
+      "gate_action_report": "governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json",
+      "disposition": "P3 passed after policy fixtures were required to fail for intended reasons and validator enforcement passed."
+    },
+    {
+      "id": "P4",
       "status": "ACTIVE",
       "owner": "Codex",
       "evidence": [
         {
           "type": "file",
-          "path": "governance/gate-action-reports/P3-policy-checks-20260524T2340Z.json",
-          "description": "repo-wide P3 activation compliance report"
+          "path": "governance/gate-action-reports/P4-private-sandbox-runtime-20260524T2355Z.json",
+          "description": "repo-wide P4 activation compliance report"
         }
       ],
       "checks": [
         "python3 tools/validate_governance.py"
       ],
       "anti_drift_confirmed": true,
-      "gate_action_report": "governance/gate-action-reports/P3-policy-checks-20260524T2340Z.json",
-      "disposition": "P3 is active. It is not pass-qualified until policy rejection fixtures and enforcement reports receive a passing gate review."
-    },
-    {
-      "id": "P4",
-      "status": "NOT_STARTED",
-      "owner": "Codex",
-      "evidence": [],
-      "checks": [],
-      "anti_drift_confirmed": false,
-      "disposition": "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+      "gate_action_report": "governance/gate-action-reports/P4-private-sandbox-runtime-20260524T2355Z.json",
+      "disposition": "P4 is active. It is not pass-qualified until private sandbox runtime health, readiness, model, approval, and exposure proof exist."
     },
     {
       "id": "P5",
