@@ -41,16 +41,21 @@ def fail(message: str) -> int:
     return 1
 
 
-def run(*args: str, env: dict[str, str] | None = None) -> tuple[int, str]:
-    proc = subprocess.run(
-        list(args),
-        cwd=ROOT,
-        env=env,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        check=False,
-    )
+def run(*args: str, env: dict[str, str] | None = None, timeout_s: int | None = None) -> tuple[int, str]:
+    try:
+        proc = subprocess.run(
+            list(args),
+            cwd=ROOT,
+            env=env,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+            timeout=timeout_s,
+        )
+    except subprocess.TimeoutExpired as exc:
+        output = exc.stdout or ""
+        return 124, f"timed out after {timeout_s}s\n{output}".strip()
     return proc.returncode, proc.stdout.strip()
 
 
@@ -172,7 +177,20 @@ def push_branch(config: dict[str, Any], token: str) -> None:
     env["GIT_ASKPASS"] = str(askpass)
     env["GIT_TERMINAL_PROMPT"] = "0"
     env["GITHUB_TOKEN"] = token
-    code, output = run("git", "push", "-u", "origin", config["working_branch"], env=env)
+    code, output = run(
+        "git",
+        "-c",
+        "http.lowSpeedLimit=1",
+        "-c",
+        "http.lowSpeedTime=20",
+        "push",
+        "--porcelain",
+        "-u",
+        "origin",
+        config["working_branch"],
+        env=env,
+        timeout_s=75,
+    )
     try:
         askpass.unlink(missing_ok=True)
     finally:
