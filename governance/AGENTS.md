@@ -8,6 +8,7 @@ This directory defines the project guardrails. Before changing governance, admis
 - `governance/operating-method.md`
 - `governance/evidence-contract.md`
 - `governance/community-evidence-contract.md`
+- `governance/codex-access-contract.md`
 - `CUSTOM-CODE-RULE.md`
 
 ## Required Check
@@ -23,6 +24,10 @@ If it fails, do not claim the phase is complete.
 ## Execution Rule
 
 Only work the `ACTIVE` phase in `governance/gate-ledger.json` unless Ryan explicitly changes the phase or asks for analysis outside the gate. Future work discovered during a phase becomes intake, not direct execution.
+
+## Access Rule
+
+Do not use Windows PowerShell as the project logic layer. Source edits go through the mounted source repo or direct SSH/SFTP as `openclaw`; repo commands run from `/home/openclaw/foundation-source` with a POSIX shell. PowerShell is allowed only for local mount repair, not source rewriting, governance logic, or build orchestration.
 
 ## Forbidden Drift
 

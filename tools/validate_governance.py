@@ -33,6 +33,7 @@ REQUIRED_FILES = [
     GOV / "custom-code-decisions.jsonl",
     GOV / "evidence-contract.md",
     GOV / "community-evidence-contract.md",
+    GOV / "codex-access-contract.md",
     GOV / "policy-rules.json",
 ]
 
@@ -348,6 +349,7 @@ def validate_agent_entrypoint() -> None:
         "governance/blueprint.md",
         "governance/phase-gates.json",
         "governance/gate-ledger.json",
+        "governance/codex-access-contract.md",
         "tools/validate_governance.py",
     ]:
         require(required in agent_text, f"governance/AGENTS.md must point agents to {required}")
@@ -361,6 +363,18 @@ def validate_community_evidence_contract() -> None:
         require(required in text, f"community evidence contract missing: {required}")
 
 
+def validate_codex_access_contract() -> None:
+    text = (GOV / "codex-access-contract.md").read_text(encoding="utf-8")
+    for required in [
+        "/home/openclaw/foundation-source",
+        "Q:\\",
+        "PowerShell",
+        "not use Windows PowerShell as the project logic layer",
+        "Use the sudo helper only for protected VM/runtime/system operations",
+    ]:
+        require(required in text, f"codex access contract missing: {required}")
+
+
 def main() -> int:
     checks = [
         validate_required_files,
@@ -370,6 +384,7 @@ def main() -> int:
         validate_phase_gates,
         validate_agent_entrypoint,
         validate_community_evidence_contract,
+        validate_codex_access_contract,
     ]
     try:
         for check in checks:
