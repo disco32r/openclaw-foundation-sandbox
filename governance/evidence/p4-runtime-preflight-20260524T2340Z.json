@@ -1,0 +1,73 @@
+{
+  "schema_version": "2026-05-24",
+  "phase": "P4",
+  "status": "preflight_only",
+  "captured_at": "2026-05-24T23:40:31Z",
+  "source_root": "/home/openclaw/foundation-source",
+  "reviewed_commit": "7294ebcc2a3b21c2189a4c16e80b0076626583af",
+  "commands": [
+    {
+      "command": "git rev-parse HEAD && git branch --show-current",
+      "result": "HEAD 7294ebcc2a3b21c2189a4c16e80b0076626583af on codex/foundation-governance-bootstrap"
+    },
+    {
+      "command": "command -v docker && docker --version && docker compose version",
+      "result": "/usr/bin/docker; Docker version 29.4.0, build 9d7ad9f; Docker Compose version v5.1.3"
+    },
+    {
+      "command": "docker ps && docker compose ps",
+      "result": "no running Docker containers and no running compose services for the foundation-source project"
+    },
+    {
+      "command": "command -v openclaw || true; command -v node || true; command -v pnpm || true; command -v curl || true",
+      "result": "host PATH has /usr/bin/curl; openclaw, node, and pnpm were not present for the openclaw user"
+    },
+    {
+      "command": "ss -ltnp",
+      "result": "listeners observed on 127.0.0.1:631, 0.0.0.0:22, tailnet addresses 100.113.239.123:443/8081/8443/40162 and fd7a:115c:a1e0::c232:ef7b:443/8081/8443/44923; no listener observed on 18789 or 18790"
+    },
+    {
+      "command": "cut -d= -f1 .env",
+      "result": ".env contains OpenClaw Docker/runtime keys, OPENCLAW_GATEWAY_TOKEN, and OPENCLAW_SKIP_ONBOARDING; it did not list OPENAI_API_KEY, OPENROUTER_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY"
+    },
+    {
+      "command": "id openclaw && stat -c %u:%g /home/openclaw && command -v openssl",
+      "result": "openclaw uid/gid 1002:1002, docker group 995, /home/openclaw owner 1002:1002, openssl present"
+    }
+  ],
+  "doc_evidence": [
+    "docs/install/docker.md documents health checks at http://127.0.0.1:18789/healthz and /readyz",
+    "docs/install/docker.md states docker-compose.yml publishes OPENCLAW_GATEWAY_PORT to 18789 and OPENCLAW_BRIDGE_PORT to 18790",
+    "docs/install/docker.md says Docker setup defaults OPENCLAW_GATEWAY_BIND=lan and OPENCLAW_DISABLE_BONJOUR=1 for Docker",
+    "docker-compose.yml maps ${OPENCLAW_GATEWAY_PORT:-18789}:18789 and ${OPENCLAW_BRIDGE_PORT:-18790}:18790"
+  ],
+  "safe_findings": [
+    "Docker and Docker Compose are available.",
+    "The foundation source compose project is not currently running containers.",
+    "Ports 18789 and 18790 are available at preflight time.",
+    "The private sandbox should bind published ports to 127.0.0.1, not all interfaces.",
+    "No model provider key was found in the source .env key list, so hosted model proof may require a separate secret source before P4 can pass."
+  ],
+  "protected_boundaries_pending": [
+    "docker_container",
+    "runtime_config",
+    "network",
+    "secrets",
+    "auth"
+  ],
+  "recommended_runtime_shape": {
+    "state_root": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox",
+    "gateway_port": "127.0.0.1:18789",
+    "bridge_port": "127.0.0.1:18790",
+    "gateway_bind": "lan",
+    "bonjour": "disabled",
+    "compose_env_file": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/compose.env"
+  },
+  "not_performed": [
+    "No Docker image was pulled or built.",
+    "No container was started.",
+    "No runtime config was written.",
+    "No network listener was created.",
+    "No secret or model credential was changed."
+  ]
+}

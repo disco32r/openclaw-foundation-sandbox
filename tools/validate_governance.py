@@ -534,6 +534,10 @@ def validate_gate_action_report(gate: dict[str, Any], phase: dict[str, Any]) -> 
         f"gate {gate_id} intervention protected_boundary_pending must be boolean",
     )
     require(
+        isinstance(intervention.get("approval_packet_present"), bool),
+        f"gate {gate_id} intervention approval_packet_present must be boolean",
+    )
+    require(
         isinstance(intervention.get("safe_local_next_actions"), list),
         f"gate {gate_id} intervention safe_local_next_actions must be a list",
     )

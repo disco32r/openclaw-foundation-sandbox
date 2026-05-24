@@ -170,14 +170,30 @@
           "type": "file",
           "path": "governance/gate-action-reports/P4-private-sandbox-runtime-20260524T2355Z.json",
           "description": "repo-wide P4 activation compliance report"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
+          "description": "read-only private sandbox runtime preflight evidence"
+        },
+        {
+          "type": "file",
+          "path": "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
+          "description": "protected-boundary approval packet for Docker sandbox runtime apply"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
+          "description": "blocked P4 gate review against runtime criteria"
         }
       ],
       "checks": [
         "python3 tools/validate_governance.py"
       ],
       "anti_drift_confirmed": true,
+      "review_packet": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
       "gate_action_report": "governance/gate-action-reports/P4-private-sandbox-runtime-20260524T2355Z.json",
-      "disposition": "P4 is active. It is not pass-qualified until private sandbox runtime health, readiness, model, approval, and exposure proof exist."
+      "disposition": "P4 is active and blocked at the protected Docker/runtime boundary. Read-only preflight and approval packet exist, but PASS still requires live health, readiness, model, approval, and exposure proof."
     },
     {
       "id": "P5",

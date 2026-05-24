@@ -1,0 +1,88 @@
+{
+  "gate_id": "P4",
+  "phase_name": "private-sandbox-runtime",
+  "reviewed_commit": "7294ebcc2a3b21c2189a4c16e80b0076626583af",
+  "reviewer": "codex-runtime-gate-reviewer",
+  "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
+  "verdict": "blocked",
+  "summary": "P4 has a clean repo posture and useful runtime preflight evidence, but it cannot pass until the protected Docker sandbox is started and health, readiness, exposure, model, and approval behavior proof are captured.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "Governance validator passed with required files, registers, schemas, fixtures, phase gates, agent entrypoints, evidence contracts, access contract, gate review contract, gate action contract, and intervention balance contract."
+  },
+  "criteria_results": [
+    {
+      "criterion": "sandbox private",
+      "status": "blocked",
+      "evidence": [
+        "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+      ],
+      "assessment": "Preflight found no listeners on 18789 or 18790 and the approval packet proposes loopback-only Docker publishing, but privacy cannot be proven until the sandbox is actually started and ss/curl evidence is captured."
+    },
+    {
+      "criterion": "hosted model usable",
+      "status": "blocked",
+      "evidence": [
+        "governance/evidence/p4-runtime-preflight-20260524T2340Z.json"
+      ],
+      "assessment": "The source .env key list did not show a hosted model provider key, so model usability cannot be claimed before isolated runtime auth is configured and tested."
+    },
+    {
+      "criterion": "approval path verified",
+      "status": "blocked",
+      "evidence": [
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+      ],
+      "assessment": "The protected-boundary packet is drafted, but runtime approval behavior still needs a live protected-action denial or approval packet proof from the sandbox."
+    },
+    {
+      "criterion": "no production mutation",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-preflight-20260524T2340Z.json"
+      ],
+      "assessment": "Preflight was read-only and explicitly did not pull images, start containers, write runtime config, create listeners, or change secrets."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no public tunnel default",
+      "status": "pass",
+      "evidence": [
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+      ],
+      "assessment": "The proposed runtime command binds Gateway and bridge published ports to 127.0.0.1 and includes a validation command to reject broad exposure."
+    },
+    {
+      "requirement": "no runtime config mutation without approval",
+      "status": "pass",
+      "evidence": [
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+      ],
+      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries and does not execute them."
+    },
+    {
+      "requirement": "no second scheduler",
+      "status": "pass",
+      "evidence": [
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+      ],
+      "assessment": "The proposed deployment uses OpenClaw Docker Compose only and does not add cron, a separate queue, or a second scheduler/control plane."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "approval_required",
+    "assessment": "The next material action is Docker/runtime mutation, which must stop at the drafted approval packet until approved."
+  },
+  "blocking_findings": [
+    "Missing runtime health evidence.",
+    "Missing readiness evidence.",
+    "Missing private exposure evidence.",
+    "Missing model status evidence.",
+    "Missing approval behavior evidence.",
+    "Protected Docker/runtime mutation is required before those proofs can be produced."
+  ],
+  "next_action": "Use the P4 approval packet for the protected Docker sandbox apply, then capture health, readiness, exposure, model, and approval behavior evidence."
+}

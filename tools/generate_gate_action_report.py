@@ -220,18 +220,26 @@ def intervention_balance_assessment(
     untracked: list[str],
 ) -> dict[str, Any]:
     safe_local_next_actions: list[str] = []
+    has_approval_packet = any(
+        isinstance(row, dict)
+        and (
+            "approval" in str(row.get("path", "")).lower()
+            or "approval" in str(row.get("description", "")).lower()
+        )
+        for row in gate.get("evidence", [])
+    )
+    protected_boundary_pending = bool(phase.get("ryan_required") and gate["status"] in {"ACTIVE", "PASS"})
     if changed or untracked:
         safe_local_next_actions.append("validate, review, and commit/push current repo-local changes")
-    if artifact_failures:
+    if artifact_failures and not (protected_boundary_pending and has_approval_packet):
         safe_local_next_actions.append(f"produce or attach missing phase evidence: {', '.join(artifact_failures)}")
-    if review_verdict is None and gate["status"] in {"ACTIVE", "PASS"}:
+    if review_verdict is None and gate["status"] in {"ACTIVE", "PASS"} and not (protected_boundary_pending and has_approval_packet):
         safe_local_next_actions.append("generate or attach the phase gate review packet")
     if gate["status"] == "ACTIVE":
         safe_local_next_actions.append("refresh the gate action report after safe-local evidence changes")
-    if phase.get("ryan_required") and gate["status"] == "ACTIVE":
+    if phase.get("ryan_required") and gate["status"] == "ACTIVE" and not has_approval_packet:
         safe_local_next_actions.append("draft the protected-boundary approval packet before any mutation")
 
-    protected_boundary_pending = bool(phase.get("ryan_required") and gate["status"] in {"ACTIVE", "PASS"})
     requires_ryan_now = bool(protected_boundary_pending and not safe_local_next_actions)
     status = "blocked" if requires_ryan_now else "pass"
     assessment = (
@@ -243,6 +251,7 @@ def intervention_balance_assessment(
         "status": status,
         "requires_ryan_now": requires_ryan_now,
         "protected_boundary_pending": protected_boundary_pending,
+        "approval_packet_present": has_approval_packet,
         "safe_local_next_actions": safe_local_next_actions,
         "assessment": assessment,
         "evidence": [
@@ -250,6 +259,7 @@ def intervention_balance_assessment(
             f"gate_status:{gate['status']}",
             f"artifact_failures:{len(artifact_failures)}",
             f"review_verdict:{review_verdict}",
+            f"approval_packet_present:{has_approval_packet}",
         ],
     }
 
