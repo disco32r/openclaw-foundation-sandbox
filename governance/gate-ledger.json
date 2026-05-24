@@ -76,6 +76,11 @@
           "type": "file",
           "path": "governance/gate-reviews/P1-foundation-repo-20260524T1842Z.json",
           "description": "intelligence-backed P1 gate review"
+        },
+        {
+          "type": "file",
+          "path": "governance/approval-requests/P1-foundation-fork-branch-protection-20260524T1855Z.md",
+          "description": "Ryan approval packet for external GitHub fork and branch protection work"
         }
       ],
       "checks": [
@@ -84,7 +89,7 @@
       ],
       "anti_drift_confirmed": true,
       "review_packet": "governance/gate-reviews/P1-foundation-repo-20260524T1842Z.json",
-      "disposition": "Active gate reviewed as blocked. P1 cannot pass until fork remote and branch protection evidence are proven or the phase criteria are explicitly changed."
+      "disposition": "Active gate reviewed as blocked. Approval packet is prepared for the external GitHub fork and branch protection work needed to unblock P1."
     },
     {
       "id": "P2",
