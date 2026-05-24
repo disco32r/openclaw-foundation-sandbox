@@ -6,6 +6,8 @@ Docs: https://docs.openclaw.ai
 
 ### Changes
 
+- Diagnostics: add gated OpenTelemetry LLM prompt, output, and tool-definition details for Codex and Pi model-call spans. Thanks @amknight.
+
 ### Fixes
 
 - Scripts: run the optional Discord native opus installer through the shared pnpm launcher and Windows CI coverage so native Windows installs avoid shell-mode package-manager shims.
