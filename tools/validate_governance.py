@@ -360,11 +360,26 @@ def validate_fixtures() -> None:
         require(not errors, f"good fixture failed {path.name}: {errors}")
 
     bad_passed: list[str] = []
+    bad_wrong_reason: list[str] = []
     for path in bad:
-        errors = validate_task_packet(load_json(path), rules)
+        packet = load_json(path)
+        errors = validate_task_packet(packet, rules)
         if not errors:
             bad_passed.append(path.name)
+            continue
+        expected_errors = packet.get("expected_errors")
+        if not isinstance(expected_errors, list) or not expected_errors:
+            bad_wrong_reason.append(f"{path.name}: missing expected_errors")
+            continue
+        missing_expected = [
+            expected
+            for expected in expected_errors
+            if not isinstance(expected, str) or not any(expected in error for error in errors)
+        ]
+        if missing_expected:
+            bad_wrong_reason.append(f"{path.name}: missing expected errors {missing_expected}; got {errors}")
     require(not bad_passed, f"bad fixtures unexpectedly passed: {bad_passed}")
+    require(not bad_wrong_reason, f"bad fixtures failed for wrong reason: {bad_wrong_reason}")
 
 
 def validate_schema_alignment() -> None:

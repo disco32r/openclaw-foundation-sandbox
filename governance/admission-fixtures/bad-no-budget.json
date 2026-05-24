@@ -15,6 +15,6 @@
   "admission": {
     "result": "admit",
     "reason": "bad fixture should fail"
-  }
+  },
+  "expected_errors": ["missing required field: budget"]
 }
-

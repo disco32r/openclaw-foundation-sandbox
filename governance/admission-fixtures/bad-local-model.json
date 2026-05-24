@@ -26,6 +26,6 @@
   "admission": {
     "result": "admit",
     "reason": "bad fixture should fail because local models are denied"
-  }
+  },
+  "expected_errors": ["denied patterns require reject admission"]
 }
-

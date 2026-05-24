@@ -26,6 +26,6 @@
   "admission": {
     "result": "admit",
     "reason": "bad fixture should fail because denied patterns require new evidence"
-  }
+  },
+  "expected_errors": ["denied patterns require reject admission"]
 }
-

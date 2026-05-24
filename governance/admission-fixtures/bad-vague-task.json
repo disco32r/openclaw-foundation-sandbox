@@ -25,6 +25,11 @@
   "admission": {
     "result": "admit",
     "reason": "bad fixture should fail"
-  }
+  },
+  "expected_errors": [
+    "expected_value must be a non-empty string",
+    "evidence_target must be a non-empty string",
+    "stop_condition must be a non-empty string",
+    "rollback must be a non-empty string"
+  ]
 }
-

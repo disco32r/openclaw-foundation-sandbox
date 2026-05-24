@@ -25,6 +25,6 @@
   "admission": {
     "result": "admit",
     "reason": "bad fixture should fail because protected boundary needs approval_required"
-  }
+  },
+  "expected_errors": ["protected boundaries require approval_required or reject admission result"]
 }
-
