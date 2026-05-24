@@ -1,0 +1,87 @@
+{
+  "gate_id": "P1",
+  "phase_name": "foundation-repo",
+  "reviewed_commit": "4e56d02dffd91b899b80808e3362a15b9e16a030",
+  "reviewer": "codex-governance-reviewer",
+  "reviewer_independence": "Lead agent performed the pass review after the deterministic P1 readiness checker passed and after prior manual review findings were incorporated into validator and setup behavior.",
+  "verdict": "pass",
+  "summary": "P1 passes. The foundation source remains a clean OpenClaw fork path, origin points to disco32r/openclaw-foundation-sandbox, upstream points to openclaw/openclaw, branch protection evidence proves the selected fork is an actual public fork with required pull request reviews enabled, and old project artifacts remain denied as authority.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py && python3 tools/check_p1_environment.py",
+    "ok": true,
+    "output_summary": "Governance validation passed structurally. P1 readiness passed with clean tree, configured fork origin, upstream remote, source-controlled GitHub tooling, successful branch-protection evidence, and non-placeholder P1 environment config."
+  },
+  "criteria_results": [
+    {
+      "criterion": "clean fork exists",
+      "status": "pass",
+      "evidence": [
+        "governance/p1-environment.json",
+        "governance/evidence/p1-branch-protection.json",
+        "origin https://github.com/disco32r/openclaw-foundation-sandbox.git",
+        "repo_fork true"
+      ],
+      "assessment": "The selected foundation target is now an actual fork of openclaw/openclaw, not the pre-existing non-fork disco32r/openclaw repository."
+    },
+    {
+      "criterion": "upstream pinned",
+      "status": "pass",
+      "evidence": [
+        "governance/candidate-register.jsonl source_commit 43252c809910df22e22d533ea3c23062fbf8b1d7"
+      ],
+      "assessment": "The selected foundation candidate records a pinned upstream source commit and remains sufficient for foundation selection."
+    },
+    {
+      "criterion": "branch policy defined",
+      "status": "pass",
+      "evidence": [
+        "governance/branch-protection-plan.md",
+        "governance/evidence/p1-branch-protection.json branch_protection_status 200",
+        "required_pull_request_reviews true"
+      ],
+      "assessment": "The branch policy is documented and the GitHub API evidence proves branch protection with required pull request reviews is active on the selected fork."
+    },
+    {
+      "criterion": "quarantine remains reference only",
+      "status": "pass",
+      "evidence": [
+        "FOUNDATION.md",
+        "governance/deny-register.jsonl"
+      ],
+      "assessment": "The foundation files keep old project material as reference only and deny wholesale graveyard import."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no old runtime code import",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl",
+        "git status --short --branch"
+      ],
+      "assessment": "The source changes are governance and proof artifacts only; old runtime code is still not imported as authority."
+    },
+    {
+      "requirement": "deny register blocks graveyard replay",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl"
+      ],
+      "assessment": "The deny register still blocks old artifact replay and requires re-review before any similar pattern can return."
+    },
+    {
+      "requirement": "candidate register records selected foundation",
+      "status": "pass",
+      "evidence": [
+        "governance/candidate-register.jsonl"
+      ],
+      "assessment": "The selected OpenClaw foundation remains recorded with URL, pinned commit, score, verdict, and re-review condition."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "repo_only",
+    "assessment": "P1 is enforced by source-repo governance, GitHub branch protection, validator checks, and gate review packets. OpenClaw runtime admission begins in later phases."
+  },
+  "blocking_findings": [],
+  "next_action": "Mark P1 PASS, activate P2 anti-drift-core, and continue with admission/policy enforcement work."
+}

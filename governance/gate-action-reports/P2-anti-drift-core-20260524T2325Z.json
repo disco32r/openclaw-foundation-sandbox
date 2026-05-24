@@ -1,0 +1,180 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-24T23:20:32Z",
+  "gate_id": "P2",
+  "phase_name": "anti-drift-core",
+  "gate_status": "ACTIVE",
+  "action": "activate",
+  "reviewed_commit": "4e56d02dffd91b899b80808e3362a15b9e16a030",
+  "reviewer": "codex-repo-compliance-reviewer",
+  "overall_status": "blocked",
+  "repo_review_scope": [
+    "blueprint",
+    "phase-gates",
+    "gate-ledger",
+    "community-evidence",
+    "deny-register",
+    "custom-code-rule",
+    "codex-access-contract",
+    "changed-files",
+    "mechanical-checks",
+    "ryan-report"
+  ],
+  "tracked_file_summary": {
+    "tracked_file_count": 18346,
+    "governance_file_count": 36,
+    "tool_file_count": 4
+  },
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-ledger.json\n?? governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n?? governance/gate-reviews/P1-foundation-repo-20260524T2325Z.json",
+  "changed_files": [
+    "governance/gate-ledger.json"
+  ],
+  "untracked_files": [
+    "governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json",
+    "governance/gate-reviews/P1-foundation-repo-20260524T2325Z.json"
+  ],
+  "required_artifact_results": [
+    {
+      "artifact": "governance/blueprint.md",
+      "status": "pass",
+      "evidence": [
+        "governance/blueprint.md"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/AGENTS.md",
+      "status": "pass",
+      "evidence": [
+        "governance/AGENTS.md"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/phase-gates.json",
+      "status": "pass",
+      "evidence": [
+        "governance/phase-gates.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/gate-ledger.json",
+      "status": "pass",
+      "evidence": [
+        "governance/gate-ledger.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/task-admission.schema.json",
+      "status": "pass",
+      "evidence": [
+        "governance/task-admission.schema.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/policy-rules.json",
+      "status": "pass",
+      "evidence": [
+        "governance/policy-rules.json"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/evidence-contract.md",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence-contract.md"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/community-evidence-contract.md",
+      "status": "pass",
+      "evidence": [
+        "governance/community-evidence-contract.md"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "governance/gate-review-contract.md",
+      "status": "pass",
+      "evidence": [
+        "governance/gate-review-contract.md"
+      ],
+      "assessment": "Required artifact exists."
+    },
+    {
+      "artifact": "tools/validate_governance.py",
+      "status": "pass",
+      "evidence": [
+        "tools/validate_governance.py"
+      ],
+      "assessment": "Required artifact exists."
+    }
+  ],
+  "mechanical_checks": [
+    {
+      "id": "git_status",
+      "ok": true,
+      "command": "git status --short --branch",
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-ledger.json\n?? governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n?? governance/gate-reviews/P1-foundation-repo-20260524T2325Z.json"
+    },
+    {
+      "id": "required_artifacts",
+      "ok": true,
+      "command": "repo artifact existence scan",
+      "output_summary": "all required artifacts exist"
+    },
+    {
+      "id": "gate_review_packet",
+      "ok": false,
+      "command": "load gate review packet",
+      "output_summary": "verdict:None"
+    }
+  ],
+  "plan_compliance_assessment": {
+    "status": "pass",
+    "assessment": "Blueprint, phase definition, ledger, and active phase alignment are present.",
+    "evidence": [
+      "gate:P2",
+      "phase:anti-drift-core",
+      "active:P2"
+    ]
+  },
+  "community_evidence_assessment": {
+    "status": "pass",
+    "assessment": "Candidate register satisfies community evidence structure.",
+    "evidence": [
+      "candidate_rows:4"
+    ]
+  },
+  "deny_register_assessment": {
+    "status": "pass",
+    "assessment": "Deny register is present and entries require re-review before replay.",
+    "evidence": [
+      "deny_rows:5"
+    ]
+  },
+  "custom_code_assessment": {
+    "status": "pass",
+    "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
+    "evidence": [
+      "CUSTOM-CODE-RULE.md"
+    ]
+  },
+  "access_contract_assessment": {
+    "status": "pass",
+    "assessment": "Codex access contract contains the required project-command boundary.",
+    "evidence": [
+      "governance/codex-access-contract.md"
+    ]
+  },
+  "gate_review_verdict": null,
+  "blocking_findings": [
+    "missing review_packet"
+  ],
+  "ryan_report": "Gate P2 (anti-drift-core) action activate: blocked. Reviewed commit 4e56d02dffd91b899b80808e3362a15b9e16a030. Changed files: 1 tracked, 2 untracked. Blocking findings: 1."
+}
