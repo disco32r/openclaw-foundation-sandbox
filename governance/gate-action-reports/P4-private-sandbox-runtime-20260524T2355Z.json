@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:44:03Z",
+  "generated_at": "2026-05-24T23:45:12Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "5e260d9b2530ce665592571123ca2608230d7f11",
+  "reviewed_commit": "0fabc46d1ff8837324b92ca148b71b4f13f24298",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -26,7 +26,7 @@
     "governance_file_count": 48,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]",
   "changed_files": [],
   "untracked_files": [],
   "required_artifact_results": [
@@ -76,7 +76,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]"
     },
     {
       "id": "required_artifacts",
@@ -129,14 +129,12 @@
     ]
   },
   "intervention_balance_assessment": {
-    "status": "pass",
-    "requires_ryan_now": false,
+    "status": "blocked",
+    "requires_ryan_now": true,
     "protected_boundary_pending": true,
     "approval_packet_present": true,
-    "safe_local_next_actions": [
-      "refresh the gate action report after safe-local evidence changes"
-    ],
-    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "safe_local_next_actions": [],
+    "assessment": "Ryan is needed now because no safe-local prep remains and the next action crosses a protected boundary.",
     "evidence": [
       "phase_ryan_required:True",
       "gate_status:ACTIVE",
@@ -155,5 +153,5 @@
     "Missing approval behavior evidence.",
     "Protected Docker/runtime mutation is required before those proofs can be produced."
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 5e260d9b2530ce665592571123ca2608230d7f11. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: no."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 0fabc46d1ff8837324b92ca148b71b4f13f24298. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: yes."
 }
