@@ -223,7 +223,7 @@ def write_evidence(config: dict[str, Any], repo_data: Any, protection_status: in
 
 
 def main() -> int:
-    token = os.environ.get("GITHUB_TOKEN")
+    token = (os.environ.get("GITHUB_TOKEN") or "").strip()
     if not token:
         return fail("missing GITHUB_TOKEN")
 
