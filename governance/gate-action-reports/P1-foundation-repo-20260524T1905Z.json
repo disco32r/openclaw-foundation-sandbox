@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:10:33Z",
+  "generated_at": "2026-05-24T23:17:14Z",
   "gate_id": "P1",
   "phase_name": "foundation-repo",
   "gate_status": "ACTIVE",
   "action": "blocked_review",
-  "reviewed_commit": "20db54bc50b837e2e4e2cf8970a72eb0e8392786",
+  "reviewed_commit": "caef9c4d12920bb85ef8879744e45adcf65ffdeb",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -25,9 +25,15 @@
     "governance_file_count": 35,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap",
-  "changed_files": [],
-  "untracked_files": [],
+  "git_status": "## codex/foundation-governance-bootstrap\n M governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\n M tools/check_p1_environment.py\n M tools/setup_p1_github_environment.py\n?? governance/evidence/",
+  "changed_files": [
+    "governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json",
+    "tools/check_p1_environment.py",
+    "tools/setup_p1_github_environment.py"
+  ],
+  "untracked_files": [
+    "governance/evidence/"
+  ],
   "required_artifact_results": [
     {
       "artifact": "FOUNDATION.md",
@@ -91,7 +97,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap"
+      "output_summary": "## codex/foundation-governance-bootstrap\n M governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\n M tools/check_p1_environment.py\n M tools/setup_p1_github_environment.py\n?? governance/evidence/"
     },
     {
       "id": "required_artifacts",
@@ -109,7 +115,7 @@
       "id": "p1_environment_check",
       "ok": false,
       "command": "python3 tools/check_p1_environment.py",
-      "output_summary": "{\n  \"ok\": false,\n  \"root\": \"/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source\",\n  \"phase\": \"P1\",\n  \"checks\": [\n    {\n      \"id\": \"git_status_clean\",\n      \"ok\": true,\n      \"observed\": \"## codex/foundation-governance-bootstrap\",\n      \"required\": \"working tree clean on a named branch\"\n    },\n    {\n      \"id\": \"branch_named\",\n      \"ok\": true,\n      \"observed\": \"codex/foundation-governance-bootstrap\",\n      \"required\": \"current branch is named\"\n    },\n    {\n      \"id\": \"origin_is_ryan_fork\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/disco32r/openclaw.git\",\n      \"required\": \"origin points to the configured Ryan-owned fork, not openclaw/openclaw\"\n    },\n    {\n      \"id\": \"upstream_is_openclaw\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/openclaw/openclaw.git\",\n      \"required\": \"upstream points to openclaw/openclaw\"\n    },\n    {\n      \"id\": \"github_tooling_available\",\n      \"ok\": true,\n      \"observed\": \"tools/setup_p1_github_environment.py\",\n      \"required\": \"gh CLI available or source-controlled authenticated GitHub setup tooling exists\"\n    },\n    {\n      \"id\": \"branch_protection_evidence\",\n      \"ok\": false,\n      \"observed\": \"missing\",\n      \"required\": \"captured branch protection proof for the fork\"\n    },\n    {\n      \"id\": \"p1_environment_config\",\n      \"ok\": true,\n      \"observed\": \"governance/p1-environment.json\",\n      \"required\": \"governance/p1-environment.json exists without OWNER placeholders\"\n    }\n  ],\n  \"next_action\": \"Resolve failed checks or keep P1 blocked with approval packet.\"\n}"
+      "output_summary": "{\n  \"ok\": false,\n  \"root\": \"/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source\",\n  \"phase\": \"P1\",\n  \"checks\": [\n    {\n      \"id\": \"git_status_clean\",\n      \"ok\": false,\n      \"observed\": \"## codex/foundation-governance-bootstrap\\n M governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\\n M tools/check_p1_environment.py\\n M tools/setup_p1_github_environment.py\\n?? governance/evidence/\",\n      \"required\": \"working tree clean on a named branch\"\n    },\n    {\n      \"id\": \"branch_named\",\n      \"ok\": true,\n      \"observed\": \"codex/foundation-governance-bootstrap\",\n      \"required\": \"current branch is named\"\n    },\n    {\n      \"id\": \"origin_is_ryan_fork\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/disco32r/openclaw.git\",\n      \"required\": \"origin points to the configured Ryan-owned fork, not openclaw/openclaw\"\n    },\n    {\n      \"id\": \"upstream_is_openclaw\",\n      \"ok\": true,\n      \"observed\": \"https://github.com/openclaw/openclaw.git\",\n      \"required\": \"upstream points to openclaw/openclaw\"\n    },\n    {\n      \"id\": \"github_tooling_available\",\n      \"ok\": true,\n      \"observed\": \"tools/setup_p1_github_environment.py\",\n      \"required\": \"gh CLI available or source-controlled authenticated GitHub setup tooling exists\"\n    },\n    {\n      \"id\": \"branch_protection_evidence\",\n      \"ok\": false,\n      \"observed\": {\n        \"ok\": false,\n        \"generated_at\": \"2026-05-24T23:16:02Z\",\n        \"fork_full_name\": \"disco32r/openclaw\",\n        \"default_branch\": \"main\",\n        \"repo_status\": 200,\n        \"repo_private\": true,\n        \"repo_fork\": false,\n        \"default_branch_status\": 200,\n        \"default_branch_sha\": \"b48e5a0847c6568c6ebf4eea06fae9c53e1c18ee\",\n        \"branch_protection_status\": 403,\n        \"branch_protection_summary\": {\n          \"required_pull_request_reviews\": false,\n          \"message\": \"Upgrade to GitHub Pro or make this repository public to enable this feature.\"\n        },\n        \"next_options\": [\n          \"do not "
     }
   ],
   "plan_compliance_assessment": {
@@ -139,7 +145,9 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md"
+      "CUSTOM-CODE-RULE.md",
+      "tools/check_p1_environment.py",
+      "tools/setup_p1_github_environment.py"
     ]
   },
   "access_contract_assessment": {
@@ -151,9 +159,10 @@
   },
   "gate_review_verdict": "blocked",
   "blocking_findings": [
-    "Remote branch protection evidence is missing at governance/evidence/p1-branch-protection.json.",
+    "GitHub API evidence reports disco32r/openclaw repo_fork false, so the configured origin is not a valid foundation fork.",
+    "Branch protection evidence exists but is unsuccessful: GitHub returned 403 with an account-plan/public-visibility restriction.",
     "P1 cannot pass until python3 tools/check_p1_environment.py succeeds on a clean tree.",
     "P1 environment check is not pass-qualified."
   ],
-  "ryan_report": "Gate P1 (foundation-repo) action blocked_review: blocked. Reviewed commit 20db54bc50b837e2e4e2cf8970a72eb0e8392786. Changed files: 0 tracked, 0 untracked. Blocking findings: 3."
+  "ryan_report": "Gate P1 (foundation-repo) action blocked_review: blocked. Reviewed commit caef9c4d12920bb85ef8879744e45adcf65ffdeb. Changed files: 3 tracked, 1 untracked. Blocking findings: 4."
 }
