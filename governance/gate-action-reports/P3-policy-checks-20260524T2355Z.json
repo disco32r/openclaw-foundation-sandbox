@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:36:24Z",
+  "generated_at": "2026-05-24T23:44:13Z",
   "gate_id": "P3",
   "phase_name": "policy-checks",
   "gate_status": "PASS",
   "action": "pass_review",
-  "reviewed_commit": "77c78d1792e94b7c957fa2b552d67f7aaae522c4",
+  "reviewed_commit": "d9d8c76d6af2c2a8c80440ce55b2e7ffda13f117",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -22,14 +22,13 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18355,
-    "governance_file_count": 45,
+    "tracked_file_count": 18358,
+    "governance_file_count": 48,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 3]\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json",
   "changed_files": [
     "governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json",
-    "governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json",
     "governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json"
   ],
   "untracked_files": [],
@@ -112,7 +111,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 3]\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json"
     },
     {
       "id": "required_artifacts",
@@ -168,6 +167,7 @@
     "status": "pass",
     "requires_ryan_now": false,
     "protected_boundary_pending": false,
+    "approval_packet_present": false,
     "safe_local_next_actions": [
       "validate, review, and commit/push current repo-local changes"
     ],
@@ -176,10 +176,11 @@
       "phase_ryan_required:False",
       "gate_status:PASS",
       "artifact_failures:0",
-      "review_verdict:pass"
+      "review_verdict:pass",
+      "approval_packet_present:False"
     ]
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P3 (policy-checks) action pass_review: pass. Reviewed commit 77c78d1792e94b7c957fa2b552d67f7aaae522c4. Changed files: 3 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
+  "ryan_report": "Gate P3 (policy-checks) action pass_review: pass. Reviewed commit d9d8c76d6af2c2a8c80440ce55b2e7ffda13f117. Changed files: 2 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
 }
