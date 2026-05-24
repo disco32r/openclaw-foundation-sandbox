@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:34:59Z",
+  "generated_at": "2026-05-24T23:36:24Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "f25a3b69cc4654f67babd15c5ec2d061c4eea7f3",
+  "reviewed_commit": "77c78d1792e94b7c957fa2b552d67f7aaae522c4",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -26,16 +26,12 @@
     "governance_file_count": 45,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json\n M governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json\n M governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json",
   "changed_files": [
     "governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json",
     "governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json",
     "governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json",
-    "governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json",
-    "governance/gate-action-review-contract.md",
-    "governance/operating-method.md",
-    "tools/generate_gate_action_report.py",
-    "tools/validate_governance.py"
+    "governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json"
   ],
   "untracked_files": [],
   "required_artifact_results": [
@@ -85,7 +81,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json\n M governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json\n M governance/gate-action-review-contract.md\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n M tools/validate_governance.py"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/gate-action-reports/P0-command-and-source-rules-20260524T1908Z.json\n M governance/gate-action-reports/P1-foundation-repo-20260524T2325Z.json\n M governance/gate-action-reports/P2-anti-drift-core-20260524T2340Z.json\n M governance/gate-action-reports/P3-policy-checks-20260524T2355Z.json"
     },
     {
       "id": "required_artifacts",
@@ -127,9 +123,7 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md",
-      "tools/generate_gate_action_report.py",
-      "tools/validate_governance.py"
+      "CUSTOM-CODE-RULE.md"
     ]
   },
   "access_contract_assessment": {
@@ -163,5 +157,5 @@
     "Missing required artifacts: ['runtime health evidence', 'readiness evidence', 'private exposure evidence', 'model status evidence', 'approval behavior evidence']",
     "missing review_packet"
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit f25a3b69cc4654f67babd15c5ec2d061c4eea7f3. Changed files: 8 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: no."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 77c78d1792e94b7c957fa2b552d67f7aaae522c4. Changed files: 4 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: no."
 }
