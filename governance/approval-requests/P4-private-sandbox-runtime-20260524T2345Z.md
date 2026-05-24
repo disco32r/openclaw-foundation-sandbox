@@ -16,7 +16,7 @@ This crosses protected boundaries in `governance/policy-rules.json`:
 - `secrets`
 - `auth`
 
-The safe-local preflight is complete in `governance/evidence/p4-runtime-preflight-20260524T2340Z.json` and the Compose dry run is captured in `governance/evidence/p4-compose-dry-run-20260524T2347Z.json`. Docker is available, no foundation containers are running, and ports `18789`/`18790` are unused. The dry run also found that the repo-root `.env` would leak old values through `env_file` unless explicitly reset, so the apply command below uses a Compose override before any pull, config write, or start.
+The safe-local preflight is complete in `governance/evidence/p4-runtime-preflight-20260524T2340Z.json`, the Compose dry run is captured in `governance/evidence/p4-compose-dry-run-20260524T2347Z.json`, and model/provider preflight is captured in `governance/evidence/p4-provider-preflight-20260524T2350Z.json`. Docker is available, no foundation containers are running, and ports `18789`/`18790` are unused. The dry run also found that the repo-root `.env` would leak old values through `env_file` unless explicitly reset, so the apply command below uses a Compose override before any pull, config write, or start.
 
 ## Affected Systems
 
@@ -87,6 +87,14 @@ docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
   up -d openclaw-gateway
+
+if [ -n "${P4_OPENAI_CODEX_API_KEY:-}" ]; then
+  printf "%s\n" "$P4_OPENAI_CODEX_API_KEY" | docker compose --env-file "$STATE_ROOT/compose.env" \
+    -f docker-compose.yml \
+    -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+    run --rm -T openclaw-cli \
+    models auth paste-api-key --provider openai-codex --profile-id openai-codex:foundation-sandbox
+fi
 ```
 
 ## Validation Command
@@ -120,6 +128,11 @@ docker compose --env-file "$STATE_ROOT/compose.env" \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
   exec -T openclaw-gateway \
   node dist/index.js health --token "$OPENCLAW_GATEWAY_TOKEN"
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  run --rm -T openclaw-cli \
+  models status --check
 ```
 
 Expected result:
@@ -129,7 +142,10 @@ Expected result:
 - `18789` and `18790` bind only to `127.0.0.1`,
 - rendered Compose config does not inject old repo-root `.env` runtime paths,
 - authenticated health returns successfully,
+- model auth status passes when `P4_OPENAI_CODEX_API_KEY` is provided,
 - no public admin surface is exposed.
+
+If `P4_OPENAI_CODEX_API_KEY` is not provided, stop after health/readiness/exposure proof and record P4 as still blocked on model-auth input. Do not invent a fallback local-model route.
 
 ## Rollback Command
 
@@ -156,6 +172,7 @@ Stop immediately if any of these occur:
 - The gateway fails `/healthz` or `/readyz`.
 - The image pull/build pulls an unexpected repository.
 - The validation command cannot prove local-only exposure.
+- `P4_OPENAI_CODEX_API_KEY` is absent and the run attempts to claim the hosted-model criterion anyway.
 - The setup asks for an interactive secret or external account login.
 - Any command attempts to mutate production OpenClaw runtime state.
 

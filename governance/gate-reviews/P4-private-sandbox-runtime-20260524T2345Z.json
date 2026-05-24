@@ -5,7 +5,7 @@
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
   "verdict": "blocked",
-  "summary": "P4 has a clean repo posture, runtime preflight evidence, and a non-mutating Compose dry run. The dry run found and corrected a source .env injection risk with an env_file reset override. P4 still cannot pass until the protected Docker sandbox is started and health, readiness, exposure, model, and approval behavior proof are captured.",
+  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, and provider/auth preflight evidence. The dry run found and corrected a source .env injection risk with an env_file reset override. P4 still cannot pass until the protected Docker sandbox is started and health, readiness, exposure, model, and approval behavior proof are captured.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -26,9 +26,11 @@
       "criterion": "hosted model usable",
       "status": "blocked",
       "evidence": [
-        "governance/evidence/p4-runtime-preflight-20260524T2340Z.json"
+        "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
+        "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
       ],
-      "assessment": "The source .env key list did not show a hosted model provider key, so model usability cannot be claimed before isolated runtime auth is configured and tested."
+      "assessment": "The preflight confirmed the official image resolves and the native openai-codex API-key auth command exists. Model usability still cannot be claimed before an API key is supplied to the protected apply and `models status --check` passes inside the sandbox."
     },
     {
       "criterion": "approval path verified",
@@ -62,6 +64,7 @@
       "status": "pass",
       "evidence": [
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
+        "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
       ],
       "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run was non-mutating and the packet has not been executed."

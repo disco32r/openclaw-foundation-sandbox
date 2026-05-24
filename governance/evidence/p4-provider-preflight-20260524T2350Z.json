@@ -1,0 +1,48 @@
+{
+  "schema_version": "2026-05-24",
+  "phase": "P4",
+  "status": "preflight_only",
+  "captured_at": "2026-05-24T23:50:30Z",
+  "source_root": "/home/openclaw/foundation-source",
+  "mutation": "none",
+  "checks": [
+    {
+      "id": "official_image_manifest",
+      "command": "docker manifest inspect ghcr.io/openclaw/openclaw:latest",
+      "status": "pass",
+      "evidence": "The tag resolves to an OCI image index with schemaVersion 2 and linux/amd64 plus linux/arm64 platform manifests."
+    },
+    {
+      "id": "compose_project_collision",
+      "command": "docker compose ls --format json",
+      "status": "pass",
+      "evidence": "The command returned an empty JSON array; no active Compose project is registered for the foundation source."
+    },
+    {
+      "id": "foundation_docker_resources",
+      "command": "docker network ls --format json | grep foundation-source; docker volume ls --format json | grep foundation-source",
+      "status": "pass",
+      "evidence": "No foundation-source Docker networks or volumes were listed before runtime apply."
+    },
+    {
+      "id": "native_openai_codex_auth_path",
+      "command": "grep docs for openai-codex model auth commands",
+      "status": "pass",
+      "evidence": "docs/cli/models.md documents `openclaw models auth paste-api-key --provider openai-codex`; docs/gateway/authentication.md documents `openclaw models auth login --provider openai-codex --profile-id ...` for named profiles."
+    },
+    {
+      "id": "openrouter_fallback_path",
+      "command": "grep docs for OpenRouter provider auth",
+      "status": "pass",
+      "evidence": "docs/gateway/authentication.md documents `openclaw models auth paste-token --provider openrouter`; docs/concepts/model-providers.md lists OpenRouter auth as OPENROUTER_API_KEY with default model `openrouter/auto`."
+    }
+  ],
+  "model_auth_implication": "P4 can prove hosted model usability through the native `openclaw models auth paste-api-key --provider openai-codex` path if an OpenAI API key is available to the protected apply. If no key is supplied, runtime health/readiness/exposure can still be proven but P4 cannot pass the hosted-model criterion.",
+  "not_performed": [
+    "No Docker image was pulled.",
+    "No container was started.",
+    "No model key was read, written, or tested.",
+    "No auth profile was created.",
+    "No external account was mutated."
+  ]
+}

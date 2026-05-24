@@ -183,6 +183,11 @@
         },
         {
           "type": "file",
+          "path": "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
+          "description": "non-mutating image, Docker namespace, and native model-auth prerequisite proof"
+        },
+        {
+          "type": "file",
           "path": "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
           "description": "protected-boundary approval packet for Docker sandbox runtime apply"
         },
