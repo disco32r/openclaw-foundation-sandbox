@@ -1,0 +1,91 @@
+{
+  "gate_id": "P0",
+  "phase_name": "command-and-source-rules",
+  "reviewed_commit": "4e6905c475bd38d77230429dde3728dc639f67eb",
+  "reviewer": "codex-governance-reviewer",
+  "reviewer_independence": "Lead agent performed this review after deterministic checks and runtime cleanup verification; separate reviewer agent was requested but had not returned before this packet was written.",
+  "verdict": "pass",
+  "summary": "P0 passes for repo-governance scope. Source authority, protected boundaries, denied drift patterns, and deterministic validation are present in the forked source repo. Prior runtime workspace instruction contamination was restored to clean tracked state before this verdict.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "Validator passed on reviewed commit with required files, registers, schema alignment, fixtures, phase gates, agent entrypoint, community evidence contract, Codex access contract, and gate review contract checks."
+  },
+  "criteria_results": [
+    {
+      "criterion": "source authority documented",
+      "status": "pass",
+      "evidence": [
+        "FOUNDATION.md",
+        "governance/blueprint.md",
+        "governance/codex-access-contract.md"
+      ],
+      "assessment": "The forked OpenClaw source repo is documented as the source of truth, while Codex session context, runtime scratch files, and dashboards are excluded as authority."
+    },
+    {
+      "criterion": "protected boundaries documented",
+      "status": "pass",
+      "evidence": [
+        "CUSTOM-CODE-RULE.md",
+        "governance/policy-rules.json",
+        "governance/operating-method.md"
+      ],
+      "assessment": "Protected areas and approval-required boundaries are documented in source-controlled governance files and reflected in machine-readable policy rules."
+    },
+    {
+      "criterion": "old artifacts denied",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl",
+        "governance/policy-rules.json",
+        "runtime workspace git status showed no modified tracked files after cleanup"
+      ],
+      "assessment": "The deny register blocks old artifact import and prompt-only governance, policy rules block denied patterns, and the runtime workspace tracked files were restored after earlier contamination."
+    },
+    {
+      "criterion": "validator passes",
+      "status": "pass",
+      "evidence": [
+        "python3 tools/validate_governance.py",
+        "reviewed commit 4e6905c475bd38d77230429dde3728dc639f67eb"
+      ],
+      "assessment": "The validator passed for the reviewed source state before P0 promotion was recorded."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no old graveyard import",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl",
+        "FOUNDATION.md"
+      ],
+      "assessment": "The source repo documents old project artifacts as quarantine/reference only and records old artifact import as denied."
+    },
+    {
+      "requirement": "no prompt-only governance",
+      "status": "pass",
+      "evidence": [
+        "tools/validate_governance.py",
+        "governance/gate-ledger.json",
+        "governance/phase-gates.json"
+      ],
+      "assessment": "The governance rules are source files checked by a deterministic validator rather than chat-only instructions."
+    },
+    {
+      "requirement": "exactly one active phase",
+      "status": "pass",
+      "evidence": [
+        "governance/gate-ledger.json",
+        "validate_phase_gates"
+      ],
+      "assessment": "The gate ledger had exactly one active phase during the review, and the validator enforces that invariant."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "repo_only",
+    "assessment": "P0 is enforced by source repository validator and agent entry rules only. OpenClaw runtime task admission is not expected until later phases."
+  },
+  "blocking_findings": [],
+  "next_action": "Promote P0 to PASS, make P1 active, then review P1 foundation-repo criteria with fresh source and Git evidence."
+}
