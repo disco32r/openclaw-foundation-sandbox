@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-24T23:10:01Z",
+  "generated_at": "2026-05-24T23:10:25Z",
   "gate_id": "P0",
   "phase_name": "command-and-source-rules",
   "gate_status": "PASS",
   "action": "pass_review",
-  "reviewed_commit": "1f7de13b4cf1cbcb5526f9c13d6de87ffdf28244",
+  "reviewed_commit": "87ec7bef54792dcdf56f01834d5b3905d30e47e6",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -21,26 +21,13 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18340,
-    "governance_file_count": 31,
-    "tool_file_count": 3
+    "tracked_file_count": 18345,
+    "governance_file_count": 35,
+    "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap\n M CUSTOM-CODE-RULE.md\n M governance/AGENTS.md\n M governance/custom-code-decisions.jsonl\n M governance/gate-ledger.json\n M governance/gate-review-contract.md\n M governance/phase-gates.json\n M tools/validate_governance.py\n?? governance/gate-action-reports/\n?? governance/gate-action-review-contract.md\n?? governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\n?? tools/generate_gate_action_report.py",
-  "changed_files": [
-    "CUSTOM-CODE-RULE.md",
-    "governance/AGENTS.md",
-    "governance/custom-code-decisions.jsonl",
-    "governance/gate-ledger.json",
-    "governance/gate-review-contract.md",
-    "governance/phase-gates.json",
-    "tools/validate_governance.py"
-  ],
-  "untracked_files": [
-    "governance/gate-action-reports/",
-    "governance/gate-action-review-contract.md",
-    "governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json",
-    "tools/generate_gate_action_report.py"
-  ],
+  "git_status": "## codex/foundation-governance-bootstrap",
+  "changed_files": [],
+  "untracked_files": [],
   "required_artifact_results": [
     {
       "artifact": "FOUNDATION.md",
@@ -80,7 +67,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap\n M CUSTOM-CODE-RULE.md\n M governance/AGENTS.md\n M governance/custom-code-decisions.jsonl\n M governance/gate-ledger.json\n M governance/gate-review-contract.md\n M governance/phase-gates.json\n M tools/validate_governance.py\n?? governance/gate-action-reports/\n?? governance/gate-action-review-contract.md\n?? governance/gate-reviews/P1-foundation-repo-20260524T1912Z.json\n?? tools/generate_gate_action_report.py"
+      "output_summary": "## codex/foundation-governance-bootstrap"
     },
     {
       "id": "required_artifacts",
@@ -122,9 +109,7 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md",
-      "tools/validate_governance.py",
-      "tools/generate_gate_action_report.py"
+      "CUSTOM-CODE-RULE.md"
     ]
   },
   "access_contract_assessment": {
@@ -136,5 +121,5 @@
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P0 (command-and-source-rules) action pass_review: pass. Reviewed commit 1f7de13b4cf1cbcb5526f9c13d6de87ffdf28244. Changed files: 7 tracked, 4 untracked. Blocking findings: 0."
+  "ryan_report": "Gate P0 (command-and-source-rules) action pass_review: pass. Reviewed commit 87ec7bef54792dcdf56f01834d5b3905d30e47e6. Changed files: 0 tracked, 0 untracked. Blocking findings: 0."
 }
