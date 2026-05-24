@@ -49,6 +49,7 @@ REQUIRED_PHASE_FIELDS = {
     "community_evidence_requirements",
     "ryan_required",
 }
+REQUIRED_PASS_REVIEW_FIELDS = {"reviewer", "verdict", "evidence_assessment", "drift_assessment", "runtime_enforcement_assessment"}
 REQUIRED_LEDGER_FIELDS = {
     "id",
     "status",
@@ -259,6 +260,9 @@ def validate_phase_gates() -> None:
     require(phase_doc.get("ledger") == "governance/gate-ledger.json", "phase gates must point to gate ledger")
     require(phase_doc.get("enforcement") == "tools/validate_governance.py", "phase gates must name validator enforcement")
     require(ALLOWED_GATE_STATUSES <= set(phase_doc.get("phase_statuses", [])), "phase status list missing allowed statuses")
+    pass_requires = phase_doc.get("pass_requires")
+    require(isinstance(pass_requires, list) and len(pass_requires) >= 5, "phase gates must define pass requirements")
+    require(all(isinstance(item, str) and item.strip() for item in pass_requires), "pass requirements must be non-empty strings")
 
     phases = phase_doc.get("phases")
     require(isinstance(phases, list) and phases, "phase-gates must contain phases")
@@ -312,6 +316,15 @@ def validate_phase_gates() -> None:
             require(gate["anti_drift_confirmed"], f"gate {gate_id} {status} requires anti_drift_confirmed=true")
 
         if status == "PASS":
+            review = gate.get("review")
+            require(isinstance(review, dict), f"gate {gate_id} PASS requires independent review object")
+            missing_review = REQUIRED_PASS_REVIEW_FIELDS - set(review)
+            require(not missing_review, f"gate {gate_id} review missing {sorted(missing_review)}")
+            require(review.get("verdict") == "pass", f"gate {gate_id} PASS requires review.verdict=pass")
+            for field in REQUIRED_PASS_REVIEW_FIELDS - {"verdict"}:
+                require(isinstance(review.get(field), str) and len(review[field].strip()) >= 20, f"gate {gate_id} review.{field} too thin")
+            if phase_by_id[gate_id]["ryan_required"]:
+                require(isinstance(gate.get("ryan_approval"), dict) and gate["ryan_approval"].get("status") == "approved", f"gate {gate_id} requires Ryan approval")
             for artifact in phase_by_id[gate_id]["required_artifacts"]:
                 if artifact.startswith(("governance/", "tools/")) or artifact in {"FOUNDATION.md", "CUSTOM-CODE-RULE.md"}:
                     require(path_exists_for_evidence(artifact), f"gate {gate_id} PASS missing artifact {artifact}")
@@ -371,3 +384,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+

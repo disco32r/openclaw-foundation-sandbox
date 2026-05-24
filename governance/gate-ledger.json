@@ -1,76 +1,169 @@
 {
-  "schema_version": "2026-05-24",
-  "authority": "governance/phase-gates.json",
-  "active_phase": "P3",
-  "gates": [
-    {
-      "id": "P0",
-      "status": "PASS",
-      "owner": "Codex",
-      "evidence": [
-        {"type": "file", "path": "FOUNDATION.md", "description": "source authority and tipping point"},
-        {"type": "file", "path": "CUSTOM-CODE-RULE.md", "description": "custom-code boundary"},
-        {"type": "file", "path": "governance/operating-method.md", "description": "work lifecycle"},
-        {"type": "file", "path": "governance/deny-register.jsonl", "description": "blocked drift patterns"}
-      ],
-      "checks": ["python3 tools/validate_governance.py"],
-      "anti_drift_confirmed": true,
-      "disposition": "Source and command rules are documented in repo authority files."
-    },
-    {
-      "id": "P1",
-      "status": "PASS",
-      "owner": "Codex",
-      "evidence": [
-        {"type": "commit", "path": "43252c809910df22e22d533ea3c23062fbf8b1d7", "description": "pinned upstream OpenClaw source commit"},
-        {"type": "file", "path": "governance/branch-protection-plan.md", "description": "branch protection plan"},
-        {"type": "file", "path": "governance/candidate-register.jsonl", "description": "foundation candidate evidence"},
-        {"type": "file", "path": "governance/deny-register.jsonl", "description": "old artifact import denied"}
-      ],
-      "checks": ["git status --short --branch", "python3 tools/validate_governance.py"],
-      "anti_drift_confirmed": true,
-      "disposition": "Clean fork foundation is selected; old artifacts remain quarantine/reference only."
-    },
-    {
-      "id": "P2",
-      "status": "PASS",
-      "owner": "Codex",
-      "evidence": [
-        {"type": "file", "path": "governance/blueprint.md", "description": "canonical implementation blueprint"},
-        {"type": "file", "path": "governance/AGENTS.md", "description": "agent entrypoint for governance work"},
-        {"type": "file", "path": "governance/phase-gates.json", "description": "machine-readable phase gates"},
-        {"type": "file", "path": "governance/gate-ledger.json", "description": "one active phase ledger"},
-        {"type": "file", "path": "tools/validate_governance.py", "description": "blocking validator"}
-      ],
-      "checks": ["python3 tools/validate_governance.py"],
-      "anti_drift_confirmed": true,
-      "disposition": "Anti-drift core is represented as repo data and validator checks."
-    },
-    {
-      "id": "P3",
-      "status": "ACTIVE",
-      "owner": "Codex",
-      "evidence": [
-        {"type": "file", "path": "tools/validate_governance.py", "description": "current policy validator"},
-        {"type": "file", "path": "governance/policy-rules.json", "description": "machine-readable admission rules"},
-        {"type": "file", "path": "governance/admission-fixtures/good-mobile-builder-task.json", "description": "known-good admission fixture"},
-        {"type": "file", "path": "governance/admission-fixtures/bad-vague-task.json", "description": "known-bad admission fixture"},
-        {"type": "file", "path": "governance/admission-fixtures/bad-no-budget.json", "description": "known-bad missing-budget fixture"},
-        {"type": "file", "path": "governance/admission-fixtures/bad-local-model.json", "description": "known-bad local-model fixture"},
-        {"type": "file", "path": "governance/admission-fixtures/bad-second-control-plane.json", "description": "known-bad second-control-plane fixture"},
-        {"type": "file", "path": "governance/admission-fixtures/bad-protected-without-approval.json", "description": "known-bad protected-without-approval fixture"},
-        {"type": "file", "path": "governance/admission-fixtures/bad-rejected-candidate-replay.json", "description": "known-bad rejected-candidate replay fixture"}
-      ],
-      "checks": ["python3 tools/validate_governance.py"],
-      "anti_drift_confirmed": true,
-      "disposition": "Active gate: harden and prove policy checks before runtime/mobile/builder expansion."
-    },
-    {"id": "P4", "status": "NOT_STARTED", "owner": "Codex", "evidence": [], "checks": [], "anti_drift_confirmed": false, "disposition": "Private sandbox runtime proof is blocked until P3 passes."},
-    {"id": "P5", "status": "NOT_STARTED", "owner": "Codex", "evidence": [], "checks": [], "anti_drift_confirmed": false, "disposition": "Mobile operator loop is blocked until private sandbox runtime proof passes."},
-    {"id": "P6", "status": "NOT_STARTED", "owner": "Codex", "evidence": [], "checks": [], "anti_drift_confirmed": false, "disposition": "Builder harness proof is blocked until mobile operator loop proof passes."},
-    {"id": "P7", "status": "NOT_STARTED", "owner": "Codex", "evidence": [], "checks": [], "anti_drift_confirmed": false, "disposition": "Proof harness is blocked until builder harness proof passes."},
-    {"id": "P8", "status": "NOT_STARTED", "owner": "Codex", "evidence": [], "checks": [], "anti_drift_confirmed": false, "disposition": "First workflow admission is blocked until proof harness passes."},
-    {"id": "P9", "status": "NOT_STARTED", "owner": "Codex", "evidence": [], "checks": [], "anti_drift_confirmed": false, "disposition": "Dashboard/status expansion is blocked until native status gaps are proven."},
-    {"id": "P10", "status": "NOT_STARTED", "owner": "Codex", "evidence": [], "checks": [], "anti_drift_confirmed": false, "disposition": "Protected domain expansion is blocked until prior gates prove read-only operation and approvals."}
-  ]
+    "schema_version":  "2026-05-24",
+    "authority":  "governance/phase-gates.json",
+    "active_phase":  "P0",
+    "gates":  [
+                  {
+                      "id":  "P0",
+                      "status":  "ACTIVE",
+                      "owner":  "Codex",
+                      "evidence":  [
+                                       {
+                                           "type":  "file",
+                                           "path":  "FOUNDATION.md",
+                                           "description":  "source authority and tipping point"
+                                       },
+                                       {
+                                           "type":  "file",
+                                           "path":  "CUSTOM-CODE-RULE.md",
+                                           "description":  "custom-code boundary"
+                                       },
+                                       {
+                                           "type":  "file",
+                                           "path":  "governance/operating-method.md",
+                                           "description":  "work lifecycle"
+                                       },
+                                       {
+                                           "type":  "file",
+                                           "path":  "governance/deny-register.jsonl",
+                                           "description":  "blocked drift patterns"
+                                       }
+                                   ],
+                      "checks":  [
+                                     "python3 tools/validate_governance.py"
+                                 ],
+                      "anti_drift_confirmed":  true,
+                      "disposition":  "Active gate. Existing files are artifacts only; P0 is not complete until mechanical validation and independent evidence review pass for this commit."
+                  },
+                  {
+                      "id":  "P1",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P2",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P3",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P4",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P5",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P6",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P7",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P8",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P9",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  },
+                  {
+                      "id":  "P10",
+                      "status":  "NOT_STARTED",
+                      "owner":  "Codex",
+                      "evidence":  [
+
+                                   ],
+                      "checks":  [
+
+                                 ],
+                      "anti_drift_confirmed":  false,
+                      "disposition":  "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+                  }
+              ]
 }
