@@ -51,14 +51,18 @@
                        "objective":  "Use a clean OpenClaw fork as foundation and keep old project artifacts out of authority.",
                        "required_artifacts":  [
                                                   "FOUNDATION.md",
+                                                  "governance/p1-environment.example.json",
                                                   "governance/branch-protection-plan.md",
                                                   "governance/candidate-register.jsonl",
-                                                  "governance/deny-register.jsonl"
+                                                  "governance/deny-register.jsonl",
+                                                  "tools/check_p1_environment.py",
+                                                  "tools/setup_p1_github_environment.py"
                                               ],
                        "required_checks":  [
                                                "git clean status",
                                                "upstream commit pinned",
-                                               "validate_registers"
+                                               "validate_registers",
+                                               "python3 tools/check_p1_environment.py"
                                            ],
                        "completion_criteria":  [
                                                    "clean fork exists",

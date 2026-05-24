@@ -35,7 +35,10 @@ REQUIRED_FILES = [
     GOV / "community-evidence-contract.md",
     GOV / "codex-access-contract.md",
     GOV / "gate-review-contract.md",
+    GOV / "p1-environment.example.json",
     GOV / "policy-rules.json",
+    ROOT / "tools" / "check_p1_environment.py",
+    ROOT / "tools" / "setup_p1_github_environment.py",
 ]
 
 ALLOWED_GATE_STATUSES = {"NOT_STARTED", "ACTIVE", "PASS", "BLOCKED", "REJECTED"}
@@ -429,8 +432,16 @@ def validate_phase_gates() -> None:
 
 
 def validate_agent_entrypoint() -> None:
+    root_agent_text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     agent_text = (GOV / "AGENTS.md").read_text(encoding="utf-8")
     readme_text = (GOV / "README.md").read_text(encoding="utf-8")
+    for required in [
+        "governance/AGENTS.md",
+        "governance/codex-access-contract.md",
+        "Do not use Windows PowerShell as the project logic layer",
+        "/home/openclaw/foundation-source",
+    ]:
+        require(required in root_agent_text, f"root AGENTS.md must point agents to {required}")
     for required in [
         "governance/blueprint.md",
         "governance/phase-gates.json",

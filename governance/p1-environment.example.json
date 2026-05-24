@@ -1,0 +1,14 @@
+{
+  "fork_full_name": "OWNER/openclaw",
+  "default_branch": "main",
+  "working_branch": "codex/foundation-governance-bootstrap",
+  "upstream_remote": "https://github.com/openclaw/openclaw.git",
+  "origin_remote": "https://github.com/OWNER/openclaw.git",
+  "branch_protection": {
+    "required_pull_request_reviews": true,
+    "required_approving_review_count": 1,
+    "enforce_admins": false,
+    "allow_deletions": false,
+    "allow_force_pushes": false
+  }
+}

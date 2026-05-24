@@ -16,6 +16,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM_REPO = "openclaw/openclaw"
+CONFIG = ROOT / "governance" / "p1-environment.json"
 
 
 def run_git(*args: str) -> tuple[int, str]:
@@ -48,6 +49,12 @@ def parse_github_full_name(url: str) -> str | None:
 
 def main() -> int:
     checks: list[dict[str, object]] = []
+    config: dict[str, object] = {}
+    if CONFIG.exists():
+        try:
+            config = json.loads(CONFIG.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            config = {"error": str(exc)}
 
     code, status = run_git("status", "--short", "--branch")
     checks.append(
@@ -71,12 +78,15 @@ def main() -> int:
 
     code, origin_url = run_git("remote", "get-url", "origin")
     origin_full_name = parse_github_full_name(origin_url) if code == 0 else None
+    expected_fork = config.get("fork_full_name")
     checks.append(
         {
             "id": "origin_is_ryan_fork",
-            "ok": bool(origin_full_name) and origin_full_name != UPSTREAM_REPO,
+            "ok": bool(origin_full_name)
+            and origin_full_name != UPSTREAM_REPO
+            and (not isinstance(expected_fork, str) or origin_full_name == expected_fork),
             "observed": origin_url if code == 0 else "missing",
-            "required": "origin points to a Ryan-owned fork, not openclaw/openclaw",
+            "required": "origin points to the configured Ryan-owned fork, not openclaw/openclaw",
         }
     )
 
@@ -91,12 +101,14 @@ def main() -> int:
         }
     )
 
+    setup_script = ROOT / "tools" / "setup_p1_github_environment.py"
+    gh_path = shutil.which("gh")
     checks.append(
         {
-            "id": "github_cli_available",
-            "ok": shutil.which("gh") is not None,
-            "observed": shutil.which("gh") or "missing",
-            "required": "gh CLI available or equivalent authenticated GitHub tooling documented",
+            "id": "github_tooling_available",
+            "ok": gh_path is not None or setup_script.exists(),
+            "observed": gh_path or (str(setup_script.relative_to(ROOT)) if setup_script.exists() else "missing"),
+            "required": "gh CLI available or source-controlled authenticated GitHub setup tooling exists",
         }
     )
 
@@ -107,6 +119,19 @@ def main() -> int:
             "ok": branch_proof.exists(),
             "observed": str(branch_proof.relative_to(ROOT)) if branch_proof.exists() else "missing",
             "required": "captured branch protection proof for the fork",
+        }
+    )
+
+    checks.append(
+        {
+            "id": "p1_environment_config",
+            "ok": CONFIG.exists()
+            and isinstance(config.get("fork_full_name"), str)
+            and not str(config.get("fork_full_name")).startswith("OWNER/")
+            and isinstance(config.get("origin_remote"), str)
+            and "OWNER" not in str(config.get("origin_remote")),
+            "observed": str(CONFIG.relative_to(ROOT)) if CONFIG.exists() else "missing",
+            "required": "governance/p1-environment.json exists without OWNER placeholders",
         }
     )
 

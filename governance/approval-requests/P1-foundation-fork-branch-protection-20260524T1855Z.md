@@ -10,7 +10,7 @@ P1 requires a clean fork foundation and branch protection evidence. Current evid
 
 - `git remote -v` shows `origin https://github.com/openclaw/openclaw.git`.
 - No Ryan-owned fork remote is configured.
-- `gh` is not installed on the VM.
+- `gh` is not installed on the VM; source-controlled setup uses `tools/setup_p1_github_environment.py` with `GITHUB_TOKEN`.
 - `governance/branch-protection-plan.md` is a plan, not proof of configured protection.
 - `python3 tools/check_p1_environment.py` fails until the above are resolved.
 
@@ -24,24 +24,24 @@ Current verdict: `blocked`.
 
 This touches an external account and repository settings. Do not execute without Ryan's explicit approval and confirmed GitHub owner/repo target.
 
-## Required Ryan Inputs
+## Required Ryan Input
 
-- GitHub owner or organization for the fork.
-- Whether Codex may create/configure the fork using GitHub credentials available in this environment, or whether Ryan will create the fork manually.
-- Whether branch protection should apply to `main` immediately after fork creation.
+- `GITHUB_TOKEN` able to create/use the fork, push contents, and manage branch protection.
 
 ## Proposed Apply
 
-Use the chosen Ryan-owned fork target:
+Use the token-driven setup:
 
 ```sh
 cd /home/openclaw/foundation-source
-git remote rename origin upstream
-git remote add origin https://github.com/<RYAN_GITHUB_OWNER>/openclaw.git
-git push -u origin codex/foundation-governance-bootstrap
+GITHUB_TOKEN=<token> python3 tools/setup_p1_github_environment.py
 ```
 
-Configure branch protection on the fork default branch with:
+The setup script identifies the authenticated GitHub user, creates or uses that user's `openclaw` fork, sets `upstream` and `origin`, pushes the current branch, configures branch protection, and writes:
+
+`governance/evidence/p1-branch-protection.json`
+
+Branch protection config:
 
 - no direct pushes to protected `main`,
 - pull request required,
@@ -49,7 +49,7 @@ Configure branch protection on the fork default branch with:
 - validator check required before merge,
 - admin bypass disabled for normal work where supported.
 
-Exact GitHub API or CLI command depends on the available GitHub credential and target owner.
+If an organization fork is required instead of the authenticated user's fork, create `governance/p1-environment.json` from `governance/p1-environment.example.json` before running the script.
 
 ## Proposed Validation
 
