@@ -12,6 +12,7 @@ P1 requires a clean fork foundation and branch protection evidence. Current evid
 - No Ryan-owned fork remote is configured.
 - `gh` is not installed on the VM.
 - `governance/branch-protection-plan.md` is a plan, not proof of configured protection.
+- `python3 tools/check_p1_environment.py` fails until the above are resolved.
 
 The gate review packet is:
 
@@ -57,6 +58,7 @@ cd /home/openclaw/foundation-source
 git remote -v
 git ls-remote --heads origin
 python3 tools/validate_governance.py
+python3 tools/check_p1_environment.py
 ```
 
 Additional validation after branch protection is configured:

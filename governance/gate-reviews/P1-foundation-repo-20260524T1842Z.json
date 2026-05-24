@@ -7,9 +7,9 @@
   "verdict": "blocked",
   "summary": "P1 is blocked. The local source branch is clean and has foundation evidence, but the gate requires a clean fork foundation. Current Git evidence shows origin points directly to openclaw/openclaw rather than a proven Ryan-owned fork, and branch protection is only a plan file, not configured enforcement.",
   "mechanical_validation": {
-    "command": "python3 tools/validate_governance.py",
+    "command": "python3 tools/validate_governance.py && python3 tools/check_p1_environment.py",
     "ok": true,
-    "output_summary": "Validator passed structurally with P0 PASS and P1 ACTIVE, but this does not prove external fork ownership or configured branch protection."
+    "output_summary": "Validator passed structurally with P0 PASS and P1 ACTIVE. The P1 environment check was added after this initial review and currently fails until fork remote shape, upstream remote, GitHub tooling or equivalent, and branch protection evidence are resolved."
   },
   "criteria_results": [
     {
@@ -80,7 +80,8 @@
   },
   "blocking_findings": [
     "Configured Git remote does not prove a fork; origin points directly to openclaw/openclaw.",
-    "Branch protection is documented but not configured or proven on a remote fork."
+    "Branch protection is documented but not configured or proven on a remote fork.",
+    "tools/check_p1_environment.py currently fails because origin is upstream, upstream remote is missing, GitHub tooling or equivalent is missing, and branch protection evidence is missing."
   ],
   "next_action": "Create or identify the correct fork remote and configure/prove branch protection, or explicitly change P1 criteria if a local sandbox clone is the intended foundation."
 }

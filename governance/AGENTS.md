@@ -22,6 +22,12 @@ python3 tools/validate_governance.py
 
 If it fails, do not claim the phase is complete.
 
+For P1 foundation repo work, also run:
+
+```sh
+python3 tools/check_p1_environment.py
+```
+
 ## Execution Rule
 
 Only work the `ACTIVE` phase in `governance/gate-ledger.json` unless Ryan explicitly changes the phase or asks for analysis outside the gate. Future work discovered during a phase becomes intake, not direct execution.

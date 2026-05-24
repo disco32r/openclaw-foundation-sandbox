@@ -85,7 +85,8 @@
       ],
       "checks": [
         "git status --short --branch",
-        "python3 tools/validate_governance.py"
+        "python3 tools/validate_governance.py",
+        "python3 tools/check_p1_environment.py"
       ],
       "anti_drift_confirmed": true,
       "review_packet": "governance/gate-reviews/P1-foundation-repo-20260524T1842Z.json",
