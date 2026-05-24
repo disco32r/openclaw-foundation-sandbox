@@ -1,0 +1,50 @@
+{
+  "schema_version": "2026-05-24",
+  "phase": "P4",
+  "status": "dry_run_pass",
+  "captured_at": "2026-05-24T23:47:41Z",
+  "source_root": "/home/openclaw/foundation-source",
+  "command": "docker compose -f docker-compose.yml -f <temporary-envfile-reset-override> config --format json",
+  "mutation": "none",
+  "purpose": "Prove the proposed P4 Docker Compose configuration before starting containers.",
+  "findings": [
+    {
+      "id": "base_env_file_leak_detected",
+      "status": "failed_without_override",
+      "evidence": "A first dry run using only --env-file still loaded the repo-root .env through docker-compose.yml service env_file entries. That would inject old source .env values into the P4 containers."
+    },
+    {
+      "id": "env_file_reset_override",
+      "status": "pass",
+      "evidence": "A temporary Compose override using env_file: !reset [] for openclaw-gateway and openclaw-cli removed repo-root .env injection from the rendered service environments."
+    },
+    {
+      "id": "private_ports",
+      "status": "pass",
+      "evidence": "Rendered openclaw-gateway ports publish target 18789 to host_ip 127.0.0.1 published 18789 and target 18790 to host_ip 127.0.0.1 published 18790."
+    },
+    {
+      "id": "isolated_state_mounts",
+      "status": "pass",
+      "evidence": "Rendered volumes bind /opt/openclaw-data/runtime/openclaw-foundation-sandbox/config, workspace, and auth-profile-secrets to the expected container paths."
+    },
+    {
+      "id": "no_old_runtime_paths",
+      "status": "pass",
+      "evidence": "Rendered service environments after override did not include the old /opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime paths that appeared in the failed dry run."
+    },
+    {
+      "id": "no_elevated_network_caps",
+      "status": "pass",
+      "evidence": "Rendered services retain cap_drop NET_RAW and NET_ADMIN plus no-new-privileges:true."
+    }
+  ],
+  "required_packet_change": "The P4 apply command must write and use a Compose override that resets service env_file entries before pull, config set, or up.",
+  "not_performed": [
+    "No Docker image was pulled or built.",
+    "No container was created or started.",
+    "No runtime config was written.",
+    "No network listener was created.",
+    "No secret was changed."
+  ]
+}

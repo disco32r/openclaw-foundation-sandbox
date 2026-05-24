@@ -5,7 +5,7 @@
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
   "verdict": "blocked",
-  "summary": "P4 has a clean repo posture and useful runtime preflight evidence, but it cannot pass until the protected Docker sandbox is started and health, readiness, exposure, model, and approval behavior proof are captured.",
+  "summary": "P4 has a clean repo posture, runtime preflight evidence, and a non-mutating Compose dry run. The dry run found and corrected a source .env injection risk with an env_file reset override. P4 still cannot pass until the protected Docker sandbox is started and health, readiness, exposure, model, and approval behavior proof are captured.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -17,9 +17,10 @@
       "status": "blocked",
       "evidence": [
         "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
+        "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
       ],
-      "assessment": "Preflight found no listeners on 18789 or 18790 and the approval packet proposes loopback-only Docker publishing, but privacy cannot be proven until the sandbox is actually started and ss/curl evidence is captured."
+      "assessment": "Preflight found no listeners on 18789 or 18790, and the dry run rendered host_ip 127.0.0.1 for both published ports after resetting repo-root env_file injection. Privacy still cannot be fully proven until the sandbox is started and ss/curl evidence is captured."
     },
     {
       "criterion": "hosted model usable",
@@ -51,17 +52,19 @@
       "requirement": "no public tunnel default",
       "status": "pass",
       "evidence": [
+        "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
       ],
-      "assessment": "The proposed runtime command binds Gateway and bridge published ports to 127.0.0.1 and includes a validation command to reject broad exposure."
+      "assessment": "The dry-run rendered local-only published ports, and the proposed runtime command keeps Gateway and bridge published ports on 127.0.0.1 with validation to reject broad exposure."
     },
     {
       "requirement": "no runtime config mutation without approval",
       "status": "pass",
       "evidence": [
+        "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
       ],
-      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries and does not execute them."
+      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run was non-mutating and the packet has not been executed."
     },
     {
       "requirement": "no second scheduler",

@@ -178,6 +178,11 @@
         },
         {
           "type": "file",
+          "path": "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
+          "description": "non-mutating Compose dry-run proof for private ports and env isolation"
+        },
+        {
+          "type": "file",
           "path": "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
           "description": "protected-boundary approval packet for Docker sandbox runtime apply"
         },

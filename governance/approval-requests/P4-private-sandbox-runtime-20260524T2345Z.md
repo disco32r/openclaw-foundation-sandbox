@@ -16,7 +16,7 @@ This crosses protected boundaries in `governance/policy-rules.json`:
 - `secrets`
 - `auth`
 
-The safe-local preflight is complete in `governance/evidence/p4-runtime-preflight-20260524T2340Z.json`. Docker is available, no foundation containers are running, and ports `18789`/`18790` are unused, but health/readiness/model/approval proof cannot be produced without starting the sandbox.
+The safe-local preflight is complete in `governance/evidence/p4-runtime-preflight-20260524T2340Z.json` and the Compose dry run is captured in `governance/evidence/p4-compose-dry-run-20260524T2347Z.json`. Docker is available, no foundation containers are running, and ports `18789`/`18790` are unused. The dry run also found that the repo-root `.env` would leak old values through `env_file` unless explicitly reset, so the apply command below uses a Compose override before any pull, config write, or start.
 
 ## Affected Systems
 
@@ -57,10 +57,36 @@ OPENCLAW_IMAGE=ghcr.io/openclaw/openclaw:latest
 OPENCLAW_SKIP_ONBOARDING=1
 EOF
 
-docker compose --env-file "$STATE_ROOT/compose.env" pull openclaw-gateway openclaw-cli
-docker compose --env-file "$STATE_ROOT/compose.env" run --rm --no-deps --entrypoint node openclaw-gateway \
+cat > "$STATE_ROOT/docker-compose.p4.override.yml" <<EOF
+services:
+  openclaw-gateway:
+    env_file: !reset []
+  openclaw-cli:
+    env_file: !reset []
+EOF
+
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  config --format json > "$STATE_ROOT/rendered-compose-validation.json"
+grep -q '"host_ip": "127.0.0.1"' "$STATE_ROOT/rendered-compose-validation.json"
+if grep -q '/opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime' "$STATE_ROOT/rendered-compose-validation.json"; then
+  exit 1
+fi
+
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  pull openclaw-gateway openclaw-cli
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  run --rm --no-deps --entrypoint node openclaw-gateway \
   dist/index.js config set --batch-json '[{"path":"gateway.mode","value":"local"},{"path":"gateway.bind","value":"lan"},{"path":"gateway.controlUi.allowedOrigins","value":["http://localhost:18789","http://127.0.0.1:18789"]}]'
-docker compose --env-file "$STATE_ROOT/compose.env" up -d openclaw-gateway
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  up -d openclaw-gateway
 ```
 
 ## Validation Command
@@ -71,11 +97,28 @@ cd /home/openclaw/foundation-source
 STATE_ROOT=/opt/openclaw-data/runtime/openclaw-foundation-sandbox
 . "$STATE_ROOT/compose.env"
 
-docker compose --env-file "$STATE_ROOT/compose.env" ps
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  config --format json | grep -q '"host_ip": "127.0.0.1"'
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  config --format json > "$STATE_ROOT/rendered-compose-validation.json"
+if grep -q '/opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime' "$STATE_ROOT/rendered-compose-validation.json"; then
+  exit 1
+fi
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  ps
 curl -fsS http://127.0.0.1:18789/healthz
 curl -fsS http://127.0.0.1:18789/readyz
 ss -ltnp | grep -E '127[.]0[.]0[.]1:18789|127[.]0[.]0[.]1:18790'
-docker compose --env-file "$STATE_ROOT/compose.env" exec -T openclaw-gateway \
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  exec -T openclaw-gateway \
   node dist/index.js health --token "$OPENCLAW_GATEWAY_TOKEN"
 ```
 
@@ -84,6 +127,7 @@ Expected result:
 - container is running and healthy,
 - `/healthz` and `/readyz` pass,
 - `18789` and `18790` bind only to `127.0.0.1`,
+- rendered Compose config does not inject old repo-root `.env` runtime paths,
 - authenticated health returns successfully,
 - no public admin surface is exposed.
 
@@ -94,7 +138,10 @@ set -eu
 cd /home/openclaw/foundation-source
 STATE_ROOT=/opt/openclaw-data/runtime/openclaw-foundation-sandbox
 
-docker compose --env-file "$STATE_ROOT/compose.env" down
+docker compose --env-file "$STATE_ROOT/compose.env" \
+  -f docker-compose.yml \
+  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
+  down
 ss -ltnp | grep -E '18789|18790' && exit 1 || true
 ```
 
@@ -105,6 +152,7 @@ Rollback intentionally keeps `$STATE_ROOT` in place for forensic review. Delete 
 Stop immediately if any of these occur:
 
 - Docker tries to publish `18789` or `18790` on `0.0.0.0`.
+- Rendered Compose config includes old source `.env` runtime paths.
 - The gateway fails `/healthz` or `/readyz`.
 - The image pull/build pulls an unexpected repository.
 - The validation command cannot prove local-only exposure.
