@@ -10,7 +10,13 @@
       "id": "official_image_manifest",
       "command": "docker manifest inspect ghcr.io/openclaw/openclaw:latest",
       "status": "pass",
-      "evidence": "The tag resolves to an OCI image index with schemaVersion 2 and linux/amd64 plus linux/arm64 platform manifests."
+      "evidence": "The tag resolves to an OCI image index with schemaVersion 2 and linux/amd64 plus linux/arm64 platform manifests. Docker host reports linux/x86_64, so the applicable linux/amd64 manifest digest is sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5."
+    },
+    {
+      "id": "official_image_digest_pin",
+      "command": "docker manifest inspect --verbose ghcr.io/openclaw/openclaw:latest",
+      "status": "pass",
+      "evidence": "Use ghcr.io/openclaw/openclaw@sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5 for the P4 sandbox apply instead of the mutable latest tag."
     },
     {
       "id": "compose_project_collision",
@@ -37,6 +43,7 @@
       "evidence": "docs/gateway/authentication.md documents `openclaw models auth paste-token --provider openrouter`; docs/concepts/model-providers.md lists OpenRouter auth as OPENROUTER_API_KEY with default model `openrouter/auto`."
     }
   ],
+  "compose_validation_implication": "Rendered Compose validation must check both local-only port bindings, the pinned image digest, and absence of the old source .env runtime path before pull, config set, or up.",
   "model_auth_implication": "P4 can prove hosted model usability through the native `openclaw models auth paste-api-key --provider openai-codex` path if an OpenAI API key is available to the protected apply. If no key is supplied, runtime health/readiness/exposure can still be proven but P4 cannot pass the hosted-model criterion.",
   "not_performed": [
     "No Docker image was pulled.",

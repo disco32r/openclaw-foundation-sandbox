@@ -24,6 +24,11 @@
       "evidence": "Rendered openclaw-gateway ports publish target 18789 to host_ip 127.0.0.1 published 18789 and target 18790 to host_ip 127.0.0.1 published 18790."
     },
     {
+      "id": "exact_port_validation_probe",
+      "status": "pass",
+      "evidence": "A follow-up JSON parse of rendered Compose output produced exact tuples [('127.0.0.1', '18789', 18789), ('127.0.0.1', '18790', 18790)], proving both ports rather than only grepping for one loopback host_ip occurrence."
+    },
+    {
       "id": "isolated_state_mounts",
       "status": "pass",
       "evidence": "Rendered volumes bind /opt/openclaw-data/runtime/openclaw-foundation-sandbox/config, workspace, and auth-profile-secrets to the expected container paths."

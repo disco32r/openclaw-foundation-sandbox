@@ -53,7 +53,7 @@ OPENCLAW_BRIDGE_PORT=127.0.0.1:18790
 OPENCLAW_GATEWAY_BIND=lan
 OPENCLAW_DISABLE_BONJOUR=1
 OPENCLAW_GATEWAY_TOKEN=$TOKEN
-OPENCLAW_IMAGE=ghcr.io/openclaw/openclaw:latest
+OPENCLAW_IMAGE=ghcr.io/openclaw/openclaw@sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5
 OPENCLAW_SKIP_ONBOARDING=1
 EOF
 
@@ -69,10 +69,27 @@ docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
   config --format json > "$STATE_ROOT/rendered-compose-validation.json"
-grep -q '"host_ip": "127.0.0.1"' "$STATE_ROOT/rendered-compose-validation.json"
-if grep -q '/opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime' "$STATE_ROOT/rendered-compose-validation.json"; then
-  exit 1
-fi
+python3 - "$STATE_ROOT/rendered-compose-validation.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text()
+data = json.loads(text)
+gateway = data["services"]["openclaw-gateway"]
+ports = sorted((p.get("host_ip"), str(p.get("published")), p.get("target")) for p in gateway.get("ports", []))
+expected_ports = [("127.0.0.1", "18789", 18789), ("127.0.0.1", "18790", 18790)]
+if ports != expected_ports:
+    raise SystemExit(f"unexpected published ports: {ports}")
+expected_image = "ghcr.io/openclaw/openclaw@sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5"
+for service_name in ["openclaw-gateway", "openclaw-cli"]:
+    image = data["services"][service_name].get("image")
+    if image != expected_image:
+        raise SystemExit(f"{service_name} image is not pinned: {image}")
+if "/opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime" in text:
+    raise SystemExit("old source .env runtime path leaked into rendered Compose config")
+PY
 
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
@@ -81,18 +98,18 @@ docker compose --env-file "$STATE_ROOT/compose.env" \
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-  run --rm --no-deps --entrypoint node openclaw-gateway \
+  run --rm --no-build --no-deps --entrypoint node openclaw-gateway \
   dist/index.js config set --batch-json '[{"path":"gateway.mode","value":"local"},{"path":"gateway.bind","value":"lan"},{"path":"gateway.controlUi.allowedOrigins","value":["http://localhost:18789","http://127.0.0.1:18789"]}]'
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-  up -d openclaw-gateway
+  up -d --no-build openclaw-gateway
 
 if [ -n "${P4_OPENAI_CODEX_API_KEY:-}" ]; then
   printf "%s\n" "$P4_OPENAI_CODEX_API_KEY" | docker compose --env-file "$STATE_ROOT/compose.env" \
     -f docker-compose.yml \
     -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-    run --rm -T openclaw-cli \
+    run --rm --no-build -T openclaw-cli \
     models auth paste-api-key --provider openai-codex --profile-id openai-codex:foundation-sandbox
 fi
 ```
@@ -108,14 +125,28 @@ STATE_ROOT=/opt/openclaw-data/runtime/openclaw-foundation-sandbox
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-  config --format json | grep -q '"host_ip": "127.0.0.1"'
-docker compose --env-file "$STATE_ROOT/compose.env" \
-  -f docker-compose.yml \
-  -f "$STATE_ROOT/docker-compose.p4.override.yml" \
   config --format json > "$STATE_ROOT/rendered-compose-validation.json"
-if grep -q '/opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime' "$STATE_ROOT/rendered-compose-validation.json"; then
-  exit 1
-fi
+python3 - "$STATE_ROOT/rendered-compose-validation.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text()
+data = json.loads(text)
+gateway = data["services"]["openclaw-gateway"]
+ports = sorted((p.get("host_ip"), str(p.get("published")), p.get("target")) for p in gateway.get("ports", []))
+expected_ports = [("127.0.0.1", "18789", 18789), ("127.0.0.1", "18790", 18790)]
+if ports != expected_ports:
+    raise SystemExit(f"unexpected published ports: {ports}")
+expected_image = "ghcr.io/openclaw/openclaw@sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5"
+for service_name in ["openclaw-gateway", "openclaw-cli"]:
+    image = data["services"][service_name].get("image")
+    if image != expected_image:
+        raise SystemExit(f"{service_name} image is not pinned: {image}")
+if "/opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime" in text:
+    raise SystemExit("old source .env runtime path leaked into rendered Compose config")
+PY
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
@@ -131,7 +162,7 @@ docker compose --env-file "$STATE_ROOT/compose.env" \
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-  run --rm -T openclaw-cli \
+  run --rm --no-build -T openclaw-cli \
   models status --check
 ```
 
@@ -140,6 +171,7 @@ Expected result:
 - container is running and healthy,
 - `/healthz` and `/readyz` pass,
 - `18789` and `18790` bind only to `127.0.0.1`,
+- rendered Compose config uses pinned image digest `sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5`,
 - rendered Compose config does not inject old repo-root `.env` runtime paths,
 - authenticated health returns successfully,
 - model auth status passes when `P4_OPENAI_CODEX_API_KEY` is provided,
@@ -169,6 +201,7 @@ Stop immediately if any of these occur:
 
 - Docker tries to publish `18789` or `18790` on `0.0.0.0`.
 - Rendered Compose config includes old source `.env` runtime paths.
+- Rendered Compose config uses an unpinned image or a digest other than `sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5`.
 - The gateway fails `/healthz` or `/readyz`.
 - The image pull/build pulls an unexpected repository.
 - The validation command cannot prove local-only exposure.
