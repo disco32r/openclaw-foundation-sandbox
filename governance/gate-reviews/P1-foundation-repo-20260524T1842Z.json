@@ -1,0 +1,86 @@
+{
+  "gate_id": "P1",
+  "phase_name": "foundation-repo",
+  "reviewed_commit": "81315a74b489e09d7767ccf91a3f3d8e3b79c521",
+  "reviewer": "codex-governance-reviewer",
+  "reviewer_independence": "Lead agent performed this review using current Git, validator, candidate, branch policy, and quarantine evidence. Separate reviewer agent was requested but did not return before the gate decision.",
+  "verdict": "blocked",
+  "summary": "P1 is blocked. The local source branch is clean and has foundation evidence, but the gate requires a clean fork foundation. Current Git evidence shows origin points directly to openclaw/openclaw rather than a proven Ryan-owned fork, and branch protection is only a plan file, not configured enforcement.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "Validator passed structurally with P0 PASS and P1 ACTIVE, but this does not prove external fork ownership or configured branch protection."
+  },
+  "criteria_results": [
+    {
+      "criterion": "clean fork exists",
+      "status": "blocked",
+      "evidence": [
+        "git status --short --branch showed clean branch codex/foundation-governance-bootstrap",
+        "git remote -v showed origin https://github.com/openclaw/openclaw.git"
+      ],
+      "assessment": "A clean local source branch exists, but the configured remote does not prove a fork. P1 cannot pass while fork ownership and source remote separation are unproven."
+    },
+    {
+      "criterion": "upstream pinned",
+      "status": "pass",
+      "evidence": [
+        "governance/candidate-register.jsonl source_commit 43252c809910df22e22d533ea3c23062fbf8b1d7"
+      ],
+      "assessment": "The selected foundation candidate records a pinned upstream source commit, which is sufficient for this criterion at repo-governance scope."
+    },
+    {
+      "criterion": "branch policy defined",
+      "status": "pass",
+      "evidence": [
+        "governance/branch-protection-plan.md"
+      ],
+      "assessment": "The branch protection requirements are documented, including required checks and promotion rules. Enforcement is not yet configured remotely."
+    },
+    {
+      "criterion": "quarantine remains reference only",
+      "status": "pass",
+      "evidence": [
+        "FOUNDATION.md",
+        "governance/deny-register.jsonl"
+      ],
+      "assessment": "The source packet documents quarantine as reference only and denies old artifact import in the deny register."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no old runtime code import",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl",
+        "git status --short --branch"
+      ],
+      "assessment": "The source repo does not show old runtime code imported as tracked changes, and the deny register blocks that pattern."
+    },
+    {
+      "requirement": "deny register blocks graveyard replay",
+      "status": "pass",
+      "evidence": [
+        "governance/deny-register.jsonl"
+      ],
+      "assessment": "The deny register explicitly records old artifact import as denied with a re-review condition."
+    },
+    {
+      "requirement": "candidate register records selected foundation",
+      "status": "pass",
+      "evidence": [
+        "governance/candidate-register.jsonl"
+      ],
+      "assessment": "The candidate register records openclaw/openclaw as selected foundation with URL, source commit, score, verdict, and re-review condition."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "repo_only",
+    "assessment": "P1 is a source control and governance gate. It is currently enforced by repo review and validator only, not by OpenClaw runtime admission."
+  },
+  "blocking_findings": [
+    "Configured Git remote does not prove a fork; origin points directly to openclaw/openclaw.",
+    "Branch protection is documented but not configured or proven on a remote fork."
+  ],
+  "next_action": "Create or identify the correct fork remote and configure/prove branch protection, or explicitly change P1 criteria if a local sandbox clone is the intended foundation."
+}

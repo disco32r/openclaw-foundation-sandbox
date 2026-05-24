@@ -71,6 +71,11 @@
           "type": "file",
           "path": "governance/deny-register.jsonl",
           "description": "old artifact import denied"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-reviews/P1-foundation-repo-20260524T1842Z.json",
+          "description": "intelligence-backed P1 gate review"
         }
       ],
       "checks": [
@@ -78,7 +83,8 @@
         "python3 tools/validate_governance.py"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "Active gate. Foundation repo evidence exists, but P1 is not complete until review packet verdict passes."
+      "review_packet": "governance/gate-reviews/P1-foundation-repo-20260524T1842Z.json",
+      "disposition": "Active gate reviewed as blocked. P1 cannot pass until fork remote and branch protection evidence are proven or the phase criteria are explicitly changed."
     },
     {
       "id": "P2",
