@@ -318,7 +318,7 @@
       ],
       "anti_drift_confirmed": true,
       "disposition": "P5 remains active. Native Telegram owner loop, sender policy, native Codex guard remediation, and Control UI/mobile same-truth evidence exist. P5 is still blocked pending a clean owner-mobile protected-action terminal denial/approval-packet proof.",
-      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json",
+      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T1456Z.json",
       "review_packet": "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
     },
     {
