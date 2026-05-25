@@ -1,426 +1,426 @@
 {
-    "schema_version":  "2026-05-24",
-    "authority":  "governance/blueprint.md",
-    "ledger":  "governance/gate-ledger.json",
-    "enforcement":  "tools/validate_governance.py",
-    "phase_statuses":  [
-                           "NOT_STARTED",
-                           "ACTIVE",
-                           "PASS",
-                           "BLOCKED",
-                           "REJECTED"
-                       ],
-    "phases":  [
-                   {
-                       "id":  "P0",
-                       "name":  "command-and-source-rules",
-                       "objective":  "Establish source authority, protected boundaries, and allowed execution posture before build work.",
-                       "required_artifacts":  [
-                                                  "FOUNDATION.md",
-                                                  "CUSTOM-CODE-RULE.md",
-                                                  "governance/operating-method.md",
-                                                  "governance/deny-register.jsonl"
-                                              ],
-                       "required_checks":  [
-                                               "validate_required_files",
-                                               "validate_registers",
-                                               "validate_schema_alignment",
-                                               "validate_fixtures",
-                                               "validate_phase_gates"
-                                           ],
-                       "completion_criteria":  [
-                                                   "source authority documented",
-                                                   "protected boundaries documented",
-                                                   "old artifacts denied",
-                                                   "validator passes"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "no old graveyard import",
-                                                       "no prompt-only governance",
-                                                       "exactly one active phase"
-                                                   ],
-                       "community_evidence_required":  false,
-                       "community_evidence_requirements":  [
-
-                                                           ],
-                       "ryan_required":  false
-                   },
-                   {
-                       "id":  "P1",
-                       "name":  "foundation-repo",
-                       "objective":  "Use a clean OpenClaw fork as foundation and keep old project artifacts out of authority.",
-                       "required_artifacts":  [
-                                                  "FOUNDATION.md",
-                                                  "governance/p1-environment.example.json",
-                                                  "governance/branch-protection-plan.md",
-                                                  "governance/candidate-register.jsonl",
-                                                  "governance/deny-register.jsonl",
-                                                  "tools/check_p1_environment.py",
-                                                  "tools/setup_p1_github_environment.py"
-                                              ],
-                       "required_checks":  [
-                                               "git clean status",
-                                               "upstream commit pinned",
-                                               "validate_registers",
-                                               "python3 tools/check_p1_environment.py"
-                                           ],
-                       "completion_criteria":  [
-                                                   "clean fork exists",
-                                                   "upstream pinned",
-                                                   "branch policy defined",
-                                                   "quarantine remains reference only"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "no old runtime code import",
-                                                       "deny register blocks graveyard replay",
-                                                       "candidate register records selected foundation"
-                                                   ],
-                       "community_evidence_required":  true,
-                       "community_evidence_requirements":  [
-                                                               "selected foundation has source URL",
-                                                               "selected foundation has pinned commit",
-                                                               "selected foundation has score and verdict"
-                                                           ],
-                       "ryan_required":  false
-                   },
-                   {
-                       "id":  "P2",
-                       "name":  "anti-drift-core",
-                       "objective":  "Create admission, evidence, phase, deny, model, skill, and custom-code governance that agents must follow.",
-                       "required_artifacts":  [
-                                                  "governance/blueprint.md",
-                                                  "governance/AGENTS.md",
-                                                  "governance/phase-gates.json",
-                                                  "governance/gate-ledger.json",
-                                                  "governance/task-admission.schema.json",
-                                                  "governance/policy-rules.json",
-                                                  "governance/evidence-contract.md",
-            "governance/community-evidence-contract.md",
-            "governance/gate-review-contract.md",
-            "tools/validate_governance.py"
-                                              ],
-                       "required_checks":  [
-                                               "validate_required_files",
-                                               "validate_agent_entrypoint",
-                                               "validate_phase_gates",
-                                               "validate_schema_alignment",
-                                               "validate_fixtures"
-                                           ],
-                       "completion_criteria":  [
-                                                   "agents have entrypoint",
-                                                   "active phase is machine-readable",
-                                                   "bad fixtures fail",
-                                                   "good fixtures pass",
-                                                   "validator rejects missing phase evidence"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "phase gate before work",
-                                                       "budget and evidence before execution",
-                                                       "deny-register replay blocked",
-                                                       "custom code requires native-gap proof"
-                                                   ],
-                       "community_evidence_required":  true,
-                       "community_evidence_requirements":  [
-                                                               "candidate register format enforced",
-                                                               "community evidence contract present",
-                                                               "local proof still required"
-                                                           ],
-                       "ryan_required":  false
-                   },
-                   {
-                       "id":  "P3",
-                       "name":  "policy-checks",
-                       "objective":  "Make the governance packet fail closed for bad tasks, denied candidates, protected actions, dashboards, and custom code.",
-                       "required_artifacts":  [
-                                                  "tools/validate_governance.py",
-                                                  "governance/policy-rules.json",
-                                                  "governance/admission-fixtures/good-mobile-builder-task.json",
-                                                  "governance/admission-fixtures/bad-vague-task.json",
-                                                  "governance/admission-fixtures/bad-no-budget.json",
-                                                  "governance/admission-fixtures/bad-local-model.json",
-                                                  "governance/admission-fixtures/bad-second-control-plane.json",
-                                                  "governance/admission-fixtures/bad-protected-without-approval.json",
-                                                  "governance/admission-fixtures/bad-rejected-candidate-replay.json"
-                                              ],
-                       "required_checks":  [
-                                               "good fixture passes",
-                                               "bad fixtures fail",
-                                               "deprecated artifact absent",
-                                               "exactly one active phase"
-                                           ],
-                       "completion_criteria":  [
-                                                   "all rejection tests fail for the intended reason",
-                                                   "validator command is documented",
-                                                   "gate ledger can mark P3 PASS with evidence"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "no warning-only checks accepted",
-                                                       "no dashboard as authority",
-                                                       "no second control plane",
-                                                       "no local model requirement"
-                                                   ],
-                       "community_evidence_required":  false,
-                       "community_evidence_requirements":  [
-
-                                                           ],
-                       "ryan_required":  false
-                   },
-                   {
-                       "id":  "P4",
-                       "name":  "private-sandbox-runtime",
-                       "objective":  "Run a private OpenClaw sandbox with health, readiness, model, approval, and exposure proof.",
-                       "required_artifacts":  [
-                                                  "runtime health evidence",
-                                                  "readiness evidence",
-                                                  "private exposure evidence",
-                                                  "model status evidence",
-                                                  "approval behavior evidence"
-                                              ],
-                       "required_checks":  [
-                                               "health passes",
-                                               "ready passes",
-                                               "no public admin surface",
-                                               "protected mutation stops for approval"
-                                           ],
-                       "completion_criteria":  [
-                                                   "sandbox private",
-                                                   "hosted model usable",
-                                                   "approval path verified",
-                                                   "no production mutation"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "no public tunnel default",
-                                                       "no runtime config mutation without approval",
-                                                       "no second scheduler"
-                                                   ],
-                       "community_evidence_required":  false,
-                       "community_evidence_requirements":  [
-
-                                                           ],
-                       "ryan_required":  true
-                   },
-                   {
-                       "id":  "P5",
-                       "name":  "mobile-operator-loop",
-                       "objective":  "Use native Telegram or private Control UI for owner intake, status, and approvals without bypassing OpenClaw.",
-                       "required_artifacts":  [
-                                                  "owner pairing evidence",
-                                                  "unknown sender rejection evidence",
-                                                  "protected prompt evidence",
-                                                  "mobile status evidence"
-                                              ],
-                       "required_checks":  [
-                                               "owner accepted",
-                                               "unknown sender rejected",
-                                               "mobile cannot bypass task policy",
-                                               "denial is terminal"
-                                           ],
-                       "completion_criteria":  [
-                                                   "owner mobile loop works",
-                                                   "unknown sender denied",
-                                                   "protected action asks approval",
-                                                   "Control UI and mobile show same truth"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "no relay as authority",
-                                                       "no mobile bypass bot",
-                                                       "no public channel"
-                                                   ],
-                       "community_evidence_required":  false,
-                       "community_evidence_requirements":  [
-
-                                                           ],
-                       "ryan_required":  true
-                   },
-                   {
-                       "id":  "P6",
-                       "name":  "builder-harness",
-                       "objective":  "Run a bounded Codex or ACP builder task on a branch through OpenClaw tracking.",
-                       "required_artifacts":  [
-                                                  "OpenClaw task id",
-                                                  "branch name",
-                                                  "changed files",
-                                                  "test output",
-                                                  "evidence path",
-                                                  "mobile result"
-                                              ],
-                       "required_checks":  [
-                                               "task admitted",
-                                               "branch created",
-                                               "tests run",
-                                               "evidence attached",
-                                               "result returned"
-                                           ],
-                       "completion_criteria":  [
-                                                   "mobile-to-builder drill passes",
-                                                   "builder work is OpenClaw-tracked",
-                                                   "work outside task tracking is rejected"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "no builder execution outside task tracking",
-                                                       "no scope expansion",
-                                                       "bounded runtime and budget"
-                                                   ],
-                       "community_evidence_required":  false,
-                       "community_evidence_requirements":  [
-
-                                                           ],
-                       "ryan_required":  false
-                   },
-                   {
-                       "id":  "P7",
-                       "name":  "proof-harness",
-                       "objective":  "Run deployment, task lifecycle, mobile, protected-action, rollback, security, and cost proof.",
-                       "required_artifacts":  [
-                                                  "e2e output",
-                                                  "security output",
-                                                  "rollback output",
-                                                  "cost report",
-                                                  "failed-case evidence"
-                                              ],
-                       "required_checks":  [
-                                               "smoke proof",
-                                               "task lifecycle proof",
-                                               "protected-action proof",
-                                               "rollback proof",
-                                               "cost proof"
-                                           ],
-                       "completion_criteria":  [
-                                                   "proof is artifact-backed",
-                                                   "failure cases are captured",
-                                                   "dashboard/chat text alone is rejected"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "proof before promotion",
-                                                       "rollback proof before live",
-                                                       "cost report before unattended expansion"
-                                                   ],
-                       "community_evidence_required":  true,
-                       "community_evidence_requirements":  [
-                                                               "external proof harness has source URL",
-                                                               "external proof harness has pinned commit",
-                                                               "external proof harness cannot own authority"
-                                                           ],
-                       "ryan_required":  false
-                   },
-                   {
-                       "id":  "P8",
-                       "name":  "first-workflow-admission",
-                       "objective":  "Admit or reject one low-risk workflow through candidate, setup, smoke, rollback, security, and cost proof.",
-                       "required_artifacts":  [
-                                                  "candidate row",
-                                                  "setup output",
-                                                  "smoke output",
-                                                  "rollback output",
-                                                  "security notes",
-                                                  "final verdict"
-                                              ],
-                       "required_checks":  [
-                                               "candidate registered",
-                                               "sandbox install",
-                                               "smoke test",
-                                               "rollback test",
-                                               "security review",
-                                               "cost review"
-                                           ],
-                       "completion_criteria":  [
-                                                   "one workflow admitted or rejected",
-                                                   "no workflow becomes live without rollback proof",
-                                                   "deny register updated on rejection"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "one workflow at a time",
-                                                       "no broad workflow pack import",
-                                                       "no protected writes"
-                                                   ],
-                       "community_evidence_required":  true,
-                       "community_evidence_requirements":  [
-                                                               "workflow source URL",
-                                                               "community or example evidence",
-                                                               "local sandbox proof"
-                                                           ],
-                       "ryan_required":  true
-                   },
-                   {
-                       "id":  "P9",
-                       "name":  "dashboard-status",
-                       "objective":  "Use existing Control UI/status first and add only read-only projection if native status is insufficient.",
-                       "required_artifacts":  [
-                                                  "dashboard source proof",
-                                                  "read-only proof",
-                                                  "status panel evidence",
-                                                  "failed write attempt evidence"
-                                              ],
-                       "required_checks":  [
-                                               "dashboard cannot create tasks",
-                                               "dashboard cannot approve",
-                                               "dashboard cannot install",
-                                               "dashboard cannot schedule",
-                                               "dashboard cannot mark done"
-                                           ],
-                       "completion_criteria":  [
-                                                   "active tasks visible",
-                                                   "failed gates visible",
-                                                   "pending approvals visible",
-                                                   "cost visible",
-                                                   "model route visible",
-                                                   "subagents visible"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "dashboard reads truth only",
-                                                       "no dashboard as authority",
-                                                       "no mutating UI path"
-                                                   ],
-                       "community_evidence_required":  true,
-                       "community_evidence_requirements":  [
-                                                               "dashboard candidate evidence if new tool is adopted",
-                                                               "native gap proof before custom projection"
-                                                           ],
-                       "ryan_required":  true
-                   },
-                   {
-                       "id":  "P10",
-                       "name":  "domain-expansion",
-                       "objective":  "Expand from builder workflow into digital life, home, finance, medical, and device domains by read-only proof first.",
-                       "required_artifacts":  [
-                                                  "domain intake",
-                                                  "data classification",
-                                                  "read-only proof",
-                                                  "approval packet for writes",
-                                                  "rollback proof"
-                                              ],
-                       "required_checks":  [
-                                               "read-only first",
-                                               "protected writes require approval",
-                                               "domain-specific risk review",
-                                               "deny register checked"
-                                           ],
-                       "completion_criteria":  [
-                                                   "each protected domain starts read-only",
-                                                   "write/send/pay/device actions use approval packets",
-                                                   "promotion requires repeated proof"
-                                               ],
-                       "anti_drift_requirements":  [
-                                                       "no protected domain starts with write access",
-                                                       "no broad fallback over sensitive data",
-                                                       "no automatic device or payment mutation"
-                                                   ],
-                       "community_evidence_required":  true,
-                       "community_evidence_requirements":  [
-                                                               "integration has maintained source or official API",
-                                                               "local sandbox/read-only proof",
-                                                               "rollback and revocation path"
-                                                           ],
-                       "ryan_required":  true
-                   }
-               ],
-    "pass_requires":  [
-                          "mechanical validator pass for the exact commit",
-                          "evidence packet with local paths or command output",
-                          "independent reviewer verdict that evidence satisfies the phase criteria",
-                          "drift review against deny register, custom-code rule, and blueprint authority",
-                          "repo-wide gate action compliance report with Ryan-facing report text",
-                          "runtime enforcement statement: not applicable, repo-only, or OpenClaw-enforced",
-                          "Ryan approval when ryan_required is true"
-                      ]
+  "schema_version": "2026-05-24",
+  "authority": "governance/blueprint.md",
+  "ledger": "governance/gate-ledger.json",
+  "enforcement": "tools/validate_governance.py",
+  "phase_statuses": [
+    "NOT_STARTED",
+    "ACTIVE",
+    "PASS",
+    "BLOCKED",
+    "REJECTED"
+  ],
+  "phases": [
+    {
+      "id": "P0",
+      "name": "command-and-source-rules",
+      "objective": "Establish source authority, protected boundaries, and allowed execution posture before build work.",
+      "required_artifacts": [
+        "FOUNDATION.md",
+        "CUSTOM-CODE-RULE.md",
+        "governance/operating-method.md",
+        "governance/deny-register.jsonl"
+      ],
+      "required_checks": [
+        "validate_required_files",
+        "validate_registers",
+        "validate_schema_alignment",
+        "validate_fixtures",
+        "validate_phase_gates"
+      ],
+      "completion_criteria": [
+        "source authority documented",
+        "protected boundaries documented",
+        "old artifacts denied",
+        "validator passes"
+      ],
+      "anti_drift_requirements": [
+        "no old graveyard import",
+        "no prompt-only governance",
+        "exactly one active phase"
+      ],
+      "community_evidence_required": false,
+      "community_evidence_requirements": [],
+      "ryan_required": false
+    },
+    {
+      "id": "P1",
+      "name": "foundation-repo",
+      "objective": "Use a clean OpenClaw fork as foundation and keep old project artifacts out of authority.",
+      "required_artifacts": [
+        "FOUNDATION.md",
+        "governance/p1-environment.example.json",
+        "governance/branch-protection-plan.md",
+        "governance/candidate-register.jsonl",
+        "governance/deny-register.jsonl",
+        "tools/check_p1_environment.py",
+        "tools/setup_p1_github_environment.py"
+      ],
+      "required_checks": [
+        "git clean status",
+        "upstream commit pinned",
+        "validate_registers",
+        "python3 tools/check_p1_environment.py"
+      ],
+      "completion_criteria": [
+        "clean fork exists",
+        "upstream pinned",
+        "branch policy defined",
+        "quarantine remains reference only"
+      ],
+      "anti_drift_requirements": [
+        "no old runtime code import",
+        "deny register blocks graveyard replay",
+        "candidate register records selected foundation"
+      ],
+      "community_evidence_required": true,
+      "community_evidence_requirements": [
+        "selected foundation has source URL",
+        "selected foundation has pinned commit",
+        "selected foundation has score and verdict"
+      ],
+      "ryan_required": false
+    },
+    {
+      "id": "P2",
+      "name": "anti-drift-core",
+      "objective": "Create admission, evidence, phase, deny, model, skill, and custom-code governance that agents must follow.",
+      "required_artifacts": [
+        "governance/blueprint.md",
+        "governance/AGENTS.md",
+        "governance/phase-gates.json",
+        "governance/gate-ledger.json",
+        "governance/task-admission.schema.json",
+        "governance/policy-rules.json",
+        "governance/evidence-contract.md",
+        "governance/community-evidence-contract.md",
+        "governance/gate-review-contract.md",
+        "tools/validate_governance.py"
+      ],
+      "required_checks": [
+        "validate_required_files",
+        "validate_agent_entrypoint",
+        "validate_phase_gates",
+        "validate_schema_alignment",
+        "validate_fixtures"
+      ],
+      "completion_criteria": [
+        "agents have entrypoint",
+        "active phase is machine-readable",
+        "bad fixtures fail",
+        "good fixtures pass",
+        "validator rejects missing phase evidence"
+      ],
+      "anti_drift_requirements": [
+        "phase gate before work",
+        "budget and evidence before execution",
+        "deny-register replay blocked",
+        "custom code requires native-gap proof"
+      ],
+      "community_evidence_required": true,
+      "community_evidence_requirements": [
+        "candidate register format enforced",
+        "community evidence contract present",
+        "local proof still required"
+      ],
+      "ryan_required": false
+    },
+    {
+      "id": "P3",
+      "name": "policy-checks",
+      "objective": "Make the governance packet fail closed for bad tasks, denied candidates, protected actions, dashboards, and custom code.",
+      "required_artifacts": [
+        "tools/validate_governance.py",
+        "governance/policy-rules.json",
+        "governance/admission-fixtures/good-mobile-builder-task.json",
+        "governance/admission-fixtures/bad-vague-task.json",
+        "governance/admission-fixtures/bad-no-budget.json",
+        "governance/admission-fixtures/bad-local-model.json",
+        "governance/admission-fixtures/bad-second-control-plane.json",
+        "governance/admission-fixtures/bad-protected-without-approval.json",
+        "governance/admission-fixtures/bad-rejected-candidate-replay.json"
+      ],
+      "required_checks": [
+        "good fixture passes",
+        "bad fixtures fail",
+        "deprecated artifact absent",
+        "exactly one active phase"
+      ],
+      "completion_criteria": [
+        "all rejection tests fail for the intended reason",
+        "validator command is documented",
+        "gate ledger can mark P3 PASS with evidence"
+      ],
+      "anti_drift_requirements": [
+        "no warning-only checks accepted",
+        "no dashboard as authority",
+        "no second control plane",
+        "no local model requirement"
+      ],
+      "community_evidence_required": false,
+      "community_evidence_requirements": [],
+      "ryan_required": false
+    },
+    {
+      "id": "P4",
+      "name": "private-sandbox-runtime",
+      "objective": "Run a private OpenClaw sandbox with health, readiness, model, approval, and exposure proof.",
+      "required_artifacts": [
+        "runtime health evidence",
+        "readiness evidence",
+        "private exposure evidence",
+        "model status evidence",
+        "approval behavior evidence"
+      ],
+      "required_checks": [
+        "health passes",
+        "ready passes",
+        "no public admin surface",
+        "protected mutation stops for approval"
+      ],
+      "completion_criteria": [
+        "sandbox private",
+        "hosted model usable",
+        "approval path verified",
+        "no production mutation"
+      ],
+      "anti_drift_requirements": [
+        "no public tunnel default",
+        "no runtime config mutation without approval",
+        "no second scheduler"
+      ],
+      "community_evidence_required": false,
+      "community_evidence_requirements": [],
+      "ryan_required": true
+    },
+    {
+      "id": "P5",
+      "name": "mobile-operator-loop",
+      "objective": "Use native Telegram or private Control UI for owner intake, status, and approvals without bypassing OpenClaw.",
+      "required_artifacts": [
+        "owner pairing evidence",
+        "unknown sender rejection evidence",
+        "protected prompt evidence",
+        "mobile status evidence"
+      ],
+      "required_checks": [
+        "owner accepted",
+        "unknown sender rejected",
+        "mobile cannot bypass task policy",
+        "denial is terminal"
+      ],
+      "completion_criteria": [
+        "owner mobile loop works",
+        "unknown sender denied",
+        "protected action asks approval",
+        "Control UI and mobile show same truth"
+      ],
+      "anti_drift_requirements": [
+        "no relay as authority",
+        "no mobile bypass bot",
+        "no public channel"
+      ],
+      "community_evidence_required": false,
+      "community_evidence_requirements": [],
+      "ryan_required": true
+    },
+    {
+      "id": "P6",
+      "name": "builder-harness",
+      "objective": "Run a bounded Codex or ACP builder task on a branch through OpenClaw tracking.",
+      "required_artifacts": [
+        "OpenClaw task id",
+        "branch name",
+        "changed files",
+        "test output",
+        "evidence path",
+        "mobile result"
+      ],
+      "required_checks": [
+        "task admitted",
+        "branch created",
+        "tests run",
+        "evidence attached",
+        "result returned"
+      ],
+      "completion_criteria": [
+        "mobile-to-builder drill passes",
+        "builder work is OpenClaw-tracked",
+        "work outside task tracking is rejected"
+      ],
+      "anti_drift_requirements": [
+        "no builder execution outside task tracking",
+        "no scope expansion",
+        "bounded runtime and budget"
+      ],
+      "community_evidence_required": false,
+      "community_evidence_requirements": [],
+      "ryan_required": false
+    },
+    {
+      "id": "P7",
+      "name": "proof-harness",
+      "objective": "Run deployment, task lifecycle, mobile, protected-action, rollback, security, and cost proof.",
+      "required_artifacts": [
+        "e2e output",
+        "security output",
+        "rollback output",
+        "cost report",
+        "failed-case evidence"
+      ],
+      "required_checks": [
+        "smoke proof",
+        "task lifecycle proof",
+        "protected-action proof",
+        "rollback proof",
+        "cost proof"
+      ],
+      "completion_criteria": [
+        "proof is artifact-backed",
+        "failure cases are captured",
+        "dashboard/chat text alone is rejected"
+      ],
+      "anti_drift_requirements": [
+        "proof before promotion",
+        "rollback proof before live",
+        "cost report before unattended expansion"
+      ],
+      "community_evidence_required": true,
+      "community_evidence_requirements": [
+        "external proof harness has source URL",
+        "external proof harness has pinned commit",
+        "external proof harness cannot own authority"
+      ],
+      "ryan_required": false
+    },
+    {
+      "id": "P8",
+      "name": "first-workflow-admission",
+      "objective": "Admit or reject one low-risk workflow through candidate, setup, smoke, rollback, security, and cost proof.",
+      "required_artifacts": [
+        "candidate row",
+        "setup output",
+        "smoke output",
+        "rollback output",
+        "security notes",
+        "final verdict"
+      ],
+      "required_checks": [
+        "candidate registered",
+        "sandbox install",
+        "smoke test",
+        "rollback test",
+        "security review",
+        "cost review"
+      ],
+      "completion_criteria": [
+        "one workflow admitted or rejected",
+        "no workflow becomes live without rollback proof",
+        "deny register updated on rejection"
+      ],
+      "anti_drift_requirements": [
+        "one workflow at a time",
+        "no broad workflow pack import",
+        "no protected writes"
+      ],
+      "community_evidence_required": true,
+      "community_evidence_requirements": [
+        "workflow source URL",
+        "community or example evidence",
+        "local sandbox proof"
+      ],
+      "ryan_required": true
+    },
+    {
+      "id": "P9",
+      "name": "dashboard-status",
+      "objective": "Use existing Control UI/status first and add only read-only projection if native status is insufficient.",
+      "required_artifacts": [
+        "dashboard source proof",
+        "read-only proof",
+        "status panel evidence",
+        "failed write attempt evidence"
+      ],
+      "required_checks": [
+        "dashboard cannot create tasks",
+        "dashboard cannot approve",
+        "dashboard cannot install",
+        "dashboard cannot schedule",
+        "dashboard cannot mark done"
+      ],
+      "completion_criteria": [
+        "active tasks visible",
+        "failed gates visible",
+        "pending approvals visible",
+        "cost visible",
+        "model route visible",
+        "subagents visible"
+      ],
+      "anti_drift_requirements": [
+        "dashboard reads truth only",
+        "no dashboard as authority",
+        "no mutating UI path"
+      ],
+      "community_evidence_required": true,
+      "community_evidence_requirements": [
+        "dashboard candidate evidence if new tool is adopted",
+        "native gap proof before custom projection"
+      ],
+      "ryan_required": true
+    },
+    {
+      "id": "P10",
+      "name": "domain-expansion",
+      "objective": "Expand from builder workflow into digital life, home, network, finance, medical, and device domains by read-only proof first.",
+      "required_artifacts": [
+        "domain intake",
+        "data classification",
+        "read-only proof",
+        "approval packet for writes",
+        "rollback proof",
+        "network monitoring and management domain intake",
+        "network read-only inventory proof",
+        "network mutation rollback proof"
+      ],
+      "required_checks": [
+        "read-only first",
+        "protected writes require approval",
+        "domain-specific risk review",
+        "deny register checked",
+        "network integrations start read-only",
+        "network changes require approval packet and rollback path"
+      ],
+      "completion_criteria": [
+        "each protected domain starts read-only",
+        "write/send/pay/device actions use approval packets",
+        "promotion requires repeated proof",
+        "network monitoring and management is defined as a first-class domain",
+        "network domain starts read-only with inventory and health proof"
+      ],
+      "anti_drift_requirements": [
+        "no protected domain starts with write access",
+        "no broad fallback over sensitive data",
+        "no automatic device or payment mutation",
+        "no network/firewall/DNS/DHCP/VPN/device mutation without approval packet",
+        "no public exposure change without rollback proof"
+      ],
+      "community_evidence_required": true,
+      "community_evidence_requirements": [
+        "integration has maintained source or official API",
+        "local sandbox/read-only proof",
+        "rollback and revocation path",
+        "network integrations use maintained official API or documented device interface"
+      ],
+      "ryan_required": true
+    }
+  ],
+  "pass_requires": [
+    "mechanical validator pass for the exact commit",
+    "evidence packet with local paths or command output",
+    "independent reviewer verdict that evidence satisfies the phase criteria",
+    "drift review against deny register, custom-code rule, and blueprint authority",
+    "repo-wide gate action compliance report with Ryan-facing report text",
+    "runtime enforcement statement: not applicable, repo-only, or OpenClaw-enforced",
+    "Ryan approval when ryan_required is true"
+  ]
 }

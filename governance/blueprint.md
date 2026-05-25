@@ -35,6 +35,20 @@ All work follows this lifecycle:
 
 No agent may skip intake/admission because the next task feels obvious. Adjacent work becomes a new intake packet.
 
+
+## Final System Domains
+
+The final personal OS includes these governed domains, each admitted by the active phase process rather than ad hoc wiring:
+
+- Software builder and repo operations.
+- Host, VM, and runtime operations.
+- Network monitoring and management.
+- Home Assistant and device state.
+- Digital-life read-only data surfaces.
+- Finance and medical data surfaces, read-only first.
+
+Network monitoring and management is first-class. It covers LAN health, WAN/VPN reachability, DNS/DHCP, router/switch/AP state, device inventory, Proxmox/VM connectivity, Home Assistant reachability, and service exposure checks. It starts read-only. Firewall, DNS, DHCP, VPN, port-forward, device, and network-segmentation mutations require an approval packet, affected-system list, validation command, and rollback command.
+
 ## Phase Gate Rule
 
 `governance/phase-gates.json` defines the phases, required artifacts, required checks, completion criteria, anti-drift requirements, and Ryan approval requirements.

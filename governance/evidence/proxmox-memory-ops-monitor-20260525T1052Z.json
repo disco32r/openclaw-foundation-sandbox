@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-05-25T14:54:38.231Z",
+  "purpose": "Record Proxmox/OpenClaw VM memory recovery, resource monitor, durable ops access, and network-domain governance addition.",
+  "cause_context": {
+    "confirmed_failure": "OpenClaw VM previously hit OOM and SSH banner timeouts; Proxmox console showed an OOM-killed python3 process and journald startup failure.",
+    "remediation_policy": "No unbounded heavy builds on live OpenClaw VM; use host monitor and constrained ops path before resuming P5."
+  },
+  "proxmox_ops_access": {
+    "host": "192.168.2.120",
+    "user": "openclaw-ops",
+    "private_key_path": "C:/Users/Ryan/.codex/openclaw/proxmox_ops_ed25519",
+    "public_key_fingerprint": "256 SHA256:C2poaMVyc1I+aLdjQQLR1RhYsNvW0TMkfnpV5HQK4SU openclaw-ops@proxmox (ED25519)",
+    "root_password_stored": false,
+    "wrapper": "/usr/local/sbin/openclaw-vm-ops",
+    "sudo_scope": "NOPASSWD restricted to /usr/local/sbin/openclaw-vm-ops *"
+  },
+  "vm_memory_policy": {
+    "home_assistant": {
+      "vmid": 100,
+      "max_mb": 4096,
+      "balloon_floor_mb": 3072
+    },
+    "win11": {
+      "vmid": 102,
+      "max_mb": 10240,
+      "balloon_floor_mb": 8192
+    },
+    "openclaw": {
+      "vmid": 200,
+      "max_mb": 12288,
+      "balloon_floor_mb": 8192,
+      "guest_agent_enabled": true
+    }
+  },
+  "resource_monitor": {
+    "service": "openclaw-vm-resource-monitor.service",
+    "timer": "openclaw-vm-resource-monitor.timer",
+    "cadence": "1 minute",
+    "log": "/var/log/openclaw-vm-resource-monitor.jsonl",
+    "warning_thresholds": [
+      "host MemAvailable < 4 GiB",
+      "host swap used > 1 GiB",
+      "OpenClaw qemu RSS > 11 GiB"
+    ]
+  },
+  "network_domain_governance": {
+    "files": [
+      "governance/blueprint.md",
+      "governance/phase-gates.json",
+      "governance/network-monitoring-management.md"
+    ],
+    "rule": "Network monitoring and management is a first-class final-system domain; starts read-only; network mutations require approval packet and rollback proof."
+  },
+  "command_outputs": {
+    "proxmox_ops_status": "status: running\nagent: enabled=1\nballoon: 8192\ncores: 4\ncpu: x86-64-v2-AES\nmemory: 12288\nname: OpenClaw\nnet0: virtio=BC:24:11:B4:68:BF,bridge=vmbr0\nscsi0: local-lvm:vm-200-disk-0,iothread=1,size=64G\nsockets: 1\n",
+    "proxmox_ops_resources_tail": "{\"ts\":\"2026-05-25T10:51:29-04:00\",\"vmid\":200,\"status\":\"running\",\"host_mem_available_kb\":15560904,\"host_swap_used_kb\":0,\"host_load1\":\"2.03\",\"qemu_pid\":\"25659\",\"qemu_rss_kb\":1884384,\"qemu_pcpu\":\"127\",\"warnings\":\"\"}\n{\"ts\":\"2026-05-25T10:51:41-04:00\",\"vmid\":200,\"status\":\"running\",\"host_mem_available_kb\":15325092,\"host_swap_used_kb\":0,\"host_load1\":\"2.02\",\"qemu_pid\":\"25659\",\"qemu_rss_kb\":2124740,\"qemu_pcpu\":\"124\",\"warnings\":\"\"}\n{\"ts\":\"2026-05-25T10:52:45-04:00\",\"vmid\":200,\"status\":\"running\",\"host_mem_available_kb\":15080300,\"host_swap_used_kb\":0,\"host_load1\":\"2.15\",\"qemu_pid\":\"25659\",\"qemu_rss_kb\":2343884,\"qemu_pcpu\":\"115\",\"warnings\":\"\"}\n{\"ts\":\"2026-05-25T10:53:55-04:00\",\"vmid\":200,\"status\":\"running\",\"host_mem_available_kb\":14941632,\"host_swap_used_kb\":0,\"host_load1\":\"2.08\",\"qemu_pid\":\"25659\",\"qemu_rss_kb\":2471224,\"qemu_pcpu\":\"98.3\",\"warnings\":\"\"}\n{\"ts\":\"2026-05-25T10:54:35-04:00\",\"vmid\":200,\"status\":\"running\",\"host_mem_available_kb\":14932564,\"host_swap_used_kb\":0,\"host_load1\":\"1.85\",\"qemu_pid\":\"25659\",\"qemu_rss_kb\":2476620,\"qemu_pcpu\":\"82.1\",\"warnings\":\"\"}\n",
+    "proxmox_guest_agent": "1779720878533474000\n",
+    "openclaw_vm_status": "openclaw\n2026-05-25T10:54:35-04:00\n 10:54:35 up 3 min,  1 user,  load average: 0.35, 0.51, 0.24\n               total        used        free      shared  buff/cache   available\nMem:            11Gi       1.0Gi        10Gi       1.3Mi       669Mi        10Gi\nSwap:          974Mi          0B       974Mi\nactive\nactive\nopenclaw-gateway Up 3 minutes (healthy) 127.0.0.1:18789-18790->18789-18790/tcp\n"
+  },
+  "stderr_notes": {
+    "proxmox_ops_status": "Failed to add the host to the list of known hosts (C:\\\\Users\\\\Ryan/.ssh/known_hosts).\r\n",
+    "proxmox_ops_resources_tail": "Failed to add the host to the list of known hosts (C:\\\\Users\\\\Ryan/.ssh/known_hosts).\r\n",
+    "proxmox_guest_agent": "Failed to add the host to the list of known hosts (C:\\\\Users\\\\Ryan/.ssh/known_hosts).\r\n",
+    "openclaw_vm_status": "Failed to add the host to the list of known hosts (C:\\\\Users\\\\Ryan/.ssh/known_hosts).\r\n"
+  }
+}
