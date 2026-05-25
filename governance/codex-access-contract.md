@@ -6,7 +6,11 @@ This project must not use Windows PowerShell as the project logic layer.
 
 - Canonical VM repo: `/opt/openclaw`
 - SSH login starts in: `/opt/openclaw`
-- Windows mount for direct file reads and edits: `Q:\opt\openclaw-data\workspace\openclaw-foundation-sandbox\openclaw-source`
+- Windows mount for direct file reads and edits: `Q:\opt\openclaw`
+- Active runtime root: `/opt/openclaw-data/runtime/oc`
+- Active runtime compose env: `/opt/openclaw-data/runtime/oc/compose.env`
+- Active runtime compose override: `/opt/openclaw-data/runtime/oc/compose.override.yml`
+- Active Docker project/network/container: `oc`, `oc-net`, `openclaw-gateway`
 
 The forked OpenClaw source repo is the source of truth. Codex session context, local scratch folders, and runtime workspace files are not authority.
 
@@ -35,3 +39,5 @@ The Windows Codex host may still launch commands, but launched commands must han
 - protected operations through the existing sudo helper.
 
 PowerShell mount maintenance is allowed only for repairing `Q:` itself. It is not project management, governance, or build logic.
+
+Historical evidence files may mention retired runtime paths or project slugs. They are records only; they are not current operating instructions. Current authority is the source/runtime table above plus `governance/gate-ledger.json`.

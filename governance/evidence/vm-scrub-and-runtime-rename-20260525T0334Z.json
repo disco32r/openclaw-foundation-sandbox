@@ -1,0 +1,92 @@
+{
+  "schema_version": "2026-05-25",
+  "recorded_at": "2026-05-25T03:34:00Z",
+  "purpose": "Scrub stale OpenClaw project artifacts from the VM and replace the long runtime/project slug with short current names.",
+  "active_state": {
+    "source_repo": "/opt/openclaw",
+    "runtime_root": "/opt/openclaw-data/runtime/oc",
+    "compose_env": "/opt/openclaw-data/runtime/oc/compose.env",
+    "compose_override": "/opt/openclaw-data/runtime/oc/compose.override.yml",
+    "docker_project": "oc",
+    "docker_network": "oc-net",
+    "docker_container": "openclaw-gateway"
+  },
+  "scrub_actions": [
+    {
+      "target": "Docker images",
+      "action": "Pruned unused images, including retired OpenWebUI and Python helper images and unused OpenClaw tags.",
+      "result": "Only the digest-pinned active OpenClaw image remains."
+    },
+    {
+      "target": "Docker networks",
+      "action": "Removed retired project networks and recreated the live gateway under the short oc project with explicit oc-net network.",
+      "result": "Only bridge, host, none, and oc-net remain."
+    },
+    {
+      "target": "Runtime path",
+      "action": "Moved runtime state from the retired long sandbox slug to /opt/openclaw-data/runtime/oc.",
+      "result": "Runtime tree now contains compose.env, compose.override.yml, config, workspace, backups, and auth-profile-secrets under /opt/openclaw-data/runtime/oc."
+    },
+    {
+      "target": "Runtime temp repo cache",
+      "action": "Removed the runtime temporary plugin cache .git metadata.",
+      "result": "Only /opt/openclaw/.git remains under /opt and /home/openclaw."
+    },
+    {
+      "target": "Durable agent pointers",
+      "action": "Updated root and governance agent entrypoints plus the Codex access contract to point at /opt/openclaw, /opt/openclaw-data/runtime/oc, oc-net, and openclaw-gateway.",
+      "result": "Current-pointer grep found no retired sandbox path or retired compose override name in active handoff files."
+    },
+    {
+      "target": "SSH shell shortcuts and rendered compose validation",
+      "action": "Updated /home/openclaw/.bashrc aliases and regenerated rendered-compose-validation.json from the active oc compose files.",
+      "result": "Runtime grep found no retired sandbox path or retired compose override name in /opt/openclaw-data/runtime/oc or /home/openclaw/.bashrc."
+    }
+  ],
+  "verification": [
+    {
+      "command": "sudo find /opt /home/openclaw -path '*/.git' -type d -print | sort",
+      "result": "/opt/openclaw/.git"
+    },
+    {
+      "command": "sudo find /opt/openclaw-data -maxdepth 3 -mindepth 1 -printf '%y %p\\n' | sort",
+      "result_summary": "Only /opt/openclaw-data/runtime/oc plus its active config, workspace, auth-profile-secrets, backups, compose.env, compose.override.yml, and rendered-compose-validation.json were present."
+    },
+    {
+      "command": "docker ps -a --format '{{.Names}} {{.Status}} {{.Image}}'",
+      "result": "openclaw-gateway Up healthy using image d35b8b681c22"
+    },
+    {
+      "command": "docker images --format '{{.Repository}}:{{.Tag}} {{.ID}} {{.Size}}'",
+      "result": "ghcr.io/openclaw/openclaw:<none> d35b8b681c22 1.75GB"
+    },
+    {
+      "command": "docker network ls --format '{{.Name}} {{.Driver}}'",
+      "result": "bridge bridge; host host; none null; oc-net bridge"
+    },
+    {
+      "command": "docker compose ls --format json",
+      "result": "Compose project oc is running with /opt/openclaw/docker-compose.yml and /opt/openclaw-data/runtime/oc/compose.override.yml."
+    },
+    {
+      "command": "grep -RIn retired path names under /opt/openclaw-data/runtime/oc and /home/openclaw/.bashrc",
+      "result": "No matches."
+    },
+    {
+      "command": "curl -fsS http://127.0.0.1:18789/healthz && curl -fsS http://127.0.0.1:18789/readyz",
+      "result": "{\"ok\":true,\"status\":\"live\"}; {\"ready\":true}"
+    },
+    {
+      "command": "docker exec openclaw-gateway openclaw infer model run --gateway --model openai-codex/gpt-5.5 --thinking minimal --prompt 'Respond with exactly OC_AUTH_OK.' --json",
+      "result": "ok=true; provider=openai-codex; model=gpt-5.5; text=OC_AUTH_OK"
+    },
+    {
+      "command": "python3 tools/validate_governance.py",
+      "result": "ok=true"
+    }
+  ],
+  "notes": [
+    "Historical evidence files may still mention retired paths because they record earlier actions. Current operating files now point at the short active names and the validator rejects the retired workspace mount in the Codex access contract.",
+    "The Windows host launcher may still invoke ssh through cmd.exe because the Codex shell is hosted by PowerShell. Project logic runs on the VM in /opt/openclaw with POSIX shell."
+  ]
+}

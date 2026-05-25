@@ -698,12 +698,20 @@ def validate_codex_access_contract() -> None:
     text = (GOV / "codex-access-contract.md").read_text(encoding="utf-8")
     for required in [
         "/opt/openclaw",
+        "/opt/openclaw-data/runtime/oc",
+        "Q:\\opt\\openclaw",
+        "oc-net",
+        "openclaw-gateway",
         "Q:\\",
         "PowerShell",
         "not use Windows PowerShell as the project logic layer",
         "Use the sudo helper only for protected VM/runtime/system operations",
     ]:
         require(required in text, f"codex access contract missing: {required}")
+    require(
+        "Q:\\opt\\openclaw-data\\workspace\\" not in text,
+        "codex access contract must not point agents at retired workspace mounts",
+    )
 
 
 def validate_gate_review_contract() -> None:

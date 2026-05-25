@@ -43,6 +43,8 @@ Only work the `ACTIVE` phase in `governance/gate-ledger.json` unless Ryan explic
 
 Do not use Windows PowerShell as the project logic layer. Source edits go through the mounted source repo or direct SSH/SFTP as `openclaw`; repo commands run from `/opt/openclaw` with a POSIX shell. PowerShell is allowed only for local mount repair, not source rewriting, governance logic, or build orchestration.
 
+Current durable locations are `/opt/openclaw` for source and `/opt/openclaw-data/runtime/oc` for runtime state. The live Docker surface is project `oc`, network `oc-net`, and container `openclaw-gateway`. Historical evidence may mention retired paths; do not use those as current targets.
+
 ## Forbidden Drift
 
 Do not create a new scheduler, queue, approval ledger, runtime orchestrator, agent manager, mutating dashboard, mobile bypass bot, public admin surface, or local-model requirement. Use OpenClaw primitives first and record any native gap before proposing custom code.

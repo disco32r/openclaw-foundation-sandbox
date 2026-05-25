@@ -220,6 +220,11 @@
           "type": "file",
           "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
           "description": "P4 gate review against runtime criteria after Codex auth remediation"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json",
+          "description": "VM scrub, runtime rename to /opt/openclaw-data/runtime/oc, Docker project/network cleanup, and post-scrub health/model proof"
         }
       ],
       "checks": [
@@ -227,7 +232,7 @@
       ],
       "anti_drift_confirmed": true,
       "review_packet": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
-      "gate_action_report": "governance/gate-action-reports/P4-private-sandbox-runtime-20260524T2355Z.json",
+      "gate_action_report": "governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0334Z.json",
       "disposition": "P4 is active with live health, readiness, private exposure, approval behavior, and hosted Codex model usability now proven. Next step is formal promotion after governance validation confirms no stale blocked findings remain."
     },
     {

@@ -6,7 +6,7 @@ Skills own workflows; root owns hard policy and routing.
 ## Start
 
 - Repo: `https://github.com/openclaw/openclaw`
-- Foundation governance: read `governance/AGENTS.md` and `governance/codex-access-contract.md` before project work. Do not use Windows PowerShell as the project logic layer; source edits go through the mounted repo or direct SSH/SFTP, and repo commands run from `/opt/openclaw` with a POSIX shell.
+- Foundation governance: read `governance/AGENTS.md` and `governance/codex-access-contract.md` before project work. Do not use Windows PowerShell as the project logic layer; source edits go through `Q:\opt\openclaw` or direct SSH/SFTP, and repo commands run from `/opt/openclaw` with a POSIX shell. Runtime state is `/opt/openclaw-data/runtime/oc`.
 - Replies: repo-root refs only: `extensions/telegram/src/index.ts:80`. No absolute paths, no `~/`.
 - Docs/user-visible work: `pnpm docs:list`, then read relevant docs only.
 - Fix/triage answers need source, tests, current/shipped behavior, and dependency contract proof.

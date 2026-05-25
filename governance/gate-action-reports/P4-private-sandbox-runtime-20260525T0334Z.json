@@ -1,0 +1,164 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-25T03:37:28Z",
+  "gate_id": "P4",
+  "phase_name": "private-sandbox-runtime",
+  "gate_status": "ACTIVE",
+  "action": "status_review",
+  "reviewed_commit": "c16eabcafb9d801cee8f651e4905958b0444b2ad",
+  "reviewer": "codex-repo-compliance-reviewer",
+  "overall_status": "pass",
+  "repo_review_scope": [
+    "blueprint",
+    "phase-gates",
+    "gate-ledger",
+    "community-evidence",
+    "deny-register",
+    "custom-code-rule",
+    "codex-access-contract",
+    "changed-files",
+    "mechanical-checks",
+    "intervention-balance",
+    "ryan-report"
+  ],
+  "tracked_file_summary": {
+    "tracked_file_count": 18367,
+    "governance_file_count": 57,
+    "tool_file_count": 4
+  },
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M AGENTS.md\n M governance/AGENTS.md\n M governance/README.md\n M governance/codex-access-contract.md\n M governance/gate-ledger.json\n M runbooks/container-sandbox-approval-request.md\n M tools/validate_governance.py\n?? governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json\n?? governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0334Z.json",
+  "changed_files": [
+    "AGENTS.md",
+    "governance/AGENTS.md",
+    "governance/README.md",
+    "governance/codex-access-contract.md",
+    "governance/gate-ledger.json",
+    "runbooks/container-sandbox-approval-request.md",
+    "tools/validate_governance.py"
+  ],
+  "untracked_files": [
+    "governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json",
+    "governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0334Z.json"
+  ],
+  "required_artifact_results": [
+    {
+      "artifact": "runtime health evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    },
+    {
+      "artifact": "readiness evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    },
+    {
+      "artifact": "private exposure evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    },
+    {
+      "artifact": "model status evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    },
+    {
+      "artifact": "approval behavior evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    }
+  ],
+  "mechanical_checks": [
+    {
+      "id": "git_status",
+      "ok": true,
+      "command": "git status --short --branch",
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M AGENTS.md\n M governance/AGENTS.md\n M governance/README.md\n M governance/codex-access-contract.md\n M governance/gate-ledger.json\n M runbooks/container-sandbox-approval-request.md\n M tools/validate_governance.py\n?? governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json\n?? governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0334Z.json"
+    },
+    {
+      "id": "required_artifacts",
+      "ok": true,
+      "command": "repo artifact existence scan",
+      "output_summary": "all required artifacts exist"
+    },
+    {
+      "id": "gate_review_packet",
+      "ok": true,
+      "command": "load gate review packet",
+      "output_summary": "verdict:pass"
+    }
+  ],
+  "plan_compliance_assessment": {
+    "status": "pass",
+    "assessment": "Blueprint, phase definition, ledger, and active phase alignment are present.",
+    "evidence": [
+      "gate:P4",
+      "phase:private-sandbox-runtime",
+      "active:P4"
+    ]
+  },
+  "community_evidence_assessment": {
+    "status": "pass",
+    "assessment": "Candidate register satisfies community evidence structure.",
+    "evidence": [
+      "candidate_rows:4"
+    ]
+  },
+  "deny_register_assessment": {
+    "status": "pass",
+    "assessment": "Deny register is present and entries require re-review before replay.",
+    "evidence": [
+      "deny_rows:5"
+    ]
+  },
+  "custom_code_assessment": {
+    "status": "pass",
+    "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
+    "evidence": [
+      "CUSTOM-CODE-RULE.md",
+      "tools/validate_governance.py"
+    ]
+  },
+  "access_contract_assessment": {
+    "status": "pass",
+    "assessment": "Codex access contract contains the required project-command boundary.",
+    "evidence": [
+      "governance/codex-access-contract.md"
+    ]
+  },
+  "intervention_balance_assessment": {
+    "status": "pass",
+    "requires_ryan_now": false,
+    "protected_boundary_pending": true,
+    "approval_packet_present": true,
+    "safe_local_next_actions": [
+      "validate, review, and commit/push current repo-local changes",
+      "refresh the gate action report after safe-local evidence changes"
+    ],
+    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "evidence": [
+      "phase_ryan_required:True",
+      "gate_status:ACTIVE",
+      "artifact_failures:0",
+      "review_verdict:pass",
+      "approval_packet_present:True"
+    ]
+  },
+  "gate_review_verdict": "pass",
+  "blocking_findings": [],
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action status_review: pass. Reviewed commit c16eabcafb9d801cee8f651e4905958b0444b2ad. Changed files: 7 tracked, 2 untracked. Blocking findings: 0. Ryan needed now: no."
+}

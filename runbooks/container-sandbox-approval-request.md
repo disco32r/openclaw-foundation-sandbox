@@ -10,7 +10,7 @@ This is not required for Phase 0-3 governance implementation. It is useful for P
 
 - Docker/container state on `openclaw@192.168.2.242`.
 - Source files under `/opt/openclaw`.
-- Runtime files under `/opt/openclaw-data/runtime/openclaw-foundation-sandbox`.
+- Runtime files under `/opt/openclaw-data/runtime/oc`.
 - Network exposure if ports are bound.
 
 ## Proposed Apply

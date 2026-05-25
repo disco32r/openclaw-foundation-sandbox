@@ -19,6 +19,8 @@ Agents working on governance, admission, routing, candidates, skills/plugins, da
 
 Only the `ACTIVE` phase in `gate-ledger.json` is executable unless Ryan explicitly changes direction.
 
+Current VM source is `/opt/openclaw`; current runtime state is `/opt/openclaw-data/runtime/oc`; current Docker surface is project `oc`, network `oc-net`, container `openclaw-gateway`.
+
 ## Files
 
 - `blueprint.md`: canonical implementation blueprint and tipping-point definition.
