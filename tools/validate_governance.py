@@ -734,6 +734,9 @@ def validate_gate_action_review_contract() -> None:
         "the only allowed diff between `reviewed_commit` and `HEAD` is the report file itself",
         "Ryan-facing report text",
         "python3 tools/generate_gate_action_report.py",
+        "Required Artifact Resolution",
+        "Required artifacts may be literal repo paths or evidence categories",
+        "Missing proof categories must stay blocking",
     ]:
         require(required in text, f"gate action review contract missing: {required}")
 

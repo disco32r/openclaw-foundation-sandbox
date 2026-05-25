@@ -1,0 +1,62 @@
+{
+  "schema_version": "2026-05-24",
+  "phase": "P4",
+  "status": "fail_closed_pass",
+  "captured_at": "2026-05-25T00:10:00Z",
+  "source_root": "/home/openclaw/foundation-source",
+  "reviewed_commit": "d8b22b335319f9e14fd35383ef03142aa6f54fc7",
+  "script": "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+  "purpose": "Prove the reviewed P4 runtime execution script stops before Docker, runtime config, network, auth, or rollback work unless explicit protected-boundary approval is supplied.",
+  "command": "for mode in render apply validate-core validate-model validate rollback; do sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh $mode; done, with P4_APPROVED unset",
+  "mutation": "none",
+  "mode_results": [
+    {
+      "mode": "render",
+      "exit_code": 20,
+      "output": "P4_APPROVED=1 is required for protected Docker/runtime work."
+    },
+    {
+      "mode": "apply",
+      "exit_code": 20,
+      "output": "P4_APPROVED=1 is required for protected Docker/runtime work."
+    },
+    {
+      "mode": "validate-core",
+      "exit_code": 20,
+      "output": "P4_APPROVED=1 is required for protected Docker/runtime work."
+    },
+    {
+      "mode": "validate-model",
+      "exit_code": 20,
+      "output": "P4_APPROVED=1 is required for protected Docker/runtime work."
+    },
+    {
+      "mode": "validate",
+      "exit_code": 20,
+      "output": "P4_APPROVED=1 is required for protected Docker/runtime work."
+    },
+    {
+      "mode": "rollback",
+      "exit_code": 20,
+      "output": "P4_APPROVED=1 is required for protected Docker/runtime work."
+    }
+  ],
+  "post_check": {
+    "listeners_18789_18790": "none",
+    "state_root": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox absent"
+  },
+  "not_claimed": [
+    "This is not live runtime health evidence.",
+    "This is not readiness evidence.",
+    "This is not model status evidence.",
+    "This is not live OpenClaw approval behavior evidence."
+  ],
+  "not_performed": [
+    "No Docker image was pulled or built.",
+    "No container was created or started.",
+    "No runtime config was written.",
+    "No network listener was created.",
+    "No model key was read, written, or tested.",
+    "No rollback mutation was performed."
+  ]
+}

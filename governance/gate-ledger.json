@@ -198,6 +198,11 @@
         },
         {
           "type": "file",
+          "path": "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json",
+          "description": "P4 script approval guard evidence proving protected modes exit before mutation without explicit approval"
+        },
+        {
+          "type": "file",
           "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
           "description": "blocked P4 gate review against runtime criteria"
         }

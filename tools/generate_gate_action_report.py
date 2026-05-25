@@ -62,6 +62,14 @@ def result(status: str, assessment: str, evidence: list[str]) -> dict[str, Any]:
     return {"status": status, "assessment": assessment, "evidence": evidence}
 
 
+def normalize_text(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", value.lower()).strip()
+
+
+def looks_like_path(value: str) -> bool:
+    return "/" in value or "\\" in value or bool(re.search(r"\.[a-z0-9]{1,8}$", value))
+
+
 def phase_maps() -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]], dict[str, Any]]:
     phases_doc = load_json(GOV / "phase-gates.json")
     ledger = load_json(GOV / "gate-ledger.json")
@@ -70,16 +78,34 @@ def phase_maps() -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]], 
     return phases, gates, ledger
 
 
-def required_artifact_results(phase: dict[str, Any]) -> list[dict[str, Any]]:
+def evidence_matches_artifact(artifact: str, evidence_row: dict[str, Any]) -> bool:
+    if looks_like_path(artifact):
+        return evidence_row.get("path") == artifact and (ROOT / artifact).exists()
+    artifact_text = normalize_text(artifact)
+    evidence_text = normalize_text(f"{evidence_row.get('path', '')} {evidence_row.get('description', '')}")
+    return bool(artifact_text and artifact_text in evidence_text)
+
+
+def required_artifact_results(phase: dict[str, Any], gate: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for artifact in phase["required_artifacts"]:
+        direct_path = ROOT / artifact
+        ledger_matches = [
+            row
+            for row in gate.get("evidence", [])
+            if isinstance(row, dict) and evidence_matches_artifact(artifact, row)
+        ]
+        matched_paths = [row["path"] for row in ledger_matches if isinstance(row.get("path"), str)]
+        passed = direct_path.exists() or bool(ledger_matches)
         path = ROOT / artifact
         rows.append(
             {
                 "artifact": artifact,
-                "status": "pass" if path.exists() else "fail",
-                "evidence": [artifact if path.exists() else f"missing:{artifact}"],
-                "assessment": "Required artifact exists." if path.exists() else "Required artifact is missing.",
+                "status": "pass" if passed else "fail",
+                "evidence": [artifact] if path.exists() else (matched_paths if matched_paths else [f"missing:{artifact}"]),
+                "assessment": "Required artifact exists or is attached as ledger evidence."
+                if passed
+                else "Required artifact is missing.",
             }
         )
     return rows
@@ -288,7 +314,7 @@ def build_report(gate_id: str, action: str) -> dict[str, Any]:
     phase = phases[gate_id]
     gate = gates[gate_id]
     status_text, changed, untracked = git_status()
-    artifact_rows = required_artifact_results(phase)
+    artifact_rows = required_artifact_results(phase, gate)
     artifact_failures = [row["artifact"] for row in artifact_rows if row["status"] != "pass"]
     community = validate_candidates(phase)
     denies = validate_denies()

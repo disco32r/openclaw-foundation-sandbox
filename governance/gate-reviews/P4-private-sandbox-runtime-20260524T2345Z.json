@@ -5,7 +5,7 @@
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
   "verdict": "blocked",
-  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, provider/auth preflight evidence, and a reviewed one-shot apply/validate/rollback script. The dry run found and corrected a source .env injection risk with an env_file reset override. The provider preflight also pinned the official linux/amd64 image digest. P4 still cannot pass until the protected Docker sandbox script is explicitly approved, executed, and health, readiness, exposure, model, and approval behavior proof are captured.",
+  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, provider/auth preflight evidence, a reviewed one-shot apply/validate/rollback script, and fail-closed evidence for that script when P4_APPROVED is absent. The dry run found and corrected a source .env injection risk with an env_file reset override. The provider preflight also pinned the official linux/amd64 image digest. P4 still cannot pass until the protected Docker sandbox script is explicitly approved, executed, and health, readiness, exposure, model, and live OpenClaw approval behavior proof are captured.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -39,9 +39,10 @@
       "status": "blocked",
       "evidence": [
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+        "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json"
       ],
-      "assessment": "The protected-boundary packet is drafted and the reviewed execution script fails closed unless P4_APPROVED=1 is supplied, but runtime approval behavior still needs a live protected-action denial or approval packet proof from the sandbox."
+      "assessment": "The protected-boundary packet is drafted and the reviewed execution script was tested across render, apply, validate-core, validate-model, validate, and rollback modes with P4_APPROVED unset; every mode exited 20 before mutation. Runtime approval behavior still needs a live protected-action denial or approval packet proof from the sandbox."
     },
     {
       "criterion": "no production mutation",
@@ -69,9 +70,10 @@
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+        "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json"
       ],
-      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run was non-mutating and the script exits with code 20 unless P4_APPROVED=1 is supplied; the packet has not been executed."
+      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run was non-mutating and the script was proven to exit with code 20 unless P4_APPROVED=1 is supplied; the packet has not been executed."
     },
     {
       "requirement": "no second scheduler",

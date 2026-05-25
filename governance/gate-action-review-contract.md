@@ -37,6 +37,10 @@ python3 tools/generate_gate_action_report.py --gate P1 --action blocked_review -
 
 Then reference the report from the matching gate ledger row as `gate_action_report` and include it in that gate's evidence list.
 
+## Required Artifact Resolution
+
+Required artifacts may be literal repo paths or evidence categories. A literal path must exist in the repo. An evidence category must be satisfied by a matching `governance/gate-ledger.json` evidence row whose path exists and whose description names the required proof category. Missing proof categories must stay blocking even when adjacent preflight evidence exists.
+
 ## Promotion Rule
 
 A phase may be marked `PASS` only when:
