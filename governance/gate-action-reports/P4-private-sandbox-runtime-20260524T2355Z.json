@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T00:14:17Z",
+  "generated_at": "2026-05-25T00:15:05Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "29da0d8ba70ccb044005b475528dec532bc3f0a5",
+  "reviewed_commit": "dd12671ce9c1088f828a5968619ab7e407da8964",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -26,7 +26,7 @@
     "governance_file_count": 53,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap",
   "changed_files": [],
   "untracked_files": [],
   "required_artifact_results": [
@@ -76,7 +76,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
     },
     {
       "id": "required_artifacts",
@@ -153,5 +153,5 @@
     "Missing approval behavior evidence.",
     "Protected Docker/runtime mutation is required before those proofs can be produced."
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 29da0d8ba70ccb044005b475528dec532bc3f0a5. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: yes."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit dd12671ce9c1088f828a5968619ab7e407da8964. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: yes."
 }
