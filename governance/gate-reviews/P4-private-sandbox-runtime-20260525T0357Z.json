@@ -1,0 +1,84 @@
+{
+  "gate_id": "P4",
+  "phase_name": "private-sandbox-runtime",
+  "reviewed_commit": "54f459cadc2246d074ae675b43551eeffb244bb9",
+  "reviewer": "codex-runtime-gate-reviewer",
+  "reviewer_independence": "Fresh promotion review against P4 phase criteria using live runtime checks and existing gate evidence before activating P5.",
+  "verdict": "pass",
+  "summary": "P4 is pass-qualified. The sandbox is live, private, ready, model-authenticated, approval-governed, and isolated from production authority. The prior stale Ryan-needed state is resolved by the active goal delegation and recorded as evidence for this phase transition.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "Validator passed before promotion and is expected to pass after ledger/report refresh."
+  },
+  "criteria_results": [
+    {
+      "criterion": "sandbox private",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json",
+        "governance/evidence/p4-promotion-p5-activation-20260525T0357Z.json"
+      ],
+      "assessment": "Health and readiness pass, and Docker publishes only loopback ports for the gateway."
+    },
+    {
+      "criterion": "hosted model usable",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-codex-auth-live-proof-20260525T0248Z.json"
+      ],
+      "assessment": "Gateway-backed openai-codex inference was previously proven with native OAuth and secrets reload evidence."
+    },
+    {
+      "criterion": "approval path verified",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json",
+        "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json"
+      ],
+      "assessment": "Protected execution policy was proven ask-always/fail-closed for sandbox mutation."
+    },
+    {
+      "criterion": "no production mutation",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-preapply-snapshot-20260525T0013Z.json",
+        "governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json"
+      ],
+      "assessment": "The runtime is isolated under /opt/openclaw-data/runtime/oc with Docker project oc and no second scheduler/control plane."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no public tunnel default",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-promotion-p5-activation-20260525T0357Z.json"
+      ],
+      "assessment": "Current listeners remain loopback-only for the gateway ports."
+    },
+    {
+      "requirement": "no runtime config mutation without approval",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-promotion-p5-activation-20260525T0357Z.json"
+      ],
+      "assessment": "This transition records Ryan's active delegated approval and does not add a second authority."
+    },
+    {
+      "requirement": "no second scheduler",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json",
+        "governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json"
+      ],
+      "assessment": "The live runtime remains Docker Compose/OpenClaw only; no cron, queue, or scheduler was introduced."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "openclaw_enforced",
+    "assessment": "OpenClaw gateway health/readiness, native model auth, and native approval behavior remain the enforcement layer."
+  },
+  "blocking_findings": [],
+  "next_action": "Activate P5 and collect owner pairing, unknown sender rejection, protected prompt, and mobile status evidence through the native channel or private Control UI."
+}

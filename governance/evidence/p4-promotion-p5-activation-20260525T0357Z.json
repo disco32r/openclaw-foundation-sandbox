@@ -1,0 +1,24 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-25T03:57:51Z",
+  "phase_transition": "P4_PASS_P5_ACTIVE",
+  "reviewed_commit_before_transition": "54f459cadc2246d074ae675b43551eeffb244bb9",
+  "authorization_basis": {
+    "source": "active thread goal context",
+    "recorded_statement": "continue progressing the project to the tipping point. no approvals needed from me.",
+    "scope": "Continue gated OpenClaw tipping-point work without stopping for Ryan approval on already-planned protected phase transitions.",
+    "limits": [
+      "Use OpenClaw primitives and governance gates.",
+      "Do not make dashboard, relay, scheduler, or custom code a second authority.",
+      "Record evidence and keep phase gates enforceable."
+    ]
+  },
+  "runtime_checks": {
+    "healthz": "{\"ok\":true,\"status\":\"live\"}",
+    "readyz": "{\"ready\":true}",
+    "docker_ps": "NAMES              STATUS                    PORTS\nopenclaw-gateway   Up 25 minutes (healthy)   127.0.0.1:18789-18790->18789-18790/tcp",
+    "listeners": "LISTEN 0      4096                     127.0.0.1:18789      0.0.0.0:*          \nLISTEN 0      4096                     127.0.0.1:18790      0.0.0.0:*          ",
+    "private_exposure_assessment": "The gateway remains exposed only on 127.0.0.1 published ports 18789-18790."
+  },
+  "promotion_assessment": "P4 evidence satisfies the private sandbox runtime gate; P5 is now the active phase and must collect mobile owner, unknown sender, protected prompt, and mobile status proof before pass."
+}

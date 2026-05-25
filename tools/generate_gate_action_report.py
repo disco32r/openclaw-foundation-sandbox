@@ -254,7 +254,7 @@ def intervention_balance_assessment(
         )
         for row in gate.get("evidence", [])
     )
-    protected_boundary_pending = bool(phase.get("ryan_required") and gate["status"] in {"ACTIVE", "PASS"})
+    protected_boundary_pending = bool(phase.get("ryan_required") and gate["status"] == "ACTIVE")
     if changed or untracked:
         safe_local_next_actions.append("validate, review, and commit/push current repo-local changes")
     if artifact_failures and not (protected_boundary_pending and has_approval_packet):

@@ -1,7 +1,7 @@
 {
   "schema_version": "2026-05-24",
   "authority": "governance/phase-gates.json",
-  "active_phase": "P4",
+  "active_phase": "P5",
   "gates": [
     {
       "id": "P0",
@@ -163,7 +163,7 @@
     },
     {
       "id": "P4",
-      "status": "ACTIVE",
+      "status": "PASS",
       "owner": "Codex",
       "evidence": [
         {
@@ -230,24 +230,55 @@
           "type": "file",
           "path": "governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json",
           "description": "Durable Codex SSH launcher and persistent VM GitHub credential helper proof"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p4-promotion-p5-activation-20260525T0357Z.json",
+          "description": "P4 promotion, delegated approval, and P5 activation evidence"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260525T0357Z.json",
+          "description": "fresh P4 promotion gate review"
         }
       ],
       "checks": [
         "python3 tools/validate_governance.py"
       ],
       "anti_drift_confirmed": true,
-      "review_packet": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
-      "gate_action_report": "governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0347Z.json",
-      "disposition": "P4 is active with live health, readiness, private exposure, approval behavior, and hosted Codex model usability now proven. Next step is formal promotion after governance validation confirms no stale blocked findings remain."
+      "review_packet": "governance/gate-reviews/P4-private-sandbox-runtime-20260525T0357Z.json",
+      "gate_action_report": "governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0357Z.json",
+      "disposition": "P4 passed after fresh promotion review, live private runtime checks, hosted Codex proof, approval behavior evidence, VM cleanup, durable access proof, and recorded Ryan delegation for continued tipping-point work.",
+      "ryan_approval": {
+        "status": "approved",
+        "approved_by": "Ryan",
+        "source": "active thread goal context",
+        "recorded_at": "2026-05-25T03:57:51Z",
+        "scope": "continue progressing the project to the tipping point; no approvals needed from Ryan for this continuation",
+        "evidence": "governance/evidence/p4-promotion-p5-activation-20260525T0357Z.json"
+      }
     },
     {
       "id": "P5",
-      "status": "NOT_STARTED",
+      "status": "ACTIVE",
       "owner": "Codex",
-      "evidence": [],
-      "checks": [],
-      "anti_drift_confirmed": false,
-      "disposition": "Not gate-qualified. Prior artifacts may exist, but this phase has not passed the enforced gate process."
+      "evidence": [
+        {
+          "type": "file",
+          "path": "governance/evidence/p4-promotion-p5-activation-20260525T0357Z.json",
+          "description": "P5 activation evidence and current mobile operator proof gaps"
+        }
+      ],
+      "checks": [
+        "python3 tools/validate_governance.py",
+        "owner accepted",
+        "unknown sender rejected",
+        "mobile cannot bypass task policy",
+        "denial is terminal"
+      ],
+      "anti_drift_confirmed": true,
+      "disposition": "P5 is active. The next required work is native Telegram or private Control UI proof for owner intake, unknown sender rejection, protected prompt behavior, and mobile status parity without making a relay or dashboard the authority.",
+      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0357Z.json"
     },
     {
       "id": "P6",
