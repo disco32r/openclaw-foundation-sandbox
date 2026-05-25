@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T02:50:00Z",
+  "generated_at": "2026-05-25T03:00:00Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "79aaa0431bc0ce846b0dde765ebab8119f5c3a0e",
+  "reviewed_commit": "9e94d9b3b70e9eeee2743e6eed439705e7f3aca9",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -135,9 +135,9 @@
     "protected_boundary_pending": false,
     "approval_packet_present": true,
     "safe_local_next_actions": [
-      "Inventory confusing leftover/quarantine artifacts without deleting protected runtime state."
+      "Formally promote P4 and activate the next gated phase after preserving the current validator-clean state."
     ],
-    "assessment": "Ryan is not needed for the next safe-local inventory step. P4 auth/runtime proof is complete; destructive cleanup, runtime changes, external accounts, or device/network mutations remain protected boundaries.",
+    "assessment": "Ryan is not needed for the next governance-only phase promotion step. P4 auth/runtime proof is complete and non-authoritative workspace clutter has been removed; destructive cleanup beyond the verified non-authoritative targets, runtime changes, external accounts, or device/network mutations remain protected boundaries.",
     "evidence": [
       "phase_ryan_required:True",
       "gate_status:ACTIVE",
@@ -148,5 +148,5 @@
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: pass. Hosted model usability is now proven through native openai-codex OAuth plus secrets reload and a successful gateway-backed openai-codex/gpt-5.5 inference result. Ryan needed now: no for safe-local cleanup inventory; yes only for protected mutation."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: pass. Hosted model usability is now proven through native openai-codex OAuth plus secrets reload and a successful gateway-backed openai-codex/gpt-5.5 inference result. Non-authoritative old workspace/quarantine/trash/OpenWebUI artifacts were removed and the workspace root now points agents to the active source/runtime. Ryan needed now: no for governance-only phase promotion; yes only for protected mutation."
 }
