@@ -5,7 +5,7 @@
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
   "verdict": "blocked",
-  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, provider/auth preflight evidence, a reviewed one-shot apply/validate/rollback script, fail-closed evidence for that script when P4_APPROVED is absent, and a fresh read-only pre-apply snapshot at the current branch head. The dry run found and corrected a source .env injection risk with an env_file reset override. The provider preflight also pinned the official linux/amd64 image digest. P4 still cannot pass until the protected Docker sandbox script is explicitly approved, executed, and health, readiness, exposure, model, and live OpenClaw approval behavior proof are captured.",
+  "summary": "P4 has a live private OpenClaw sandbox running from the reviewed script after a Docker Compose v5.1.3 flag correction. Runtime health, readiness, loopback-only exposure, and native exec approval policy are proven. The dry run found and corrected a source .env injection risk with an env_file reset override, and the provider preflight pinned the official linux/amd64 image digest. P4 still cannot pass because hosted model usability is blocked: openai-codex auth is missing and no OPENAI_API_KEY, P4_OPENAI_CODEX_API_KEY, or OPENROUTER_API_KEY is present in the inspected environment.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -14,14 +14,15 @@
   "criteria_results": [
     {
       "criterion": "sandbox private",
-      "status": "blocked",
+      "status": "pass",
       "evidence": [
         "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "Preflight found no listeners on 18789 or 18790, and the dry run rendered host_ip 127.0.0.1 for both published ports after resetting repo-root env_file injection. The packet and script now validate the rendered JSON exactly rather than accepting a single grep hit. Privacy still cannot be fully proven until the sandbox is started and ss/curl evidence is captured."
+      "assessment": "The sandbox is live and healthy, healthz and readyz pass, and ss shows only 127.0.0.1 listeners on 18789 and 18790 with no broad 0.0.0.0, [::], or wildcard listener on those ports."
     },
     {
       "criterion": "hosted model usable",
@@ -30,28 +31,31 @@
         "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
         "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "The preflight confirmed the official image resolves for linux/amd64 at digest sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5 and the native openai-codex API-key auth command exists. Model usability still cannot be claimed before an API key is supplied to the protected apply script and `models status --check` passes inside the sandbox."
+      "assessment": "The preflight confirmed the official image and native model-auth command path. Live model validation still fails because openai-codex auth is missing, models status exits 1, and the inspected environment has no OPENAI_API_KEY, P4_OPENAI_CODEX_API_KEY, or OPENROUTER_API_KEY."
     },
     {
       "criterion": "approval path verified",
-      "status": "blocked",
+      "status": "pass",
       "evidence": [
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
-        "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json"
+        "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json",
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "The protected-boundary packet is drafted and the reviewed execution script was tested across render, apply, validate-core, validate-model, validate, and rollback modes with P4_APPROVED unset; every mode exited 20 before mutation. Runtime approval behavior still needs a live protected-action denial or approval packet proof from the sandbox."
+      "assessment": "The protected-boundary script was proven to fail closed without P4_APPROVED, and the live sandbox native approvals/exec-policy commands now show an approvals file with security=full, ask=always, askFallback=deny and no allowlist entries."
     },
     {
       "criterion": "no production mutation",
       "status": "pass",
       "evidence": [
         "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
-        "governance/evidence/p4-preapply-snapshot-20260525T0013Z.json"
+        "governance/evidence/p4-preapply-snapshot-20260525T0013Z.json",
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "Preflight and the fresh pre-apply snapshot were read-only and explicitly did not pull images, start containers, write runtime config, create listeners, or change secrets."
+      "assessment": "The only production mutation was the approved P4 private sandbox apply. It used the isolated state root, pinned image digest, loopback ports, and native approval policy; no public admin surface or non-sandbox production target was mutated."
     }
   ],
   "anti_drift_results": [
@@ -60,9 +64,10 @@
       "status": "pass",
       "evidence": [
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "The dry-run rendered local-only published ports, and the proposed runtime command keeps Gateway and bridge published ports on 127.0.0.1 with exact JSON validation to reject broad exposure."
+      "assessment": "The dry-run rendered local-only published ports, and the live runtime has only 127.0.0.1 listeners on 18789 and 18790 with no broad listener match."
     },
     {
       "requirement": "no runtime config mutation without approval",
@@ -71,33 +76,31 @@
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
         "governance/evidence/p4-preapply-snapshot-20260525T0013Z.json",
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
         "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json"
       ],
-      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run and fresh pre-apply snapshot were non-mutating, and the script was proven to exit with code 20 unless P4_APPROVED=1 is supplied; the packet has not been executed."
+      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The apply was executed only after Ryan delegated approval for this P4 boundary, and the live runtime now has ask=always approval policy."
     },
     {
       "requirement": "no second scheduler",
       "status": "pass",
       "evidence": [
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
       "assessment": "The proposed deployment uses OpenClaw Docker Compose only and the reviewed script does not add cron, a separate queue, or a second scheduler/control plane."
     }
   ],
   "runtime_enforcement": {
-    "status": "approval_required",
-    "assessment": "The next material action is Docker/runtime mutation, which must stop at the drafted approval packet until approved."
+    "status": "openclaw_enforced",
+    "assessment": "The sandbox is live and OpenClaw native exec approvals are enforced with security=full, ask=always, askFallback=deny, and no allowlist entries. Model auth remains blocked separately."
   },
   "blocking_findings": [
-    "Missing runtime health evidence.",
-    "Missing readiness evidence.",
-    "Missing private exposure evidence.",
     "Missing model status evidence.",
-    "Missing approval behavior evidence.",
-    "Protected Docker/runtime mutation is required before those proofs can be produced."
+    "Hosted model usability is blocked because openai-codex auth is missing and no usable model API key is present in the inspected environment."
   ],
-  "next_action": "Use the P4 approval packet for the protected Docker sandbox apply, then capture health, readiness, exposure, model, and approval behavior evidence."
+  "next_action": "Configure a hosted model credential through the native OpenClaw model auth path, rerun models status --check, then regenerate P4 review and action report."
 }

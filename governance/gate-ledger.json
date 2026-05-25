@@ -208,6 +208,11 @@
         },
         {
           "type": "file",
+          "path": "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json",
+          "description": "live P4 runtime health evidence, readiness evidence, private exposure evidence, approval behavior evidence, model status blocker, and workspace/source split evidence"
+        },
+        {
+          "type": "file",
           "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
           "description": "blocked P4 gate review against runtime criteria"
         }

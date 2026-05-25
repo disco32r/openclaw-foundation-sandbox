@@ -1,0 +1,75 @@
+{
+  "schema_version": "2026-05-24",
+  "phase": "P4",
+  "status": "partial_pass_model_blocked",
+  "captured_at": "2026-05-25T00:30:14Z",
+  "source_root": "/home/openclaw/foundation-source",
+  "reviewed_commit": "b8b6ea7dea3c2b5d7b895c81d307c316b00d0cad",
+  "runtime_state_root": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox",
+  "compose_env": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/compose.env",
+  "compose_override": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/docker-compose.p4.override.yml",
+  "checks": [
+    {
+      "id": "runtime_health",
+      "status": "pass",
+      "command": "curl -fsS http://127.0.0.1:18789/healthz",
+      "output": "{\"ok\":true,\"status\":\"live\"}"
+    },
+    {
+      "id": "readiness",
+      "status": "pass",
+      "command": "curl -fsS http://127.0.0.1:18789/readyz",
+      "output": "{\"ready\":true}"
+    },
+    {
+      "id": "compose_service_health",
+      "status": "pass",
+      "command": "docker compose --env-file <compose.env> -f docker-compose.yml -f <override> ps",
+      "output": "foundation-source-openclaw-gateway-1 uses ghcr.io/openclaw/openclaw@sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5 and is Up/healthy with 127.0.0.1:18789-18790->18789-18790/tcp"
+    },
+    {
+      "id": "private_exposure",
+      "status": "pass",
+      "command": "ss -H -ltn | grep -E '(:18789|:18790)' and broad-listener check",
+      "output": "Only 127.0.0.1:18789 and 127.0.0.1:18790 listeners were present; no 0.0.0.0, [::], or wildcard listener matched those ports."
+    },
+    {
+      "id": "approval_behavior",
+      "status": "pass",
+      "command": "openclaw approvals get; openclaw exec-policy show",
+      "output": "Approvals file present. Defaults security=full, ask=always, askFallback=deny. Effective tools.exec policy security=full and ask=always. Allowlist entries: 0."
+    },
+    {
+      "id": "model_status",
+      "status": "blocked",
+      "command": "openclaw models status --check",
+      "output": "openai via codex uses openai-codex effective=missing:missing | status=missing; model_exit=1"
+    },
+    {
+      "id": "model_secret_presence",
+      "status": "blocked",
+      "command": "environment presence check for model keys",
+      "output": "OPENAI_API_KEY=absent; P4_OPENAI_CODEX_API_KEY=absent; OPENROUTER_API_KEY=absent"
+    },
+    {
+      "id": "workspace_source_split",
+      "status": "observed",
+      "command": "readlink/stat of source and runtime workspace paths",
+      "output": "Active source is /home/openclaw/foundation-source -> /opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source. Runtime workspace is /opt/openclaw-data/runtime/openclaw-foundation-sandbox/workspace, owned node:node, mounted in container as /home/node/.openclaw/workspace, and is not the source repo."
+    }
+  ],
+  "passed_p4_artifacts": [
+    "runtime health evidence",
+    "readiness evidence",
+    "private exposure evidence",
+    "approval behavior evidence"
+  ],
+  "blocked_p4_artifacts": [
+    "model status evidence"
+  ],
+  "not_claimed": [
+    "Hosted model usability is not proven.",
+    "P4 is not pass-qualified until model auth is configured and models status passes.",
+    "The container runtime workspace is not the builder source workspace."
+  ]
+}
