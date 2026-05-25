@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T03:47:50Z",
+  "generated_at": "2026-05-25T03:48:00Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "status_review",
-  "reviewed_commit": "109fa98e191abf8dcaf88b733cfdfbdc1daf4d5b",
+  "reviewed_commit": "755a203362187a9f7832ec35e58a5757dce5955e",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -22,23 +22,15 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18369,
-    "governance_file_count": 59,
+    "tracked_file_count": 18371,
+    "governance_file_count": 61,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M AGENTS.md\n M governance/AGENTS.md\n M governance/README.md\n M governance/codex-access-contract.md\n M governance/gate-ledger.json\n M tools/validate_governance.py\n?? governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json\n?? governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0347Z.json",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json",
   "changed_files": [
-    "AGENTS.md",
-    "governance/AGENTS.md",
-    "governance/README.md",
-    "governance/codex-access-contract.md",
-    "governance/gate-ledger.json",
-    "tools/validate_governance.py"
+    "governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json"
   ],
-  "untracked_files": [
-    "governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json",
-    "governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0347Z.json"
-  ],
+  "untracked_files": [],
   "required_artifact_results": [
     {
       "artifact": "runtime health evidence",
@@ -86,7 +78,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M AGENTS.md\n M governance/AGENTS.md\n M governance/README.md\n M governance/codex-access-contract.md\n M governance/gate-ledger.json\n M tools/validate_governance.py\n?? governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json\n?? governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0347Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json"
     },
     {
       "id": "required_artifacts",
@@ -128,8 +120,7 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md",
-      "tools/validate_governance.py"
+      "CUSTOM-CODE-RULE.md"
     ]
   },
   "access_contract_assessment": {
@@ -159,5 +150,5 @@
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action status_review: pass. Reviewed commit 109fa98e191abf8dcaf88b733cfdfbdc1daf4d5b. Changed files: 6 tracked, 2 untracked. Blocking findings: 0. Ryan needed now: no."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action status_review: pass. Reviewed commit 755a203362187a9f7832ec35e58a5757dce5955e. Changed files: 1 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
 }
