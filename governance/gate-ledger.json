@@ -287,6 +287,11 @@
           "type": "file",
           "path": "governance/evidence/p5-telegram-unknown-sender-rejection-20260525T0428Z.json",
           "description": "unknown sender rejection evidence: live Telegram allowlist policy rejects non-owner sender"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p5-protected-prompt-gap-20260525T0426Z.json",
+          "description": "protected prompt evidence: failed drill showing bash executed without approval"
         }
       ],
       "checks": [
@@ -297,8 +302,8 @@
         "denial is terminal"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "P5 is active. Native Telegram is configured and connected; owner outbound status, owner inbound DM, and policy-level unknown sender rejection are proven. Remaining gate evidence is protected prompt behavior and any live second-account rejection if required before PASS.",
-      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0428Z.json"
+      "disposition": "P5 is active and blocked. Native Telegram owner loop and sender policy evidence exist, but protected prompt behavior failed: a channel-originated Codex bash tool call executed without approval despite ask=always policy. Repair native gating before P5 PASS.",
+      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0432Z.json"
     },
     {
       "id": "P6",
