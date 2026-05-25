@@ -1,0 +1,153 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-25T04:49:51Z",
+  "gate_id": "P5",
+  "phase_name": "mobile-operator-loop",
+  "gate_status": "ACTIVE",
+  "action": "blocked_review",
+  "reviewed_commit": "4e9a4362522aa688cb2f90795daa75ed5f52db30",
+  "reviewer": "codex-repo-compliance-reviewer",
+  "overall_status": "blocked",
+  "repo_review_scope": [
+    "blueprint",
+    "phase-gates",
+    "gate-ledger",
+    "community-evidence",
+    "deny-register",
+    "custom-code-rule",
+    "codex-access-contract",
+    "changed-files",
+    "mechanical-checks",
+    "intervention-balance",
+    "ryan-report"
+  ],
+  "tracked_file_summary": {
+    "tracked_file_count": 18385,
+    "governance_file_count": 75,
+    "tool_file_count": 4
+  },
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json\n?? governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json\n?? governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json",
+  "changed_files": [
+    "governance/gate-ledger.json"
+  ],
+  "untracked_files": [
+    "governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json",
+    "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json",
+    "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
+  ],
+  "required_artifact_results": [
+    {
+      "artifact": "owner pairing evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-telegram-owner-inbound-20260525T042027Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    },
+    {
+      "artifact": "unknown sender rejection evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-telegram-unknown-sender-rejection-20260525T0428Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    },
+    {
+      "artifact": "protected prompt evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-protected-prompt-gap-20260525T0426Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    },
+    {
+      "artifact": "mobile status evidence",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-telegram-owner-outbound-20260525T042019Z.json"
+      ],
+      "assessment": "Required artifact exists or is attached as ledger evidence."
+    }
+  ],
+  "mechanical_checks": [
+    {
+      "id": "git_status",
+      "ok": true,
+      "command": "git status --short --branch",
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json\n?? governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json\n?? governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
+    },
+    {
+      "id": "required_artifacts",
+      "ok": true,
+      "command": "repo artifact existence scan",
+      "output_summary": "all required artifacts exist"
+    },
+    {
+      "id": "gate_review_packet",
+      "ok": true,
+      "command": "load gate review packet",
+      "output_summary": "verdict:blocked"
+    }
+  ],
+  "plan_compliance_assessment": {
+    "status": "pass",
+    "assessment": "Blueprint, phase definition, ledger, and active phase alignment are present.",
+    "evidence": [
+      "gate:P5",
+      "phase:mobile-operator-loop",
+      "active:P5"
+    ]
+  },
+  "community_evidence_assessment": {
+    "status": "pass",
+    "assessment": "Candidate register satisfies community evidence structure.",
+    "evidence": [
+      "candidate_rows:4"
+    ]
+  },
+  "deny_register_assessment": {
+    "status": "pass",
+    "assessment": "Deny register is present and entries require re-review before replay.",
+    "evidence": [
+      "deny_rows:5"
+    ]
+  },
+  "custom_code_assessment": {
+    "status": "pass",
+    "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
+    "evidence": [
+      "CUSTOM-CODE-RULE.md"
+    ]
+  },
+  "access_contract_assessment": {
+    "status": "pass",
+    "assessment": "Codex access contract contains the required project-command boundary.",
+    "evidence": [
+      "governance/codex-access-contract.md"
+    ]
+  },
+  "intervention_balance_assessment": {
+    "status": "pass",
+    "requires_ryan_now": false,
+    "protected_boundary_pending": true,
+    "approval_packet_present": true,
+    "safe_local_next_actions": [
+      "validate, review, and commit/push current repo-local changes",
+      "refresh the gate action report after safe-local evidence changes"
+    ],
+    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "evidence": [
+      "phase_ryan_required:True",
+      "gate_status:ACTIVE",
+      "artifact_failures:0",
+      "review_verdict:blocked",
+      "approval_packet_present:True"
+    ]
+  },
+  "gate_review_verdict": "blocked",
+  "blocking_findings": [
+    "missing clean owner-mobile protected-action terminal denial or approval-packet evidence",
+    "missing Control UI/mobile same-truth evidence"
+  ],
+  "ryan_report": "Gate P5 (mobile-operator-loop) action blocked_review: blocked. Reviewed commit 4e9a4362522aa688cb2f90795daa75ed5f52db30. Changed files: 1 tracked, 3 untracked. Blocking findings: 2. Ryan needed now: no."
+}

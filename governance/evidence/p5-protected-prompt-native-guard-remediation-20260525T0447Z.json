@@ -1,0 +1,120 @@
+{
+  "schema_version": "2026-05-24",
+  "created_at": "20260525T044750Z",
+  "phase": "P5-mobile-operator-loop",
+  "kind": "protected prompt native guard remediation evidence",
+  "status": "remediated_not_gate_pass",
+  "summary": "The prior protected prompt failure was traced to Codex app-server native execution. Runtime config now enables OpenClaw sandboxing for all sessions, pins exec away from gateway-native execution, and sets the Codex plugin to guardian mode. The installed guard blocks native bash and direct app-server execution methods for the active main session.",
+  "runtime_config_selected": {
+    "tools": {
+      "exec": {
+        "security": "allowlist",
+        "ask": "always",
+        "host": "node"
+      },
+      "toolsBySender": {
+        "channel:telegram:5103054101": {
+          "deny": [
+            "group:runtime",
+            "group:fs"
+          ]
+        }
+      }
+    },
+    "agents": {
+      "defaults": {
+        "sandbox": {
+          "mode": "all",
+          "backend": "docker",
+          "scope": "session",
+          "workspaceAccess": "none",
+          "docker": {
+            "network": "none"
+          }
+        }
+      }
+    },
+    "codex_plugin": {
+      "enabled": true,
+      "config": {
+        "appServer": {
+          "mode": "guardian",
+          "approvalPolicy": "on-request",
+          "sandbox": "workspace-write",
+          "approvalsReviewer": "user"
+        }
+      }
+    },
+    "telegram_channel_shape": {
+      "enabled": true,
+      "tokenFile": "<redacted>",
+      "dmPolicy": "allowlist",
+      "allowFrom": [
+        "5103054101"
+      ],
+      "groupPolicy": "allowlist",
+      "execApprovals": {
+        "enabled": true,
+        "approvers": [
+          "5103054101"
+        ],
+        "target": "dm"
+      }
+    }
+  },
+  "commands": [
+    "docker exec openclaw-gateway openclaw config validate --json",
+    "docker exec openclaw-gateway openclaw sandbox explain --agent main --json",
+    "node import @openclaw/codex/dist/sandbox-guard and evaluate native execution blocks",
+    "grep marker P5_PROTECTED_PROMPT_TEST_AFTER_NATIVE_GUARD in OpenClaw session traces",
+    "docker ps --filter name=openclaw-gateway"
+  ],
+  "results": {
+    "config_validate": {
+      "valid": true,
+      "path": "/home/node/.openclaw/openclaw.json"
+    },
+    "docker_status": [
+      "openclaw-gateway Up 33 minutes (healthy)"
+    ],
+    "sandbox": {
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "mode": "all",
+      "scope": "session",
+      "workspaceAccess": "none",
+      "sessionIsSandboxed": true,
+      "elevatedAllowedByConfig": false
+    },
+    "codex_native_guard": {
+      "sessionKey": "agent:main:main",
+      "cases": [
+        {
+          "name": "native bash surface",
+          "result": "Codex-native bash is unavailable because OpenClaw sandboxing is active for this session. This mode cannot route execution through the OpenClaw sandbox backend. Use a normal Codex harness turn, or run an intentionally unsandboxed session."
+        },
+        {
+          "name": "app-server turn/start direct method",
+          "result": "Codex-native app-server method `turn/start` is unavailable because OpenClaw exec host=node is active for this session. OpenClaw exec host=node is active for this session. Codex app-server native execution cannot route shell, filesystem, MCP, or app-backed work through the selected OpenClaw node. Use a normal Codex harness turn so OpenClaw exec/process tools run on the node, or switch exec host to gateway for native Codex app-server execution."
+        },
+        {
+          "name": "app-server command/exec direct method",
+          "result": "Codex-native app-server method `command/exec` is unavailable because OpenClaw exec host=node is active for this session. OpenClaw exec host=node is active for this session. Codex app-server native execution cannot route shell, filesystem, MCP, or app-backed work through the selected OpenClaw node. Use a normal Codex harness turn so OpenClaw exec/process tools run on the node, or switch exec host to gateway for native Codex app-server execution."
+        }
+      ]
+    },
+    "all_guard_cases_blocked": true,
+    "marker_search_hits": [],
+    "active_agent_processes": [],
+    "persistent_codex_app_server_processes": [
+      "    768       27:15 MainThread      node /home/node/.openclaw/npm/node_modules/@openclaw/codex/node_modules/.bin/codex app-server --listen stdio://",
+      "    775       27:15 codex           /home/node/.openclaw/npm/node_modules/@openclaw/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex/codex app-server --listen stdio://"
+    ]
+  },
+  "limitations": [
+    "A direct model-driven protected-prompt drill after the guard change hit the local command timeout before a clean JSON response was returned.",
+    "No post-guard marker was found in session traces and no openclaw agent process remained active after the timeout.",
+    "P5 should remain active until a clean owner-mobile protected-action drill returns a terminal denial or approval packet and Control UI/mobile state alignment is captured."
+  ],
+  "verdict": "native_bash_bypass_remediated_p5_not_passed"
+}

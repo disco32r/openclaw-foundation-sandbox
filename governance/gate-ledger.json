@@ -292,6 +292,16 @@
           "type": "file",
           "path": "governance/evidence/p5-protected-prompt-gap-20260525T0426Z.json",
           "description": "protected prompt evidence: failed drill showing bash executed without approval"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json",
+          "description": "protected prompt remediation evidence: Codex-native bash/direct app-server execution is blocked by active OpenClaw sandbox/native guard config"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json",
+          "description": "P5 blocked gate review after native bash bypass remediation"
         }
       ],
       "checks": [
@@ -302,8 +312,9 @@
         "denial is terminal"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "P5 is active and blocked. Native Telegram owner loop and sender policy evidence exist, but protected prompt behavior failed: a channel-originated Codex bash tool call executed without approval despite ask=always policy. Repair native gating before P5 PASS.",
-      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0432Z.json"
+      "disposition": "P5 remains active. Native Telegram owner loop and sender policy evidence exist, and the Codex-native bash bypass has been remediated by OpenClaw sandbox/native guard config. P5 is still blocked pending clean owner-mobile protected-action terminal denial/approval-packet proof and Control UI/mobile same-truth evidence.",
+      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json",
+      "review_packet": "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
     },
     {
       "id": "P6",

@@ -1,0 +1,85 @@
+{
+  "gate_id": "P5",
+  "phase_name": "mobile-operator-loop",
+  "reviewed_commit": "4e9a4362522aa688cb2f90795daa75ed5f52db30",
+  "reviewer": "codex-runtime-gate-reviewer",
+  "reviewer_independence": "Focused review after protected-prompt failure, using installed OpenClaw Codex plugin guard behavior, sandbox explain output, config validation, and marker/process checks.",
+  "verdict": "blocked",
+  "summary": "The dangerous Codex-native bash bypass found in P5 has been remediated at runtime, but P5 is not pass-qualified yet. A clean owner-mobile protected-action drill and Control UI/mobile same-truth proof are still required.",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "Config validation, sandbox explain, native guard evaluation, marker search, and process checks completed; governance validator is rerun after report refresh."
+  },
+  "criteria_results": [
+    {
+      "criterion": "owner mobile loop works",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-telegram-owner-outbound-20260525T042019Z.json",
+        "governance/evidence/p5-telegram-owner-inbound-20260525T042027Z.json"
+      ],
+      "assessment": "Native Telegram outbound and owner inbound were proven earlier."
+    },
+    {
+      "criterion": "unknown sender denied",
+      "status": "needs_review",
+      "evidence": [
+        "governance/evidence/p5-telegram-unknown-sender-rejection-20260525T0428Z.json"
+      ],
+      "assessment": "Allowlist matcher rejects a synthetic non-owner id. A live second-account test remains optional but not currently available."
+    },
+    {
+      "criterion": "protected action asks approval",
+      "status": "needs_review",
+      "evidence": [
+        "governance/evidence/p5-protected-prompt-gap-20260525T0426Z.json",
+        "governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json"
+      ],
+      "assessment": "The native bash bypass is fixed, but the exact P5 pass criterion still needs clean mobile approval-packet or denial evidence."
+    },
+    {
+      "criterion": "Control UI and mobile show same truth",
+      "status": "fail",
+      "evidence": [
+        "missing:Control UI and mobile show same truth"
+      ],
+      "assessment": "No current same-truth capture has been attached for P5."
+    }
+  ],
+  "anti_drift_results": [
+    {
+      "requirement": "no relay as authority",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-telegram-native-channel-config-20260525T041428Z.json"
+      ],
+      "assessment": "Native OpenClaw Telegram channel is used; no custom relay has been introduced."
+    },
+    {
+      "requirement": "no mobile bypass bot",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json"
+      ],
+      "assessment": "Native Codex app-server execution surfaces are blocked for the active session; mobile must go through OpenClaw policy."
+    },
+    {
+      "requirement": "no public channel",
+      "status": "pass",
+      "evidence": [
+        "governance/evidence/p5-telegram-native-channel-config-20260525T041428Z.json"
+      ],
+      "assessment": "Telegram is configured for owner allowlist DM policy."
+    }
+  ],
+  "runtime_enforcement": {
+    "status": "openclaw_enforced",
+    "assessment": "OpenClaw config validation, sandbox explain, and Codex plugin native-execution guard enforce the critical native-exec boundary; remaining P5 proof is end-to-end mobile/control-ui evidence."
+  },
+  "blocking_findings": [
+    "missing clean owner-mobile protected-action terminal denial or approval-packet evidence",
+    "missing Control UI/mobile same-truth evidence"
+  ],
+  "next_action": "Run the P5 final mobile drill through the native Telegram owner path, capture terminal denial/approval behavior and same-truth dashboard/control evidence, then rerun the gate review."
+}
