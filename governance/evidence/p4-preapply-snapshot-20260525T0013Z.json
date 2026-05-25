@@ -1,0 +1,54 @@
+{
+  "schema_version": "2026-05-24",
+  "phase": "P4",
+  "status": "preapply_snapshot_pass",
+  "captured_at": "2026-05-25T00:13:18Z",
+  "source_root": "/home/openclaw/foundation-source",
+  "reviewed_commit": "214b6736860f92f613da2382b9323707492ecee9",
+  "mutation": "none",
+  "purpose": "Refresh the read-only host and repo state immediately before the protected P4 Docker/runtime apply boundary.",
+  "commands": [
+    {
+      "command": "git rev-parse HEAD && git status --short --branch",
+      "result": "HEAD 214b6736860f92f613da2382b9323707492ecee9 on codex/foundation-governance-bootstrap, matching origin with no changed or untracked files."
+    },
+    {
+      "command": "command -v docker && docker --version && docker compose version",
+      "result": "/usr/bin/docker; Docker version 29.4.0, build 9d7ad9f; Docker Compose version v5.1.3."
+    },
+    {
+      "command": "docker ps --format '{{.ID}} {{.Image}} {{.Names}} {{.Ports}}'",
+      "result": "No running containers were listed."
+    },
+    {
+      "command": "docker compose ls --format json",
+      "result": "[]"
+    },
+    {
+      "command": "ss -H -ltn | grep -E '(:18789|:18790)' || true",
+      "result": "No listeners were listed on 18789 or 18790."
+    },
+    {
+      "command": "test for /opt/openclaw-data/runtime/openclaw-foundation-sandbox",
+      "result": "absent"
+    },
+    {
+      "command": "sh -n governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+      "result": "script_syntax_ok"
+    }
+  ],
+  "not_claimed": [
+    "This is not live runtime health proof.",
+    "This is not live ready endpoint proof.",
+    "This is not hosted model proof.",
+    "This is not live approval-path proof."
+  ],
+  "not_performed": [
+    "No Docker image was pulled or built.",
+    "No container was created or started.",
+    "No runtime config was written.",
+    "No network listener was created.",
+    "No model key was read, written, or tested.",
+    "No protected approval decision was made."
+  ]
+}

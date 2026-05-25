@@ -5,7 +5,7 @@
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
   "verdict": "blocked",
-  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, provider/auth preflight evidence, a reviewed one-shot apply/validate/rollback script, and fail-closed evidence for that script when P4_APPROVED is absent. The dry run found and corrected a source .env injection risk with an env_file reset override. The provider preflight also pinned the official linux/amd64 image digest. P4 still cannot pass until the protected Docker sandbox script is explicitly approved, executed, and health, readiness, exposure, model, and live OpenClaw approval behavior proof are captured.",
+  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, provider/auth preflight evidence, a reviewed one-shot apply/validate/rollback script, fail-closed evidence for that script when P4_APPROVED is absent, and a fresh read-only pre-apply snapshot at the current branch head. The dry run found and corrected a source .env injection risk with an env_file reset override. The provider preflight also pinned the official linux/amd64 image digest. P4 still cannot pass until the protected Docker sandbox script is explicitly approved, executed, and health, readiness, exposure, model, and live OpenClaw approval behavior proof are captured.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -48,9 +48,10 @@
       "criterion": "no production mutation",
       "status": "pass",
       "evidence": [
-        "governance/evidence/p4-runtime-preflight-20260524T2340Z.json"
+        "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
+        "governance/evidence/p4-preapply-snapshot-20260525T0013Z.json"
       ],
-      "assessment": "Preflight was read-only and explicitly did not pull images, start containers, write runtime config, create listeners, or change secrets."
+      "assessment": "Preflight and the fresh pre-apply snapshot were read-only and explicitly did not pull images, start containers, write runtime config, create listeners, or change secrets."
     }
   ],
   "anti_drift_results": [
@@ -69,11 +70,12 @@
       "evidence": [
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
+        "governance/evidence/p4-preapply-snapshot-20260525T0013Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
         "governance/evidence/p4-runtime-script-fail-closed-20260525T0010Z.json"
       ],
-      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run was non-mutating and the script was proven to exit with code 20 unless P4_APPROVED=1 is supplied; the packet has not been executed."
+      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run and fresh pre-apply snapshot were non-mutating, and the script was proven to exit with code 20 unless P4_APPROVED=1 is supplied; the packet has not been executed."
     },
     {
       "requirement": "no second scheduler",

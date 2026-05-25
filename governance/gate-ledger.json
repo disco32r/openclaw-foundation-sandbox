@@ -203,6 +203,11 @@
         },
         {
           "type": "file",
+          "path": "governance/evidence/p4-preapply-snapshot-20260525T0013Z.json",
+          "description": "fresh P4 pre-apply snapshot proving Docker availability, no project containers, no target-port listeners, absent sandbox state root, and script syntax ok"
+        },
+        {
+          "type": "file",
           "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
           "description": "blocked P4 gate review against runtime criteria"
         }
