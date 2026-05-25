@@ -41,7 +41,7 @@ Only work the `ACTIVE` phase in `governance/gate-ledger.json` unless Ryan explic
 
 ## Access Rule
 
-Do not use Windows PowerShell as the project logic layer. Source edits go through the mounted source repo or direct SSH/SFTP as `openclaw`; repo commands run from `/home/openclaw/foundation-source` with a POSIX shell. PowerShell is allowed only for local mount repair, not source rewriting, governance logic, or build orchestration.
+Do not use Windows PowerShell as the project logic layer. Source edits go through the mounted source repo or direct SSH/SFTP as `openclaw`; repo commands run from `/opt/openclaw` with a POSIX shell. PowerShell is allowed only for local mount repair, not source rewriting, governance logic, or build orchestration.
 
 ## Forbidden Drift
 

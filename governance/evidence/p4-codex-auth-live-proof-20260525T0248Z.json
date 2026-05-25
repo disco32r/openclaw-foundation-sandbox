@@ -5,7 +5,7 @@
   "purpose": "Prove OpenClaw private sandbox hosted model usability through the native Codex OAuth provider path.",
   "runtime": {
     "host": "openclaw@192.168.2.242",
-    "source_root": "/home/openclaw/foundation-source",
+    "source_root": "/opt/openclaw",
     "state_root": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox",
     "compose_env": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/compose.env",
     "compose_override": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/docker-compose.p4.override.yml",

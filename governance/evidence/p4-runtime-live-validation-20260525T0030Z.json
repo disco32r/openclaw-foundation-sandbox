@@ -3,7 +3,7 @@
   "phase": "P4",
   "status": "partial_pass_model_blocked",
   "captured_at": "2026-05-25T00:30:14Z",
-  "source_root": "/home/openclaw/foundation-source",
+  "source_root": "/opt/openclaw",
   "reviewed_commit": "b8b6ea7dea3c2b5d7b895c81d307c316b00d0cad",
   "runtime_state_root": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox",
   "compose_env": "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/compose.env",
@@ -55,7 +55,7 @@
       "id": "workspace_source_split",
       "status": "observed",
       "command": "readlink/stat of source and runtime workspace paths",
-      "output": "Active source is /home/openclaw/foundation-source -> /opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source. Runtime workspace is /opt/openclaw-data/runtime/openclaw-foundation-sandbox/workspace, owned node:node, mounted in container as /home/node/.openclaw/workspace, and is not the source repo."
+      "output": "Active source is /opt/openclaw -> /opt/openclaw. Runtime workspace is /opt/openclaw-data/runtime/openclaw-foundation-sandbox/workspace, owned node:node, mounted in container as /home/node/.openclaw/workspace, and is not the source repo."
     }
   ],
   "passed_p4_artifacts": [

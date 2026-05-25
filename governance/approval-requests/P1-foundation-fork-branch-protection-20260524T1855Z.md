@@ -33,7 +33,7 @@ This touches an external account and repository settings. Do not execute without
 Use the token-driven setup:
 
 ```sh
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 GITHUB_TOKEN=<token> python3 tools/setup_p1_github_environment.py
 ```
 
@@ -54,7 +54,7 @@ If an organization fork is required instead of the authenticated user's fork, cr
 ## Proposed Validation
 
 ```sh
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 git remote -v
 git ls-remote --heads origin
 python3 tools/validate_governance.py
@@ -71,7 +71,7 @@ Additional validation after branch protection is configured:
 ## Proposed Rollback
 
 ```sh
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 git remote remove origin
 git remote rename upstream origin
 git remote -v

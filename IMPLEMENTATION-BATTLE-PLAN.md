@@ -29,7 +29,7 @@ python foundation-packet/tools/validate_governance.py
 
 The packet is designed to be copied into the clean `openclaw/openclaw` fork and mirrored to:
 
-`/opt/openclaw-data/workspace/openclaw-foundation-sandbox`
+`/opt/openclaw`
 
 ## Stop Conditions
 
@@ -39,4 +39,3 @@ The packet is designed to be copied into the clean `openclaw/openclaw` fork and 
 - Any custom scheduler/queue/approval/dashboard authority appears.
 - Any protected action executes without approval.
 - Any workflow is admitted without rollback proof.
-

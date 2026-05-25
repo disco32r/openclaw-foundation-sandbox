@@ -20,7 +20,7 @@ The foundation reaches tipping point when a phone can submit a software-builder 
 
 Clean VM file workspace:
 
-`/opt/openclaw-data/workspace/openclaw-foundation-sandbox`
+`/opt/openclaw`
 
 Discovery marker:
 
@@ -29,4 +29,3 @@ Discovery marker:
 Quarantine root:
 
 `/opt/openclaw-data/workspace/_quarantine`
-

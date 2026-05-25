@@ -3,7 +3,7 @@
   "phase": "P4",
   "status": "fail_closed_pass",
   "captured_at": "2026-05-25T00:10:00Z",
-  "source_root": "/home/openclaw/foundation-source",
+  "source_root": "/opt/openclaw",
   "reviewed_commit": "d8b22b335319f9e14fd35383ef03142aa6f54fc7",
   "script": "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
   "purpose": "Prove the reviewed P4 runtime execution script stops before Docker, runtime config, network, auth, or rollback work unless explicit protected-boundary approval is supplied.",

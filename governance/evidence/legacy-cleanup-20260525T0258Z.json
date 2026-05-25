@@ -4,15 +4,14 @@
   "purpose": "Remove non-authoritative legacy workspace clutter after Codex/OpenClaw model auth was proven usable.",
   "preconditions": {
     "codex_auth_fixed": true,
-    "active_gateway_container": "foundation-source-openclaw-gateway-1",
+    "active_gateway_container": "openclaw-gateway",
     "active_mounts": [
       "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/auth-profile-secrets",
       "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/config",
       "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/workspace"
     ],
     "excluded_authority_paths": [
-      "/home/openclaw/foundation-source",
-      "/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source",
+      "/opt/openclaw",
       "/opt/openclaw-data/runtime/openclaw-foundation-sandbox"
     ]
   },
@@ -75,6 +74,47 @@
         "container:openwebui-bridge"
       ],
       "reason": "They were stopped or non-active prior-system artifacts and should not appear as available runtime choices."
+    },
+    {
+      "category": "old global OpenClaw state outside the active sandbox",
+      "paths": [
+        "/opt/openclaw-data/agents",
+        "/opt/openclaw-data/browser",
+        "/opt/openclaw-data/browser-runtime",
+        "/opt/openclaw-data/canvas",
+        "/opt/openclaw-data/credentials",
+        "/opt/openclaw-data/cron",
+        "/opt/openclaw-data/delivery-queue",
+        "/opt/openclaw-data/devices",
+        "/opt/openclaw-data/extensions",
+        "/opt/openclaw-data/flows",
+        "/opt/openclaw-data/identity",
+        "/opt/openclaw-data/locks",
+        "/opt/openclaw-data/logs",
+        "/opt/openclaw-data/media",
+        "/opt/openclaw-data/memory",
+        "/opt/openclaw-data/plugin-skills",
+        "/opt/openclaw-data/plugins",
+        "/opt/openclaw-data/rollback",
+        "/opt/openclaw-data/secrets",
+        "/opt/openclaw-data/session-delivery-queue",
+        "/opt/openclaw-data/ssh",
+        "/opt/openclaw-data/ssh-control-venv",
+        "/opt/openclaw-data/subagents",
+        "/opt/openclaw-data/tasks",
+        "/opt/openclaw-data/telegram",
+        "/opt/openclaw-data/openclaw.json and root-level openclaw.json backups"
+      ],
+      "reason": "The active sandbox does not mount these paths. Keeping old global state would preserve stale credentials, sessions, bots, schedulers, and root config as possible false authority for future agents."
+    },
+    {
+      "category": "old repo-shaped runtime internals",
+      "paths": [
+        "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/workspace/.git",
+        "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/config/agents/main/agent/codex-home/.tmp/plugins/.git",
+        "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/config/agents/main/agent/codex-home/.tmp/plugins-clone-*/.git"
+      ],
+      "reason": "These runtime/cache Git directories made repo discovery noisy. They were not the project source of truth and were removed so `/opt/openclaw/.git` is the only repository left on the VM."
     }
   ],
   "created_pointers": [
@@ -88,9 +128,12 @@
       "README.md",
       "openclaw-foundation-sandbox/"
     ],
-    "sandbox_workspace_remaining_child": "openclaw-source/",
+    "openclaw_data_remaining_top_level": [
+      "runtime/openclaw-foundation-sandbox/"
+    ],
+    "source_directory": "/opt/openclaw",
     "containers_remaining": [
-      "foundation-source-openclaw-gateway-1 Up (healthy)"
+      "openclaw-gateway Up (healthy)"
     ],
     "healthz": "{\"ok\":true,\"status\":\"live\"}",
     "readyz": "{\"ready\":true}",
@@ -104,10 +147,11 @@
     }
   },
   "value_retained": [
-    "Active OpenClaw source repo.",
+    "Active OpenClaw source repo at /opt/openclaw.",
     "Active isolated runtime root.",
+    "Clean-state backup archives under /opt/openclaw-data/runtime/openclaw-foundation-sandbox/backups.",
     "Governance evidence and gate records inside the source repo.",
-    "Workspace pointer files that tell agents where authority lives."
+    "SSH startup behavior that lands Ryan directly in /opt/openclaw."
   ],
   "value_rejected": [
     "Old runnable code/config from the broken system.",

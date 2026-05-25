@@ -9,7 +9,8 @@ This is not required for Phase 0-3 governance implementation. It is useful for P
 ## Affected Systems
 
 - Docker/container state on `openclaw@192.168.2.242`.
-- Files under `/opt/openclaw-data/workspace/openclaw-foundation-sandbox`.
+- Source files under `/opt/openclaw`.
+- Runtime files under `/opt/openclaw-data/runtime/openclaw-foundation-sandbox`.
 - Network exposure if ports are bound.
 
 ## Proposed Apply
@@ -17,7 +18,7 @@ This is not required for Phase 0-3 governance implementation. It is useful for P
 Do not run until approved.
 
 ```sh
-cd /opt/openclaw-data/workspace/openclaw-foundation-sandbox
+cd /opt/openclaw
 # Use official OpenClaw Docker/VM deployment instructions pinned to the selected upstream commit.
 # Bind admin/control surfaces to localhost or private network only.
 ```
@@ -55,4 +56,3 @@ Remove only the foundation sandbox container/volume names listed in the approval
 ## Risk
 
 Main risk is accidentally creating a second active OpenClaw runtime or exposing admin surfaces. The mitigation is private binding, explicit container names, no public tunnel, and rollback proof before any live adoption.
-

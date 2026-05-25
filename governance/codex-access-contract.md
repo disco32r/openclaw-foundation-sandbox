@@ -4,8 +4,8 @@ This project must not use Windows PowerShell as the project logic layer.
 
 ## Source Paths
 
-- Canonical VM repo: `/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source`
-- Stable VM shortcut: `/home/openclaw/foundation-source`
+- Canonical VM repo: `/opt/openclaw`
+- SSH login starts in: `/opt/openclaw`
 - Windows mount for direct file reads and edits: `Q:\opt\openclaw-data\workspace\openclaw-foundation-sandbox\openclaw-source`
 
 The forked OpenClaw source repo is the source of truth. Codex session context, local scratch folders, and runtime workspace files are not authority.
@@ -13,7 +13,7 @@ The forked OpenClaw source repo is the source of truth. Codex session context, l
 ## Allowed Access Pattern
 
 - Read and edit source files through the mounted `Q:` repo path or direct SSH/SFTP as the `openclaw` user.
-- Run repo commands with remote POSIX shell from `/home/openclaw/foundation-source`.
+- Run repo commands with remote POSIX shell from `/opt/openclaw`.
 - Use Git branches and commits for durable state.
 - Use `python3 tools/validate_governance.py` from the VM repo before claiming a gate is valid.
 - Use the sudo helper only for protected VM/runtime/system operations.

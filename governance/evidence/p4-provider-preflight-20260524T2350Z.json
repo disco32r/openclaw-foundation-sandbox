@@ -3,7 +3,7 @@
   "phase": "P4",
   "status": "preflight_only",
   "captured_at": "2026-05-24T23:50:30Z",
-  "source_root": "/home/openclaw/foundation-source",
+  "source_root": "/opt/openclaw",
   "mutation": "none",
   "checks": [
     {

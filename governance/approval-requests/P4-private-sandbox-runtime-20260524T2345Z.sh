@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-REPO_ROOT="${REPO_ROOT:-/home/openclaw/foundation-source}"
+REPO_ROOT="${REPO_ROOT:-/opt/openclaw}"
 STATE_ROOT="${STATE_ROOT:-/opt/openclaw-data/runtime/openclaw-foundation-sandbox}"
 COMPOSE_ENV="$STATE_ROOT/compose.env"
 COMPOSE_OVERRIDE="$STATE_ROOT/docker-compose.p4.override.yml"

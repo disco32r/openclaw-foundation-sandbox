@@ -3,7 +3,7 @@
   "phase": "P4",
   "status": "preapply_snapshot_pass",
   "captured_at": "2026-05-25T00:13:18Z",
-  "source_root": "/home/openclaw/foundation-source",
+  "source_root": "/opt/openclaw",
   "reviewed_commit": "214b6736860f92f613da2382b9323707492ecee9",
   "mutation": "none",
   "purpose": "Refresh the read-only host and repo state immediately before the protected P4 Docker/runtime apply boundary.",

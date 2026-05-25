@@ -670,7 +670,7 @@ def validate_agent_entrypoint() -> None:
         "governance/AGENTS.md",
         "governance/codex-access-contract.md",
         "Do not use Windows PowerShell as the project logic layer",
-        "/home/openclaw/foundation-source",
+        "/opt/openclaw",
     ]:
         require(required in root_agent_text, f"root AGENTS.md must point agents to {required}")
     for required in [
@@ -697,7 +697,7 @@ def validate_community_evidence_contract() -> None:
 def validate_codex_access_contract() -> None:
     text = (GOV / "codex-access-contract.md").read_text(encoding="utf-8")
     for required in [
-        "/home/openclaw/foundation-source",
+        "/opt/openclaw",
         "Q:\\",
         "PowerShell",
         "not use Windows PowerShell as the project logic layer",

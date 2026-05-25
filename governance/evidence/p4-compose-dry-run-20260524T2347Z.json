@@ -3,7 +3,7 @@
   "phase": "P4",
   "status": "dry_run_pass",
   "captured_at": "2026-05-24T23:47:41Z",
-  "source_root": "/home/openclaw/foundation-source",
+  "source_root": "/opt/openclaw",
   "command": "docker compose -f docker-compose.yml -f <temporary-envfile-reset-override> config --format json",
   "mutation": "none",
   "purpose": "Prove the proposed P4 Docker Compose configuration before starting containers.",

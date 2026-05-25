@@ -21,7 +21,7 @@ The safe-local preflight is complete in `governance/evidence/p4-runtime-prefligh
 ## Affected Systems
 
 - VM host: `openclaw@192.168.2.242`
-- Source tree: `/home/openclaw/foundation-source`
+- Source tree: `/opt/openclaw`
 - Runtime state root: `/opt/openclaw-data/runtime/openclaw-foundation-sandbox`
 - Docker Compose project from `docker-compose.yml`
 - Local-only Gateway publish: `127.0.0.1:18789`
@@ -34,7 +34,7 @@ Run from the VM as `openclaw` with sudo available:
 Preferred reviewed script:
 
 ```sh
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 P4_APPROVED=1 P4_OPENAI_CODEX_API_KEY="${P4_OPENAI_CODEX_API_KEY:-}" \
   sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh apply
 P4_APPROVED=1 sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh validate
@@ -44,7 +44,7 @@ Equivalent expanded command:
 
 ```sh
 set -eu
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 
 STATE_ROOT=/opt/openclaw-data/runtime/openclaw-foundation-sandbox
 sudo install -d -m 0750 -o openclaw -g openclaw "$STATE_ROOT"
@@ -128,7 +128,7 @@ fi
 ## Validation Command
 
 ```sh
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 P4_APPROVED=1 sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh validate
 ```
 
@@ -136,7 +136,7 @@ Equivalent expanded command:
 
 ```sh
 set -eu
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 STATE_ROOT=/opt/openclaw-data/runtime/openclaw-foundation-sandbox
 . "$STATE_ROOT/compose.env"
 
@@ -200,7 +200,7 @@ If `P4_OPENAI_CODEX_API_KEY` is not provided, stop after health/readiness/exposu
 ## Rollback Command
 
 ```sh
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 P4_APPROVED=1 sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh rollback
 ```
 
@@ -208,7 +208,7 @@ Equivalent expanded command:
 
 ```sh
 set -eu
-cd /home/openclaw/foundation-source
+cd /opt/openclaw
 STATE_ROOT=/opt/openclaw-data/runtime/openclaw-foundation-sandbox
 
 docker compose --env-file "$STATE_ROOT/compose.env" \

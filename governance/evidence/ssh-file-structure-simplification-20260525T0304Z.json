@@ -1,0 +1,47 @@
+{
+  "schema_version": "2026-05-24",
+  "captured_at": "2026-05-25T03:04:30Z",
+  "purpose": "Make SSH navigation simple with a real source directory and prevent old filesystem paths from misleading operators or agents.",
+  "changes": [
+    {
+      "path": "/opt/openclaw",
+      "before": "stale 12 KB directory containing an old docker-compose.yml and lifeos folder, then a temporary symlink during cleanup",
+      "after": "real source repository directory",
+      "reason": "Ryan naturally tried cd /opt/openclaw during SSH onboarding; that path should be the active source, not a dead compose stack."
+    },
+    {
+      "path": "/home/openclaw/openclaw, /home/openclaw/foundation-source, /home/openclaw/openclaw-runtime",
+      "after": "removed",
+      "reason": "Ryan rejected symlink-based navigation. The canonical source path is the real directory /opt/openclaw."
+    },
+    {
+      "path": "/home/openclaw/.bashrc",
+      "after": "exports OPENCLAW_SOURCE and OPENCLAW_RUNTIME; adds ocsrc, ocrt, ocps, and ocvalidate aliases; interactive shells auto-cd to /opt/openclaw when starting from home",
+      "reason": "Ryan should land in the right place immediately after SSH without symlinks or a pointer maze."
+    }
+  ],
+  "verification": {
+    "cd_opt_openclaw": {
+      "command": "cd /opt/openclaw && git rev-parse --show-toplevel && test -f tools/validate_governance.py",
+      "result": "/opt/openclaw"
+    },
+    "interactive_shell_aliases": {
+      "command": "bash -l -i -c 'pwd'",
+      "result": "/opt/openclaw"
+    },
+    "remaining_openclaw_data_roots": [
+      "/opt/openclaw-data/runtime/openclaw-foundation-sandbox"
+    ],
+    "remaining_git_repositories": [
+      "/opt/openclaw/.git"
+    ],
+    "remaining_containers": [
+      "openclaw-gateway"
+    ],
+    "backups": [
+      "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/backups/source-governance-20260525T0308Z.tgz",
+      "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/backups/runtime-config-manifest-20260525T0308Z.tgz"
+    ]
+  },
+  "anti_drift_assessment": "The obvious SSH landing directory is now the active source repo. Old root workspace, global OpenClaw state, and temporary symlinks have been removed. No active runtime mount was changed."
+}

@@ -226,7 +226,7 @@ def access_contract_assessment() -> dict[str, Any]:
     if not path.exists():
         return result("fail", "Codex access contract is missing.", ["missing:governance/codex-access-contract.md"])
     text = path.read_text(encoding="utf-8")
-    required = ["not use Windows PowerShell as the project logic layer", "/home/openclaw/foundation-source", "Q:\\"]
+    required = ["not use Windows PowerShell as the project logic layer", "/opt/openclaw", "Q:\\"]
     missing = [item for item in required if item not in text]
     return result(
         "pass" if not missing else "fail",
