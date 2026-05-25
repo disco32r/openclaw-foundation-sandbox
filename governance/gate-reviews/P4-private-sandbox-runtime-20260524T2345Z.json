@@ -1,11 +1,11 @@
 {
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
-  "reviewed_commit": "7294ebcc2a3b21c2189a4c16e80b0076626583af",
+  "reviewed_commit": "b1c55c40c02492fa06cb9dc5ddea093e9f01ee21",
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
-  "verdict": "blocked",
-  "summary": "P4 has a live private OpenClaw sandbox running from the reviewed script after a Docker Compose v5.1.3 flag correction. Runtime health, readiness, loopback-only exposure, and native exec approval policy are proven. The dry run found and corrected a source .env injection risk with an env_file reset override, and the provider preflight pinned the official linux/amd64 image digest. P4 still cannot pass because hosted model usability is blocked: openai-codex auth is missing and no OPENAI_API_KEY, P4_OPENAI_CODEX_API_KEY, or OPENROUTER_API_KEY is present in the inspected environment.",
+  "verdict": "pass",
+  "summary": "P4 has a live private OpenClaw sandbox running from the reviewed script after a Docker Compose v5.1.3 flag correction. Runtime health, readiness, loopback-only exposure, native exec approval policy, and hosted model usability are now proven. The missing openai-codex auth blocker was resolved through the native OpenClaw Codex OAuth onboarding flow and a native secrets reload, followed by a successful gateway-backed openai-codex/gpt-5.5 inference proof.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -26,15 +26,16 @@
     },
     {
       "criterion": "hosted model usable",
-      "status": "blocked",
+      "status": "pass",
       "evidence": [
         "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
         "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
         "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
-        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json",
+        "governance/evidence/p4-codex-auth-live-proof-20260525T0248Z.json"
       ],
-      "assessment": "The preflight confirmed the official image and native model-auth command path. Live model validation still fails because openai-codex auth is missing, models status exits 1, and the inspected environment has no OPENAI_API_KEY, P4_OPENAI_CODEX_API_KEY, or OPENROUTER_API_KEY."
+      "assessment": "The preflight confirmed the official image and native model-auth command path. Live gateway-backed inference now succeeds through openai-codex/gpt-5.5 after native Codex OAuth onboarding and openclaw secrets reload; the proof command returned ok=true and text OC_AUTH_OK."
     },
     {
       "criterion": "approval path verified",
@@ -96,11 +97,8 @@
   ],
   "runtime_enforcement": {
     "status": "openclaw_enforced",
-    "assessment": "The sandbox is live and OpenClaw native exec approvals are enforced with security=full, ask=always, askFallback=deny, and no allowlist entries. Model auth remains blocked separately."
+    "assessment": "The sandbox is live and OpenClaw native exec approvals are enforced with security=full, ask=always, askFallback=deny, and no allowlist entries. Hosted model usability is proven through the native openai-codex OAuth provider path."
   },
-  "blocking_findings": [
-    "Model status evidence exists but `models status --check` exits 1.",
-    "Hosted model usability is blocked because openai-codex auth is missing and no usable model API key is present in the inspected environment."
-  ],
-  "next_action": "Configure a hosted model credential through the native OpenClaw model auth path, rerun models status --check, then regenerate P4 review and action report."
+  "blocking_findings": [],
+  "next_action": "Promote P4 only after the gate ledger and gate action report reference the new live Codex auth proof and governance validation passes."
 }

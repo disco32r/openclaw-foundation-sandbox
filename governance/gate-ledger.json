@@ -213,8 +213,13 @@
         },
         {
           "type": "file",
+          "path": "governance/evidence/p4-codex-auth-live-proof-20260525T0248Z.json",
+          "description": "live P4 Codex OAuth and gateway inference proof showing openai-codex/gpt-5.5 returns OC_AUTH_OK after native secrets reload"
+        },
+        {
+          "type": "file",
           "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
-          "description": "blocked P4 gate review against runtime criteria"
+          "description": "P4 gate review against runtime criteria after Codex auth remediation"
         }
       ],
       "checks": [
@@ -223,7 +228,7 @@
       "anti_drift_confirmed": true,
       "review_packet": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
       "gate_action_report": "governance/gate-action-reports/P4-private-sandbox-runtime-20260524T2355Z.json",
-      "disposition": "P4 is active and blocked at the protected Docker/runtime boundary. Read-only preflight and approval packet exist, but PASS still requires live health, readiness, model, approval, and exposure proof."
+      "disposition": "P4 is active with live health, readiness, private exposure, approval behavior, and hosted Codex model usability now proven. Next step is formal promotion after governance validation confirms no stale blocked findings remain."
     },
     {
       "id": "P5",
