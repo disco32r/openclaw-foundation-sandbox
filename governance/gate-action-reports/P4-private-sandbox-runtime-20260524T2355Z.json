@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T00:15:05Z",
+  "generated_at": "2026-05-25T00:34:25Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "dd12671ce9c1088f828a5968619ab7e407da8964",
+  "reviewed_commit": "f26689b5f3fa5908d03682b60ff48f9f93662e76",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -22,53 +22,53 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18363,
-    "governance_file_count": 53,
+    "tracked_file_count": 18364,
+    "governance_file_count": 54,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 4]",
   "changed_files": [],
   "untracked_files": [],
   "required_artifact_results": [
     {
       "artifact": "runtime health evidence",
-      "status": "fail",
+      "status": "pass",
       "evidence": [
-        "missing:runtime health evidence"
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "Required artifact is missing."
+      "assessment": "Required artifact exists or is attached as ledger evidence."
     },
     {
       "artifact": "readiness evidence",
-      "status": "fail",
+      "status": "pass",
       "evidence": [
-        "missing:readiness evidence"
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "Required artifact is missing."
+      "assessment": "Required artifact exists or is attached as ledger evidence."
     },
     {
       "artifact": "private exposure evidence",
-      "status": "fail",
+      "status": "pass",
       "evidence": [
-        "missing:private exposure evidence"
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "Required artifact is missing."
+      "assessment": "Required artifact exists or is attached as ledger evidence."
     },
     {
       "artifact": "model status evidence",
-      "status": "fail",
+      "status": "pass",
       "evidence": [
-        "missing:model status evidence"
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "Required artifact is missing."
+      "assessment": "Required artifact exists or is attached as ledger evidence."
     },
     {
       "artifact": "approval behavior evidence",
-      "status": "fail",
+      "status": "pass",
       "evidence": [
-        "missing:approval behavior evidence"
+        "governance/evidence/p4-runtime-live-validation-20260525T0030Z.json"
       ],
-      "assessment": "Required artifact is missing."
+      "assessment": "Required artifact exists or is attached as ledger evidence."
     }
   ],
   "mechanical_checks": [
@@ -76,13 +76,13 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 4]"
     },
     {
       "id": "required_artifacts",
-      "ok": false,
+      "ok": true,
       "command": "repo artifact existence scan",
-      "output_summary": "missing ['runtime health evidence', 'readiness evidence', 'private exposure evidence', 'model status evidence', 'approval behavior evidence']"
+      "output_summary": "all required artifacts exist"
     },
     {
       "id": "gate_review_packet",
@@ -138,20 +138,15 @@
     "evidence": [
       "phase_ryan_required:True",
       "gate_status:ACTIVE",
-      "artifact_failures:5",
+      "artifact_failures:0",
       "review_verdict:blocked",
       "approval_packet_present:True"
     ]
   },
   "gate_review_verdict": "blocked",
   "blocking_findings": [
-    "Missing required artifacts: ['runtime health evidence', 'readiness evidence', 'private exposure evidence', 'model status evidence', 'approval behavior evidence']",
-    "Missing runtime health evidence.",
-    "Missing readiness evidence.",
-    "Missing private exposure evidence.",
-    "Missing model status evidence.",
-    "Missing approval behavior evidence.",
-    "Protected Docker/runtime mutation is required before those proofs can be produced."
+    "Model status evidence exists but `models status --check` exits 1.",
+    "Hosted model usability is blocked because openai-codex auth is missing and no usable model API key is present in the inspected environment."
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit dd12671ce9c1088f828a5968619ab7e407da8964. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: yes."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit f26689b5f3fa5908d03682b60ff48f9f93662e76. Changed files: 0 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: yes."
 }
