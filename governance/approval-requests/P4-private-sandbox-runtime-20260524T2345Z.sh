@@ -91,12 +91,12 @@ apply_runtime() {
   render_and_validate_compose
 
   compose pull openclaw-gateway openclaw-cli
-  compose run --rm --no-build --no-deps --entrypoint node openclaw-gateway \
+  compose run --rm --pull never --no-deps --entrypoint node openclaw-gateway \
     dist/index.js config set --batch-json '[{"path":"gateway.mode","value":"local"},{"path":"gateway.bind","value":"lan"},{"path":"gateway.controlUi.allowedOrigins","value":["http://localhost:18789","http://127.0.0.1:18789"]}]'
   compose up -d --no-build openclaw-gateway
 
   if [ -n "${P4_OPENAI_CODEX_API_KEY:-}" ]; then
-    printf "%s\n" "$P4_OPENAI_CODEX_API_KEY" | compose run --rm --no-build -T openclaw-cli \
+    printf "%s\n" "$P4_OPENAI_CODEX_API_KEY" | compose run --rm --pull never -T openclaw-cli \
       models auth paste-api-key --provider openai-codex --profile-id openai-codex:foundation-sandbox
   fi
 }
@@ -120,7 +120,7 @@ validate_core() {
 
 validate_model() {
   cd "$REPO_ROOT"
-  compose run --rm --no-build -T openclaw-cli models status --check
+  compose run --rm --pull never -T openclaw-cli models status --check
 }
 
 rollback_runtime() {

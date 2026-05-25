@@ -109,7 +109,7 @@ docker compose --env-file "$STATE_ROOT/compose.env" \
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-  run --rm --no-build --no-deps --entrypoint node openclaw-gateway \
+  run --rm --pull never --no-deps --entrypoint node openclaw-gateway \
   dist/index.js config set --batch-json '[{"path":"gateway.mode","value":"local"},{"path":"gateway.bind","value":"lan"},{"path":"gateway.controlUi.allowedOrigins","value":["http://localhost:18789","http://127.0.0.1:18789"]}]'
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
@@ -120,7 +120,7 @@ if [ -n "${P4_OPENAI_CODEX_API_KEY:-}" ]; then
   printf "%s\n" "$P4_OPENAI_CODEX_API_KEY" | docker compose --env-file "$STATE_ROOT/compose.env" \
     -f docker-compose.yml \
     -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-    run --rm --no-build -T openclaw-cli \
+    run --rm --pull never -T openclaw-cli \
     models auth paste-api-key --provider openai-codex --profile-id openai-codex:foundation-sandbox
 fi
 ```
@@ -180,7 +180,7 @@ docker compose --env-file "$STATE_ROOT/compose.env" \
 docker compose --env-file "$STATE_ROOT/compose.env" \
   -f docker-compose.yml \
   -f "$STATE_ROOT/docker-compose.p4.override.yml" \
-  run --rm --no-build -T openclaw-cli \
+  run --rm --pull never -T openclaw-cli \
   models status --check
 ```
 
