@@ -1,0 +1,118 @@
+{
+  "schema_version": "2026-05-24",
+  "captured_at": "2026-05-25T02:58:45Z",
+  "purpose": "Remove non-authoritative legacy workspace clutter after Codex/OpenClaw model auth was proven usable.",
+  "preconditions": {
+    "codex_auth_fixed": true,
+    "active_gateway_container": "foundation-source-openclaw-gateway-1",
+    "active_mounts": [
+      "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/auth-profile-secrets",
+      "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/config",
+      "/opt/openclaw-data/runtime/openclaw-foundation-sandbox/workspace"
+    ],
+    "excluded_authority_paths": [
+      "/home/openclaw/foundation-source",
+      "/opt/openclaw-data/workspace/openclaw-foundation-sandbox/openclaw-source",
+      "/opt/openclaw-data/runtime/openclaw-foundation-sandbox"
+    ]
+  },
+  "removed_categories": [
+    {
+      "category": "old root workspace guidance and git metadata",
+      "paths": [
+        "/opt/openclaw-data/workspace/.git",
+        "/opt/openclaw-data/workspace/.openclaw",
+        "/opt/openclaw-data/workspace/AGENTS.md",
+        "/opt/openclaw-data/workspace/SOUL.md",
+        "/opt/openclaw-data/workspace/USER.md",
+        "/opt/openclaw-data/workspace/TOOLS.md",
+        "/opt/openclaw-data/workspace/HEARTBEAT.md",
+        "/opt/openclaw-data/workspace/IDENTITY.md",
+        "/opt/openclaw-data/workspace/OPENCLAW_NATIVE_LOOP.md"
+      ],
+      "reason": "These files described old agent identity/control surfaces and could mislead future agents away from the foundation source repo."
+    },
+    {
+      "category": "legacy quarantine, trash, and archive trees",
+      "paths": [
+        "/opt/openclaw-data/workspace/_quarantine",
+        "/opt/openclaw-data/workspace/.trash",
+        "/opt/openclaw-data/archive/near-stock-prune-20260511T215728Z"
+      ],
+      "reason": "Prior quarantined/trash/archive material did not provide the needed OpenAI/Codex connection and was no longer an authority source."
+    },
+    {
+      "category": "old broken system workspace",
+      "paths": [
+        "/opt/openclaw-data/workspace/openclaw-native",
+        "/opt/openclaw-data/workspace/openclaw-plugins",
+        "/opt/openclaw-data/workspace/runtime-evidence",
+        "/opt/openclaw-data/workspace/runtime-trust",
+        "/opt/openclaw-data/workspace/capability",
+        "/opt/openclaw-data/workspace/evidence",
+        "/opt/openclaw-data/workspace/memory",
+        "/opt/openclaw-data/workspace/skills",
+        "/opt/openclaw-data/workspace/tmp"
+      ],
+      "reason": "These were old non-authoritative system artifacts that preserved the drift surface Ryan wanted removed."
+    },
+    {
+      "category": "duplicate non-active foundation sandbox side folders",
+      "paths": [
+        "/opt/openclaw-data/workspace/openclaw-foundation-sandbox/evidence",
+        "/opt/openclaw-data/workspace/openclaw-foundation-sandbox/foundation-packet",
+        "/opt/openclaw-data/workspace/openclaw-foundation-sandbox/runtime"
+      ],
+      "reason": "The active authority is the source repo and the active runtime root; these sibling folders duplicated evidence/runtime concepts outside governance."
+    },
+    {
+      "category": "old OpenWebUI bridge and stopped containers",
+      "paths": [
+        "/home/openclaw/openwebui-bridge",
+        "container:openclaw-foundation-sandbox-openclaw-gateway-1",
+        "container:openclaw-openclaw-gateway-1",
+        "container:openwebui",
+        "container:openwebui-bridge"
+      ],
+      "reason": "They were stopped or non-active prior-system artifacts and should not appear as available runtime choices."
+    }
+  ],
+  "created_pointers": [
+    "/opt/openclaw-data/workspace/README.md",
+    "/opt/openclaw-data/workspace/AGENTS.md"
+  ],
+  "post_cleanup_verification": {
+    "workspace_root_listing": [
+      "AGENTS.md",
+      "OPENCLAW_FOUNDATION_SANDBOX_PATH.txt",
+      "README.md",
+      "openclaw-foundation-sandbox/"
+    ],
+    "sandbox_workspace_remaining_child": "openclaw-source/",
+    "containers_remaining": [
+      "foundation-source-openclaw-gateway-1 Up (healthy)"
+    ],
+    "healthz": "{\"ok\":true,\"status\":\"live\"}",
+    "readyz": "{\"ready\":true}",
+    "codex_gateway_probe": {
+      "command": "openclaw infer model run --gateway --model openai-codex/gpt-5.5 --thinking minimal --prompt 'Respond with exactly OC_AUTH_OK.' --json",
+      "exit_code": 0,
+      "ok": true,
+      "provider": "openai-codex",
+      "model": "gpt-5.5",
+      "text": "OC_AUTH_OK"
+    }
+  },
+  "value_retained": [
+    "Active OpenClaw source repo.",
+    "Active isolated runtime root.",
+    "Governance evidence and gate records inside the source repo.",
+    "Workspace pointer files that tell agents where authority lives."
+  ],
+  "value_rejected": [
+    "Old runnable code/config from the broken system.",
+    "Old quarantine/trash trees.",
+    "Old OpenWebUI bridge artifacts.",
+    "Duplicate evidence/runtime folders outside governance."
+  ]
+}
