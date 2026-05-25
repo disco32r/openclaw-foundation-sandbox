@@ -267,6 +267,11 @@
           "type": "file",
           "path": "governance/evidence/p4-promotion-p5-activation-20260525T0357Z.json",
           "description": "P5 activation evidence and current mobile operator proof gaps"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p5-telegram-native-channel-config-20260525T041428Z.json",
+          "description": "Native Telegram channel configuration progress evidence for P5 owner mobile loop"
         }
       ],
       "checks": [
@@ -277,7 +282,7 @@
         "denial is terminal"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "P5 is active. The next required work is native Telegram or private Control UI proof for owner intake, unknown sender rejection, protected prompt behavior, and mobile status parity without making a relay or dashboard the authority.",
+      "disposition": "P5 is active. Native Telegram is configured and connected with owner allowlist. Remaining gate evidence is live owner mobile status, unknown sender rejection, protected prompt behavior, and mobile policy-bypass denial.",
       "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0357Z.json"
     },
     {

@@ -1,0 +1,22 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "20260525T041428Z",
+  "phase": "P5-mobile-operator-loop",
+  "artifact": "native telegram channel configuration",
+  "token_handling": "Ryan supplied BotFather token; token is stored in a container OpenClaw-home secret file and is not recorded in repo evidence.",
+  "bot_identity": "AComputerBot",
+  "owner_telegram_user_id": "5103054101",
+  "config_backup_host": "/home/openclaw/openclaw-runtime-backups/p5-pre-telegram-durable-token-20260525T041428Z.json",
+  "durable_token_file": "/home/node/.openclaw/secrets/telegram-bot-token",
+  "return_codes": {
+    "owner_patch": 0
+  },
+  "gateway_healthz": "{\"ok\":true,\"status\":\"live\"}",
+  "gateway_readyz": "{\"ready\":true}",
+  "config_validate_output": "Config valid: $OPENCLAW_HOME/.openclaw/openclaw.json\n",
+  "channels_list_output": "Chat channels:\n- Telegram default: installed, configured, enabled, token=tokenFile\n\nModel provider usage moved out of `channels list` \u2014 see `openclaw status` or `openclaw models list`.\nDocs: https://docs.openclaw.ai/gateway/configuration\n",
+  "channels_status_output": "Checking channel status\u2026\nGateway reachable.\n- Telegram default: enabled, configured, running, connected, transport:just now, mode:polling, token:tokenFile\n\nTip: https://docs.openclaw.ai/cli#status adds gateway health probes to status output (requires a reachable gateway).\n",
+  "telegram_config_shape_redacted": "{\n  \"enabled\": true,\n  \"tokenFile\": \"/home/node/.openclaw/secrets/telegram-bot-token\",\n  \"dmPolicy\": \"allowlist\",\n  \"allowFrom\": [\n    \"5103054101\"\n  ],\n  \"groupPolicy\": \"allowlist\"\n}\n",
+  "token_file_readable_check": "readable",
+  "assessment": "Native Telegram is configured with explicit owner allowlist and current channel status reports running/connected. Remaining P5 pass evidence requires live owner message/status proof, unknown sender rejection proof, and protected prompt behavior proof."
+}
