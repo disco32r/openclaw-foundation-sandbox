@@ -193,6 +193,11 @@
         },
         {
           "type": "file",
+          "path": "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh",
+          "description": "reviewed one-shot protected P4 apply, validation, and rollback script"
+        },
+        {
+          "type": "file",
           "path": "governance/gate-reviews/P4-private-sandbox-runtime-20260524T2345Z.json",
           "description": "blocked P4 gate review against runtime criteria"
         }

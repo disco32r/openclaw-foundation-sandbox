@@ -49,6 +49,10 @@ A phase may be marked `PASS` only when:
 
 For `ACTIVE` gates, blocking findings are allowed only when the gate disposition says the phase is active but not pass-qualified.
 
+## Active Report Freshness
+
+For the currently `ACTIVE` gate, the action report must review the current source state. Because the report is committed after it is generated, the only allowed diff between `reviewed_commit` and `HEAD` is the report file itself. Any other changed file means the active report is stale and must be regenerated.
+
 ## Intervention Balance Rule
 
 Every gate action report must state whether Ryan is needed now. The default answer is no. A report may say Ryan is needed only when the next action crosses a protected boundary and no safe-local evidence, review, or approval-packet drafting remains.

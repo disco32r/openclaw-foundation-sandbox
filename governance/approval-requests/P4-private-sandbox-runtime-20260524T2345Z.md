@@ -31,6 +31,17 @@ The safe-local preflight is complete in `governance/evidence/p4-runtime-prefligh
 
 Run from the VM as `openclaw` with sudo available:
 
+Preferred reviewed script:
+
+```sh
+cd /home/openclaw/foundation-source
+P4_APPROVED=1 P4_OPENAI_CODEX_API_KEY="${P4_OPENAI_CODEX_API_KEY:-}" \
+  sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh apply
+P4_APPROVED=1 sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh validate
+```
+
+Equivalent expanded command:
+
 ```sh
 set -eu
 cd /home/openclaw/foundation-source
@@ -117,6 +128,13 @@ fi
 ## Validation Command
 
 ```sh
+cd /home/openclaw/foundation-source
+P4_APPROVED=1 sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh validate
+```
+
+Equivalent expanded command:
+
+```sh
 set -eu
 cd /home/openclaw/foundation-source
 STATE_ROOT=/opt/openclaw-data/runtime/openclaw-foundation-sandbox
@@ -180,6 +198,13 @@ Expected result:
 If `P4_OPENAI_CODEX_API_KEY` is not provided, stop after health/readiness/exposure proof and record P4 as still blocked on model-auth input. Do not invent a fallback local-model route.
 
 ## Rollback Command
+
+```sh
+cd /home/openclaw/foundation-source
+P4_APPROVED=1 sh governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh rollback
+```
+
+Equivalent expanded command:
 
 ```sh
 set -eu

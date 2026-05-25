@@ -499,6 +499,17 @@ def validate_gate_action_report(gate: dict[str, Any], phase: dict[str, Any]) -> 
     require(isinstance(report["reviewer"], str) and len(report["reviewer"].strip()) >= 4, f"gate {gate_id} action report reviewer too thin")
     require(report["overall_status"] in GATE_ACTION_REPORT_STATUSES, f"gate {gate_id} action report invalid overall_status")
 
+    if gate["status"] == "ACTIVE":
+        code, changed_since_review = run_git("diff", "--name-only", f"{report['reviewed_commit']}..HEAD")
+        require(code == 0, f"gate {gate_id} active action report reviewed_commit is not comparable to HEAD")
+        changed_files = {line.strip() for line in changed_since_review.splitlines() if line.strip()}
+        allowed_changes = {report_path_value}
+        stale_changes = sorted(changed_files - allowed_changes)
+        require(
+            not stale_changes,
+            f"gate {gate_id} active action report is stale; files changed after reviewed_commit: {stale_changes}",
+        )
+
     scope = report["repo_review_scope"]
     require(isinstance(scope, list), f"gate {gate_id} action report repo_review_scope must be a list")
     require(REQUIRED_GATE_ACTION_SCOPE <= set(scope), f"gate {gate_id} action report missing review scope: {sorted(REQUIRED_GATE_ACTION_SCOPE - set(scope))}")
@@ -719,6 +730,8 @@ def validate_gate_action_review_contract() -> None:
         "Codex access contract compliance",
         "changed files and untracked files",
         "intervention balance",
+        "Active Report Freshness",
+        "the only allowed diff between `reviewed_commit` and `HEAD` is the report file itself",
         "Ryan-facing report text",
         "python3 tools/generate_gate_action_report.py",
     ]:

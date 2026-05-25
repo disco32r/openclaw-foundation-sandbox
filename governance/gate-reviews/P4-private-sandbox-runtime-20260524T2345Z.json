@@ -5,7 +5,7 @@
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Separate blocked-gate review against phase criteria after read-only runtime preflight.",
   "verdict": "blocked",
-  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, and provider/auth preflight evidence. The dry run found and corrected a source .env injection risk with an env_file reset override. The provider preflight also pinned the official linux/amd64 image digest. P4 still cannot pass until the protected Docker sandbox is started and health, readiness, exposure, model, and approval behavior proof are captured.",
+  "summary": "P4 has a clean repo posture, runtime preflight evidence, a non-mutating Compose dry run, provider/auth preflight evidence, and a reviewed one-shot apply/validate/rollback script. The dry run found and corrected a source .env injection risk with an env_file reset override. The provider preflight also pinned the official linux/amd64 image digest. P4 still cannot pass until the protected Docker sandbox script is explicitly approved, executed, and health, readiness, exposure, model, and approval behavior proof are captured.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -18,9 +18,10 @@
       "evidence": [
         "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
       ],
-      "assessment": "Preflight found no listeners on 18789 or 18790, and the dry run rendered host_ip 127.0.0.1 for both published ports after resetting repo-root env_file injection. The packet now validates the rendered JSON exactly rather than accepting a single grep hit. Privacy still cannot be fully proven until the sandbox is started and ss/curl evidence is captured."
+      "assessment": "Preflight found no listeners on 18789 or 18790, and the dry run rendered host_ip 127.0.0.1 for both published ports after resetting repo-root env_file injection. The packet and script now validate the rendered JSON exactly rather than accepting a single grep hit. Privacy still cannot be fully proven until the sandbox is started and ss/curl evidence is captured."
     },
     {
       "criterion": "hosted model usable",
@@ -28,17 +29,19 @@
       "evidence": [
         "governance/evidence/p4-runtime-preflight-20260524T2340Z.json",
         "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
       ],
-      "assessment": "The preflight confirmed the official image resolves for linux/amd64 at digest sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5 and the native openai-codex API-key auth command exists. Model usability still cannot be claimed before an API key is supplied to the protected apply and `models status --check` passes inside the sandbox."
+      "assessment": "The preflight confirmed the official image resolves for linux/amd64 at digest sha256:d35b8b681c223a85027502c7a82999aa772d6a09e1b28903951cac7fc27efed5 and the native openai-codex API-key auth command exists. Model usability still cannot be claimed before an API key is supplied to the protected apply script and `models status --check` passes inside the sandbox."
     },
     {
       "criterion": "approval path verified",
       "status": "blocked",
       "evidence": [
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
       ],
-      "assessment": "The protected-boundary packet is drafted, but runtime approval behavior still needs a live protected-action denial or approval packet proof from the sandbox."
+      "assessment": "The protected-boundary packet is drafted and the reviewed execution script fails closed unless P4_APPROVED=1 is supplied, but runtime approval behavior still needs a live protected-action denial or approval packet proof from the sandbox."
     },
     {
       "criterion": "no production mutation",
@@ -65,17 +68,19 @@
       "evidence": [
         "governance/evidence/p4-compose-dry-run-20260524T2347Z.json",
         "governance/evidence/p4-provider-preflight-20260524T2350Z.json",
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
       ],
-      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run was non-mutating and the packet has not been executed."
+      "assessment": "The packet explicitly marks runtime config, Docker, network, secrets, and auth as protected boundaries. The dry run was non-mutating and the script exits with code 20 unless P4_APPROVED=1 is supplied; the packet has not been executed."
     },
     {
       "requirement": "no second scheduler",
       "status": "pass",
       "evidence": [
-        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md"
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.md",
+        "governance/approval-requests/P4-private-sandbox-runtime-20260524T2345Z.sh"
       ],
-      "assessment": "The proposed deployment uses OpenClaw Docker Compose only and does not add cron, a separate queue, or a second scheduler/control plane."
+      "assessment": "The proposed deployment uses OpenClaw Docker Compose only and the reviewed script does not add cron, a separate queue, or a second scheduler/control plane."
     }
   ],
   "runtime_enforcement": {
