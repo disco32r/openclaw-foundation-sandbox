@@ -317,6 +317,21 @@
           "type": "file",
           "path": "governance/gate-reviews/P5-mobile-operator-loop-20260525T153133Z.json",
           "description": "fresh P5 blocked gate review after post-OOM/sandbox reconfirmation"
+        },
+        {
+          "type": "file",
+          "path": "governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.md",
+          "description": "P5 protected-boundary approval packet for node-side Docker sandbox remediation"
+        },
+        {
+          "type": "file",
+          "path": "governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh",
+          "description": "reviewed P5 apply, validation, and rollback script for Docker sandbox remediation"
+        },
+        {
+          "type": "file",
+          "path": "governance/custom-code-decisions.jsonl",
+          "description": "custom-code qualification for the P5 protected-boundary remediation script"
         }
       ],
       "checks": [
@@ -328,7 +343,7 @@
       ],
       "anti_drift_confirmed": true,
       "disposition": "P5 remains active. Fresh post-OOM reconfirmation shows the VM, gateway, model route, and native Telegram channel are healthy, but the final owner-mobile protected-action proof is still blocked because node-side sandbox Docker is unavailable before policy approval/denial can complete.",
-      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T153133Z.json",
+      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T1542Z.json",
       "review_packet": "governance/gate-reviews/P5-mobile-operator-loop-20260525T153133Z.json"
     },
     {
