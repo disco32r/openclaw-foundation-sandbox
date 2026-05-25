@@ -1,0 +1,53 @@
+{
+  "schema_version": "2026-05-25",
+  "recorded_at": "2026-05-25T03:47:00Z",
+  "purpose": "Replace fragile hand-written SSH command payloads with a durable Codex launcher and make GitHub authentication persistent for the VM source repo.",
+  "ssh_launcher": {
+    "path": "C:\\Users\\Ryan\\.codex\\openclaw\\ocssh.cmd",
+    "python_backend": "C:\\Users\\Ryan\\.codex\\openclaw\\ocssh.py",
+    "ssh_key": "C:\\Users\\Ryan\\.codex\\openclaw\\openclaw_codex_ed25519",
+    "known_hosts": "C:\\Users\\Ryan\\.codex\\openclaw\\known_hosts",
+    "remote_host": "openclaw@192.168.2.242",
+    "default_remote_cwd": "/opt/openclaw",
+    "implementation_note": "Non-interactive commands are sent to remote bash on stdin so command parsing happens on the VM rather than in the local Windows shell."
+  },
+  "github_auth": {
+    "credential_helper": "store --file ~/.git-credentials-openclaw",
+    "credential_file_mode": "600",
+    "credential_file_owner": "openclaw",
+    "remote_policy": "Git remotes remain token-free; credentials are supplied by Git's VM-local credential helper.",
+    "origin": "https://github.com/disco32r/openclaw-foundation-sandbox.git",
+    "upstream": "https://github.com/openclaw/openclaw.git"
+  },
+  "verification": [
+    {
+      "command": "C:\\Users\\Ryan\\.codex\\openclaw\\ocssh.cmd \"printf 'PWD='; pwd; printf 'BRANCH='; git branch --show-current; printf 'STATUS='; git status --short --branch\"",
+      "result": "PWD=/opt/openclaw; BRANCH=codex/foundation-governance-bootstrap; STATUS=clean tracking branch"
+    },
+    {
+      "command": "git config --global --get-all credential.helper",
+      "result": "store --file ~/.git-credentials-openclaw"
+    },
+    {
+      "command": "stat -c '%a %U %n' ~/.git-credentials-openclaw",
+      "result": "600 openclaw /home/openclaw/.git-credentials-openclaw"
+    },
+    {
+      "command": "git remote -v",
+      "result": "origin and upstream use token-free HTTPS URLs"
+    },
+    {
+      "command": "git ls-remote --heads origin codex/foundation-governance-bootstrap",
+      "result": "pass"
+    },
+    {
+      "command": "git fetch origin codex/foundation-governance-bootstrap",
+      "result": "pass"
+    },
+    {
+      "command": "git push --dry-run origin codex/foundation-governance-bootstrap",
+      "result": "Everything up-to-date"
+    }
+  ],
+  "operator_rule": "Agents should use ocssh.cmd for VM commands, Q:\\opt\\openclaw for mounted source edits, and normal git push/fetch from /opt/openclaw. Do not embed GitHub tokens in command lines or remote URLs."
+}

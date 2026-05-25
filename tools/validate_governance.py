@@ -700,6 +700,9 @@ def validate_codex_access_contract() -> None:
         "/opt/openclaw",
         "/opt/openclaw-data/runtime/oc",
         "Q:\\opt\\openclaw",
+        "C:\\Users\\Ryan\\.codex\\openclaw\\ocssh.cmd",
+        "~/.git-credentials-openclaw",
+        "git push --dry-run origin codex/foundation-governance-bootstrap",
         "oc-net",
         "openclaw-gateway",
         "Q:\\",
@@ -788,5 +791,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
 

@@ -21,6 +21,8 @@ Only the `ACTIVE` phase in `gate-ledger.json` is executable unless Ryan explicit
 
 Current VM source is `/opt/openclaw`; current runtime state is `/opt/openclaw-data/runtime/oc`; current Docker surface is project `oc`, network `oc-net`, container `openclaw-gateway`.
 
+Codex VM commands should use `C:\Users\Ryan\.codex\openclaw\ocssh.cmd` so remote shell logic is sent to `/opt/openclaw` instead of being parsed by the local Windows shell.
+
 ## Files
 
 - `blueprint.md`: canonical implementation blueprint and tipping-point definition.
