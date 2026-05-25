@@ -29,8 +29,8 @@
     },
     {
       "target": "Runtime temp repo cache",
-      "action": "Removed the runtime temporary plugin cache .git metadata.",
-      "result": "Only /opt/openclaw/.git remains under /opt and /home/openclaw."
+      "action": "Removed stale temporary clone metadata, then rechecked after the gateway was live.",
+      "result": "The gateway regenerated an active OpenAI plugins cache under /opt/openclaw-data/runtime/oc/config/agents/main/agent/codex-home/.tmp/plugins/.git. This is runtime cache, not source authority; agents are pointed to /opt/openclaw and must not work from runtime cache paths."
     },
     {
       "target": "Durable agent pointers",
@@ -46,7 +46,11 @@
   "verification": [
     {
       "command": "sudo find /opt /home/openclaw -path '*/.git' -type d -print | sort",
-      "result": "/opt/openclaw/.git"
+      "result": "/opt/openclaw/.git; /opt/openclaw-data/runtime/oc/config/agents/main/agent/codex-home/.tmp/plugins/.git"
+    },
+    {
+      "command": "sudo git --git-dir=/opt/openclaw-data/runtime/oc/config/agents/main/agent/codex-home/.tmp/plugins/.git config --get remote.origin.url",
+      "result": "https://github.com/openai/plugins.git; classified as live runtime plugin cache, not an OpenClaw project checkout"
     },
     {
       "command": "sudo find /opt/openclaw-data -maxdepth 3 -mindepth 1 -printf '%y %p\\n' | sort",
@@ -87,6 +91,7 @@
   ],
   "notes": [
     "Historical evidence files may still mention retired paths because they record earlier actions. Current operating files now point at the short active names and the validator rejects the retired workspace mount in the Codex access contract.",
+    "The active runtime may recreate provider/plugin cache directories under /opt/openclaw-data/runtime/oc/config. Those caches are not source authority and should not be used for project work.",
     "The Windows host launcher may still invoke ssh through cmd.exe because the Codex shell is hosted by PowerShell. Project logic runs on the VM in /opt/openclaw with POSIX shell."
   ]
 }
