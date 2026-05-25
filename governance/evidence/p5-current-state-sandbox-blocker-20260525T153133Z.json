@@ -1,0 +1,371 @@
+{
+  "assessment": {
+    "blocker": "Missing clean owner-mobile protected-action terminal denial or approval-packet proof.",
+    "cannot_start_p6": "P6 is not active and P5 has no pass review; starting builder harness work would violate the active phase rule.",
+    "immediate_cause": "The latest protected-action drills are native task records but fail before policy approval/denial because sandbox mode is all and the node-side Docker sandbox backend cannot find docker in PATH.",
+    "p5_pass_qualified": false,
+    "safe_local_next_actions": [
+      "Keep P5 active and blocked.",
+      "Create or review a protected-boundary approval packet for remediating the node-side sandbox Docker availability before rerunning the final mobile protected-action drill.",
+      "Do not disable sandboxing or bypass Telegram/native OpenClaw policy to force a pass."
+    ]
+  },
+  "created_at": "20260525T153133Z",
+  "kind": "fresh P5 state and sandbox blocker evidence",
+  "ledger_active_phase": {
+    "active_phase": "P5",
+    "p5_disposition": "P5 remains active. Native Telegram owner loop, sender policy, native Codex guard remediation, and Control UI/mobile same-truth evidence exist. P5 is still blocked pending a clean owner-mobile protected-action terminal denial/approval-packet proof.",
+    "p5_gate_action_report_before": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T1456Z.json",
+    "p5_review_packet_before": "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json",
+    "p5_status": "ACTIVE"
+  },
+  "model_provider": {
+    "defaultModel": "openai/gpt-5.5",
+    "missingProvidersInUse": [],
+    "models": [
+      {
+        "available": true,
+        "contextWindow": 200000,
+        "input": "text",
+        "key": "openai/gpt-5.5",
+        "local": false,
+        "missing": false,
+        "name": "gpt-5.5",
+        "tags": [
+          "default"
+        ]
+      }
+    ],
+    "providersWithOAuth": [
+      "openai-codex (1)"
+    ],
+    "resolvedDefault": "openai/gpt-5.5",
+    "runtimeAuthRoutes": [
+      {
+        "authProvider": "openai-codex",
+        "effective": {
+          "detail": "$OPENCLAW_HOME/.openclaw/agents/main/agent/auth-profiles.json",
+          "kind": "profiles"
+        },
+        "provider": "openai",
+        "runtime": "codex",
+        "status": "usable"
+      }
+    ]
+  },
+  "native_agent_state": {
+    "active_sessions": {
+      "activeMinutes": 240,
+      "count": 1,
+      "hasMore": false,
+      "limitApplied": 20,
+      "path": "/home/node/.openclaw/agents/main/sessions/sessions.json",
+      "sessions": [
+        {
+          "abortedLastRun": false,
+          "acpRuntime": false,
+          "ageMs": 616539,
+          "agentId": "main",
+          "agentRuntime": {
+            "id": "codex",
+            "source": "implicit"
+          },
+          "contextTokens": 272000,
+          "inputTokens": 15153,
+          "key": "agent:main:main",
+          "kind": "direct",
+          "model": "gpt-5.5",
+          "modelProvider": "openai-codex",
+          "outputTokens": 143,
+          "runtimePolicySessionKey": "agent:main:telegram:default:direct:5103054101",
+          "sessionId": "5b59db8e-e82c-4aa5-b954-946050c93485",
+          "systemSent": true,
+          "totalTokens": 26801,
+          "totalTokensFresh": true,
+          "updatedAt": 1779722518308
+        }
+      ],
+      "totalCount": 1
+    },
+    "agents": [
+      {
+        "agentDir": "/home/node/.openclaw/agents/main/agent",
+        "bindings": 0,
+        "id": "main",
+        "isDefault": true,
+        "routes": [
+          "default (no explicit rules)"
+        ],
+        "workspace": "/home/node/.openclaw/workspace"
+      }
+    ],
+    "failed_protected_drills": [
+      {},
+      {}
+    ],
+    "tasks_audit": {
+      "count": 1,
+      "displayed": 1,
+      "filteredCount": 1,
+      "filters": {
+        "code": null,
+        "limit": null,
+        "severity": null
+      },
+      "findings": [
+        {
+          "ageMs": 43916651,
+          "code": "lost",
+          "detail": "backing session missing",
+          "kind": "task",
+          "severity": "warn",
+          "status": "lost",
+          "task": {
+            "agentId": "main",
+            "childSessionKey": "agent:main:explicit:model-run-378184ca-68da-4948-83c9-f663bb71e983",
+            "cleanupAfter": 1780284019799,
+            "createdAt": 1779678876450,
+            "deliveryStatus": "not_applicable",
+            "endedAt": 1779679219799,
+            "error": "backing session missing",
+            "lastEventAt": 1779679219799,
+            "notifyPolicy": "silent",
+            "ownerKey": "agent:main:explicit:model-run-378184ca-68da-4948-83c9-f663bb71e983",
+            "requesterSessionKey": "agent:main:explicit:model-run-378184ca-68da-4948-83c9-f663bb71e983",
+            "runId": "0afa18ac-5ae7-432d-a807-a7ad40ff4f53",
+            "runtime": "cli",
+            "scopeKind": "session",
+            "sourceId": "0afa18ac-5ae7-432d-a807-a7ad40ff4f53",
+            "startedAt": 1779678893538,
+            "status": "lost",
+            "task": "Respond with exactly OC_AUTH_OK.",
+            "taskId": "7ed89ea7-b9de-4542-b552-2bc4d4a4696d"
+          },
+          "token_redacted": "task id duplicate omitted; see task.taskId"
+        }
+      ],
+      "summary": {
+        "byCode": {
+          "delivery_failed": 0,
+          "inconsistent_timestamps": 0,
+          "lost": 1,
+          "missing_cleanup": 0,
+          "stale_queued": 0,
+          "stale_running": 0
+        },
+        "combined": {
+          "errors": 0,
+          "total": 1,
+          "warnings": 1
+        },
+        "errors": 0,
+        "taskFlows": {
+          "byCode": {
+            "blocked_task_missing": 0,
+            "cancel_stuck": 0,
+            "inconsistent_timestamps": 0,
+            "missing_linked_tasks": 0,
+            "restore_failed": 0,
+            "stale_blocked": 0,
+            "stale_running": 0,
+            "stale_waiting": 0
+          },
+          "errors": 0,
+          "total": 0,
+          "warnings": 0
+        },
+        "total": 1,
+        "warnings": 1
+      }
+    }
+  },
+  "phase": "P5-mobile-operator-loop",
+  "purpose": "Reconfirm current post-OOM/runtime state and record why P5 remains blocked before any P6 work.",
+  "repo": {
+    "branch": "codex/foundation-governance-bootstrap",
+    "head": "9f5f6767acfd5024f3c9356a5dfc78f78a334d9e",
+    "status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
+  },
+  "runtime": {
+    "docker_ps": "NAMES              IMAGE          STATUS                    PORTS\nopenclaw-gateway   d35b8b681c22   Up 40 minutes (healthy)   127.0.0.1:18789-18790->18789-18790/tcp\n",
+    "health": "{\"ok\":true,\"status\":\"live\"}",
+    "memory": "               total        used        free      shared  buff/cache   available\nMem:            11Gi       1.1Gi       9.9Gi       1.3Mi       991Mi        10Gi\nSwap:          974Mi          0B       974Mi\n",
+    "ready": "{\"ready\":true}"
+  },
+  "sandbox_and_approval_policy": {
+    "approvals": {
+      "effectivePolicy": {
+        "note": "Effective exec policy is the host approvals file intersected with requested tools.exec policy.",
+        "scopes": [
+          {
+            "allowedDecisions": [
+              "allow-once",
+              "deny"
+            ],
+            "ask": {
+              "effective": "always",
+              "host": "always",
+              "hostSource": "/home/node/.openclaw/exec-approvals.json defaults.ask",
+              "note": "requested ask applies",
+              "requested": "always",
+              "requestedSource": "tools.exec.ask"
+            },
+            "askFallback": {
+              "effective": "deny",
+              "source": "/home/node/.openclaw/exec-approvals.json defaults.askFallback"
+            },
+            "configPath": "tools.exec",
+            "host": {
+              "requested": "node",
+              "requestedSource": "tools.exec.host"
+            },
+            "scopeLabel": "tools.exec",
+            "security": {
+              "effective": "allowlist",
+              "host": "full",
+              "hostSource": "/home/node/.openclaw/exec-approvals.json defaults.security",
+              "note": "requested security applies",
+              "requested": "allowlist",
+              "requestedSource": "tools.exec.security"
+            }
+          }
+        ]
+      },
+      "exists": true,
+      "file": {
+        "agents": {},
+        "defaults": {
+          "ask": "always",
+          "askFallback": "deny",
+          "security": "full"
+        },
+        "socket": {},
+        "version": 1
+      },
+      "hash": "228d667e0db96e52b52d176bab90783b2214c1777e60e77063b12ad3bc292a0b",
+      "path": "/home/node/.openclaw/exec-approvals.json"
+    },
+    "sandbox": {
+      "agentId": "main",
+      "docsUrl": "https://docs.openclaw.ai/sandbox",
+      "elevated": {
+        "allowFrom": {},
+        "allowedByConfig": false,
+        "alwaysAllowedByConfig": false,
+        "enabled": true,
+        "failures": []
+      },
+      "fixIt": [
+        "agents.defaults.sandbox.mode=off",
+        "agents.list[].sandbox.mode=off",
+        "tools.sandbox.tools.allow",
+        "tools.sandbox.tools.alsoAllow",
+        "tools.sandbox.tools.deny",
+        "agents.list[].tools.sandbox.tools.allow",
+        "agents.list[].tools.sandbox.tools.alsoAllow",
+        "agents.list[].tools.sandbox.tools.deny",
+        "tools.elevated.enabled"
+      ],
+      "mainSessionKey": "agent:main:main",
+      "sandbox": {
+        "mode": "all",
+        "scope": "session",
+        "sessionIsSandboxed": true,
+        "tools": {
+          "allow": [
+            "exec",
+            "process",
+            "read",
+            "write",
+            "edit",
+            "apply_patch",
+            "image",
+            "sessions_list",
+            "sessions_history",
+            "sessions_send",
+            "sessions_spawn",
+            "sessions_yield",
+            "subagents",
+            "session_status"
+          ],
+          "deny": [
+            "browser",
+            "canvas",
+            "nodes",
+            "cron",
+            "gateway",
+            "feishu",
+            "wecom",
+            "googlechat",
+            "nostr",
+            "msteams",
+            "mattermost",
+            "nextcloud-talk",
+            "matrix",
+            "line",
+            "openclaw-weixin",
+            "zalo",
+            "clickclack",
+            "yuanbao",
+            "zalouser",
+            "synology-chat",
+            "tlon",
+            "discord",
+            "imessage",
+            "irc",
+            "qqbot",
+            "signal",
+            "slack",
+            "telegram",
+            "twitch",
+            "whatsapp"
+          ],
+          "sources": {
+            "allow": {
+              "key": "tools.sandbox.tools.allow",
+              "source": "default"
+            },
+            "deny": {
+              "key": "tools.sandbox.tools.deny",
+              "source": "default"
+            }
+          }
+        },
+        "workspaceAccess": "none",
+        "workspaceRoot": "/home/node/.openclaw/sandboxes"
+      },
+      "sessionKey": "agent:main:main"
+    }
+  },
+  "schema_version": "2026-05-24",
+  "telegram_native_channel": {
+    "list": {
+      "chat": {
+        "telegram": {
+          "accounts": [
+            "default"
+          ],
+          "installed": true,
+          "origin": "configured"
+        }
+      }
+    },
+    "logs": "Log file: /tmp/openclaw/openclaw-2026-05-25.log\nChannel: telegram\n2026-05-25T04:20:27.657+00:00 info {\"subsystem\":\"gateway/channels/telegram/inbound\"} Inbound message telegram:5103054101 -> @AComputerBot (direct, 6 chars)\n",
+    "status_summary": {
+      "account_configured": true,
+      "account_enabled": true,
+      "account_running": true,
+      "configured": true,
+      "connected": true,
+      "lastTransportActivityAt": 1779723121103,
+      "mode": "polling",
+      "running": true,
+      "tokenStatus": "available"
+    }
+  },
+  "validator": {
+    "ok": true,
+    "output": "{\n  \"ok\": true,\n  \"validated\": \"/opt/openclaw\",\n  \"checks\": [\n    \"validate_required_files\",\n    \"validate_registers\",\n    \"validate_schema_alignment\",\n    \"validate_fixtures\",\n    \"validate_phase_gates\",\n    \"validate_agent_entrypoint\",\n    \"validate_community_evidence_contract\",\n    \"validate_codex_access_contract\",\n    \"validate_gate_review_contract\",\n    \"validate_gate_action_review_contract\",\n    \"validate_intervention_balance_contract\"\n  ]\n}\n",
+    "stderr": ""
+  }
+}

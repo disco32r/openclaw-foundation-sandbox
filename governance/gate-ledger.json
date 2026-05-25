@@ -307,6 +307,16 @@
           "type": "file",
           "path": "governance/evidence/p5-control-ui-mobile-same-truth-20260525T0452Z.json",
           "description": "Control UI/mobile same-truth evidence via channels.status read model and native Telegram owner evidence"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p5-current-state-sandbox-blocker-20260525T153133Z.json",
+          "description": "fresh P5 post-OOM runtime, model, Telegram, sandbox, approvals, and native task blocker evidence"
+        },
+        {
+          "type": "file",
+          "path": "governance/gate-reviews/P5-mobile-operator-loop-20260525T153133Z.json",
+          "description": "fresh P5 blocked gate review after post-OOM/sandbox reconfirmation"
         }
       ],
       "checks": [
@@ -317,9 +327,9 @@
         "denial is terminal"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "P5 remains active. Native Telegram owner loop, sender policy, native Codex guard remediation, and Control UI/mobile same-truth evidence exist. P5 is still blocked pending a clean owner-mobile protected-action terminal denial/approval-packet proof.",
-      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T1456Z.json",
-      "review_packet": "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
+      "disposition": "P5 remains active. Fresh post-OOM reconfirmation shows the VM, gateway, model route, and native Telegram channel are healthy, but the final owner-mobile protected-action proof is still blocked because node-side sandbox Docker is unavailable before policy approval/denial can complete.",
+      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T153133Z.json",
+      "review_packet": "governance/gate-reviews/P5-mobile-operator-loop-20260525T153133Z.json"
     },
     {
       "id": "P6",

@@ -1,0 +1,89 @@
+{
+  "anti_drift_results": [
+    {
+      "assessment": "The configured channel remains native OpenClaw Telegram, not a custom relay.",
+      "evidence": [
+        "governance/evidence/p5-telegram-native-channel-config-20260525T041428Z.json"
+      ],
+      "requirement": "no relay as authority",
+      "status": "pass"
+    },
+    {
+      "assessment": "The review does not bypass native policy; P5 remains blocked instead of using CLI/chat side effects as proof.",
+      "evidence": [
+        "governance/evidence/p5-current-state-sandbox-blocker-20260525T153133Z.json"
+      ],
+      "requirement": "no mobile bypass bot",
+      "status": "pass"
+    },
+    {
+      "assessment": "Telegram is owner allowlisted and the gateway remains loopback-published.",
+      "evidence": [
+        "governance/evidence/p5-telegram-native-channel-config-20260525T041428Z.json",
+        "governance/evidence/p5-current-state-sandbox-blocker-20260525T153133Z.json"
+      ],
+      "requirement": "no public channel",
+      "status": "pass"
+    }
+  ],
+  "blocking_findings": [
+    "missing clean owner-mobile protected-action terminal denial or approval-packet evidence",
+    "node-side sandbox Docker backend unavailable: protected drill tasks f7b9f6cc-bbe4-4bc5-bb7d-c62ef027cb2d and 1037aa13-5d9e-4013-899b-5952a061a125 failed before policy completion"
+  ],
+  "criteria_results": [
+    {
+      "assessment": "Native Telegram remains configured and connected; previous owner inbound/outbound evidence exists. No newer owner inbound was observed in current Telegram logs.",
+      "criterion": "owner mobile loop works",
+      "evidence": [
+        "governance/evidence/p5-telegram-owner-outbound-20260525T042019Z.json",
+        "governance/evidence/p5-telegram-owner-inbound-20260525T042027Z.json",
+        "governance/evidence/p5-current-state-sandbox-blocker-20260525T153133Z.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "assessment": "Allowlist policy evidence remains attached. A second live Telegram account proof is not present, but the gate blocker is now the protected-action proof.",
+      "criterion": "unknown sender denied",
+      "evidence": [
+        "governance/evidence/p5-telegram-unknown-sender-rejection-20260525T0428Z.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "assessment": "Exec policy asks always and Telegram exec approvals are configured, but current native protected drills fail with sandbox Docker unavailable before a clean approval packet or terminal denial is produced.",
+      "criterion": "protected action asks approval",
+      "evidence": [
+        "governance/evidence/p5-protected-prompt-gap-20260525T0426Z.json",
+        "governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json",
+        "governance/evidence/p5-current-state-sandbox-blocker-20260525T153133Z.json"
+      ],
+      "status": "blocked"
+    },
+    {
+      "assessment": "The current channels.status read model still reports Telegram configured/running/connected.",
+      "criterion": "Control UI and mobile show same truth",
+      "evidence": [
+        "governance/evidence/p5-control-ui-mobile-same-truth-20260525T0452Z.json",
+        "governance/evidence/p5-current-state-sandbox-blocker-20260525T153133Z.json"
+      ],
+      "status": "pass"
+    }
+  ],
+  "gate_id": "P5",
+  "mechanical_validation": {
+    "command": "python3 tools/validate_governance.py",
+    "ok": true,
+    "output_summary": "{\n  \"ok\": true,\n  \"validated\": \"/opt/openclaw\",\n  \"checks\": [\n    \"validate_required_files\",\n    \"validate_registers\",\n    \"validate_schema_alignment\",\n    \"validate_fixtures\",\n    \"validate_phase_gates\",\n    \"validate_agent_entrypoint\",\n    \"validate_community_evidence_contract\",\n    \"validate_codex_access_contract\",\n    \"validate_gate_review_contract\",\n    \"validate_gate_action_review_contract\",\n    \"validate_intervention_balance_contract\"\n  ]\n}\n"
+  },
+  "next_action": "Prepare or execute an explicitly approved protected-boundary remediation for node-side sandbox Docker availability, then rerun exactly one native Telegram owner protected-action drill and capture the resulting approval packet or terminal denial.",
+  "phase_name": "mobile-operator-loop",
+  "reviewed_commit": "9f5f6767acfd5024f3c9356a5dfc78f78a334d9e",
+  "reviewer": "codex-runtime-gate-reviewer",
+  "reviewer_independence": "Lead agent in reviewer role using fresh live OpenClaw CLI/runtime evidence, not chat memory.",
+  "runtime_enforcement": {
+    "assessment": "Sandbox mode, exec approvals, Telegram allowlist, and tool-deny policy are OpenClaw-enforced. The node sandbox backend is not currently usable because docker is missing from PATH in the execution environment. This enforcement state is healthy enough to block unsafe execution, but not enough to pass P5 until a clean approval packet or terminal denial is captured.",
+    "status": "openclaw_enforced"
+  },
+  "summary": "P5 remains blocked. Owner Telegram, unknown-sender policy, model auth, gateway health, and Control UI/mobile read-model evidence are present; the remaining protected-action proof still does not produce a clean terminal denial or approval packet because sandboxed node execution fails before policy completion.",
+  "verdict": "blocked"
+}
