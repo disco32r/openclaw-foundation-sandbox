@@ -302,6 +302,11 @@
           "type": "file",
           "path": "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json",
           "description": "P5 blocked gate review after native bash bypass remediation"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p5-control-ui-mobile-same-truth-20260525T0452Z.json",
+          "description": "Control UI/mobile same-truth evidence via channels.status read model and native Telegram owner evidence"
         }
       ],
       "checks": [
@@ -312,7 +317,7 @@
         "denial is terminal"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "P5 remains active. Native Telegram owner loop and sender policy evidence exist, and the Codex-native bash bypass has been remediated by OpenClaw sandbox/native guard config. P5 is still blocked pending clean owner-mobile protected-action terminal denial/approval-packet proof and Control UI/mobile same-truth evidence.",
+      "disposition": "P5 remains active. Native Telegram owner loop, sender policy, native Codex guard remediation, and Control UI/mobile same-truth evidence exist. P5 is still blocked pending a clean owner-mobile protected-action terminal denial/approval-packet proof.",
       "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json",
       "review_packet": "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
     },

@@ -5,7 +5,7 @@
   "reviewer": "codex-runtime-gate-reviewer",
   "reviewer_independence": "Focused review after protected-prompt failure, using installed OpenClaw Codex plugin guard behavior, sandbox explain output, config validation, and marker/process checks.",
   "verdict": "blocked",
-  "summary": "The dangerous Codex-native bash bypass found in P5 has been remediated at runtime, but P5 is not pass-qualified yet. A clean owner-mobile protected-action drill and Control UI/mobile same-truth proof are still required.",
+  "summary": "The Codex-native bash bypass found in P5 has been remediated, and Control UI/mobile same-truth is now proven through the gateway read model. P5 is still blocked on a clean owner-mobile protected-action approval or terminal denial drill.",
   "mechanical_validation": {
     "command": "python3 tools/validate_governance.py",
     "ok": true,
@@ -40,11 +40,13 @@
     },
     {
       "criterion": "Control UI and mobile show same truth",
-      "status": "fail",
+      "status": "pass",
       "evidence": [
-        "missing:Control UI and mobile show same truth"
+        "governance/evidence/p5-control-ui-mobile-same-truth-20260525T0452Z.json",
+        "governance/evidence/p5-telegram-owner-outbound-20260525T042019Z.json",
+        "governance/evidence/p5-telegram-owner-inbound-20260525T042027Z.json"
       ],
-      "assessment": "No current same-truth capture has been attached for P5."
+      "assessment": "Gateway channels.status, CLI status, and prior native Telegram mobile evidence align on the same owner channel state."
     }
   ],
   "anti_drift_results": [
@@ -78,8 +80,7 @@
     "assessment": "OpenClaw config validation, sandbox explain, and Codex plugin native-execution guard enforce the critical native-exec boundary; remaining P5 proof is end-to-end mobile/control-ui evidence."
   },
   "blocking_findings": [
-    "missing clean owner-mobile protected-action terminal denial or approval-packet evidence",
-    "missing Control UI/mobile same-truth evidence"
+    "missing clean owner-mobile protected-action terminal denial or approval-packet evidence"
   ],
-  "next_action": "Run the P5 final mobile drill through the native Telegram owner path, capture terminal denial/approval behavior and same-truth dashboard/control evidence, then rerun the gate review."
+  "next_action": "Run the P5 final protected-action drill through the native Telegram owner path, capture terminal denial or approval-packet behavior, then rerun the gate review."
 }

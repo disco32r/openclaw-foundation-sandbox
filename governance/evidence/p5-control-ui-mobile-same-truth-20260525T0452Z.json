@@ -1,0 +1,100 @@
+{
+  "schema_version": "2026-05-24",
+  "created_at": "2026-05-25T04:53:03Z",
+  "phase": "P5-mobile-operator-loop",
+  "kind": "control ui and mobile same-truth evidence",
+  "status": "pass_api_backed_no_screenshot",
+  "summary": "Control UI channel status is backed by the gateway channels.status read model. The CLI deep status and gateway RPC status agree that Telegram is configured, running, connected, token-backed, and polling; prior mobile evidence proves owner inbound/outbound on that same native Telegram account.",
+  "control_ui_basis": {
+    "doc": "docs/web/control-ui.md says the Control UI Channels panel uses channels.status.",
+    "source_refs": [
+      "src/gateway/methods/core-descriptors.ts: channels.status",
+      "src/gateway/server-methods/channels.ts: channels.status handler"
+    ]
+  },
+  "commands": [
+    "docker exec openclaw-gateway openclaw channels status --deep --json",
+    "docker exec openclaw-gateway openclaw gateway call channels.status --params {\"probe\":false,\"timeoutMs\":5000} --json --timeout 8000"
+  ],
+  "cli_summary": {
+    "channel_configured": true,
+    "channel_running": true,
+    "channel_mode": "polling",
+    "account_enabled": true,
+    "account_configured": true,
+    "account_running": true,
+    "account_connected": true,
+    "account_tokenStatus": "available",
+    "account_mode": "polling",
+    "lastInboundAt": 1779682827638,
+    "lastOutboundAt": 1779684723093
+  },
+  "gateway_rpc_summary": {
+    "channel_configured": true,
+    "channel_running": true,
+    "channel_mode": "polling",
+    "account_enabled": true,
+    "account_configured": true,
+    "account_running": true,
+    "account_connected": true,
+    "account_tokenStatus": "available",
+    "account_mode": "polling",
+    "lastInboundAt": 1779682827638,
+    "lastOutboundAt": 1779684723093
+  },
+  "matching_nonvolatile_fields": {
+    "account_configured": [
+      true,
+      true,
+      true
+    ],
+    "account_connected": [
+      true,
+      true,
+      true
+    ],
+    "account_enabled": [
+      true,
+      true,
+      true
+    ],
+    "account_mode": [
+      "polling",
+      "polling",
+      true
+    ],
+    "account_running": [
+      true,
+      true,
+      true
+    ],
+    "account_tokenStatus": [
+      "available",
+      "available",
+      true
+    ],
+    "channel_configured": [
+      true,
+      true,
+      true
+    ],
+    "channel_mode": [
+      "polling",
+      "polling",
+      true
+    ],
+    "channel_running": [
+      true,
+      true,
+      true
+    ]
+  },
+  "mobile_evidence": [
+    "governance/evidence/p5-telegram-owner-outbound-20260525T042019Z.json",
+    "governance/evidence/p5-telegram-owner-inbound-20260525T042027Z.json"
+  ],
+  "limitations": [
+    "This is API/read-model proof, not a browser screenshot. It avoids requiring Ryan desktop interaction and uses the same gateway method the Control UI consumes."
+  ],
+  "verdict": "control_ui_status_and_mobile_channel_truth_aligned"
+}

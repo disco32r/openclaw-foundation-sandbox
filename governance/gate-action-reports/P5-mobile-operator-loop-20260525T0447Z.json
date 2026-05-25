@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T04:49:51Z",
+  "generated_at": "2026-05-25T04:53:03Z",
   "gate_id": "P5",
   "phase_name": "mobile-operator-loop",
   "gate_status": "ACTIVE",
   "action": "blocked_review",
-  "reviewed_commit": "4e9a4362522aa688cb2f90795daa75ed5f52db30",
+  "reviewed_commit": "cea27dfb9a58b6c0f09a29987d13d727a762faff",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -22,18 +22,18 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18385,
-    "governance_file_count": 75,
+    "tracked_file_count": 18388,
+    "governance_file_count": 78,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json\n?? governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json\n?? governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json\n M governance/gate-ledger.json\n M governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json\n?? governance/evidence/p5-control-ui-mobile-same-truth-20260525T0452Z.json",
   "changed_files": [
-    "governance/gate-ledger.json"
+    "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json",
+    "governance/gate-ledger.json",
+    "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
   ],
   "untracked_files": [
-    "governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json",
-    "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json",
-    "governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
+    "governance/evidence/p5-control-ui-mobile-same-truth-20260525T0452Z.json"
   ],
   "required_artifact_results": [
     {
@@ -74,7 +74,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-ledger.json\n?? governance/evidence/p5-protected-prompt-native-guard-remediation-20260525T0447Z.json\n?? governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json\n?? governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/gate-action-reports/P5-mobile-operator-loop-20260525T0447Z.json\n M governance/gate-ledger.json\n M governance/gate-reviews/P5-mobile-operator-loop-20260525T0447Z.json\n?? governance/evidence/p5-control-ui-mobile-same-truth-20260525T0452Z.json"
     },
     {
       "id": "required_artifacts",
@@ -146,8 +146,7 @@
   },
   "gate_review_verdict": "blocked",
   "blocking_findings": [
-    "missing clean owner-mobile protected-action terminal denial or approval-packet evidence",
-    "missing Control UI/mobile same-truth evidence"
+    "missing clean owner-mobile protected-action terminal denial or approval-packet evidence"
   ],
-  "ryan_report": "Gate P5 (mobile-operator-loop) action blocked_review: blocked. Reviewed commit 4e9a4362522aa688cb2f90795daa75ed5f52db30. Changed files: 1 tracked, 3 untracked. Blocking findings: 2. Ryan needed now: no."
+  "ryan_report": "Gate P5 (mobile-operator-loop) action blocked_review: blocked. Reviewed commit cea27dfb9a58b6c0f09a29987d13d727a762faff. Changed files: 3 tracked, 1 untracked. Blocking findings: 1. Ryan needed now: no."
 }
