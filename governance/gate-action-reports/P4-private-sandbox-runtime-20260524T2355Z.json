@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T00:10:56Z",
+  "generated_at": "2026-05-25T00:14:17Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "e223cdcf7ad11f4b1f5a7c3754ca121820b01385",
+  "reviewed_commit": "29da0d8ba70ccb044005b475528dec532bc3f0a5",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -22,11 +22,11 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18362,
-    "governance_file_count": 52,
+    "tracked_file_count": 18363,
+    "governance_file_count": 53,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]",
   "changed_files": [],
   "untracked_files": [],
   "required_artifact_results": [
@@ -76,7 +76,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]"
     },
     {
       "id": "required_artifacts",
@@ -153,5 +153,5 @@
     "Missing approval behavior evidence.",
     "Protected Docker/runtime mutation is required before those proofs can be produced."
   ],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit e223cdcf7ad11f4b1f5a7c3754ca121820b01385. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: yes."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: blocked. Reviewed commit 29da0d8ba70ccb044005b475528dec532bc3f0a5. Changed files: 0 tracked, 0 untracked. Blocking findings: 7. Ryan needed now: yes."
 }
