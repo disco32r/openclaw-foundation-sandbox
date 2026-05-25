@@ -282,6 +282,11 @@
           "type": "file",
           "path": "governance/evidence/p5-telegram-owner-inbound-20260525T042027Z.json",
           "description": "owner pairing evidence: native Telegram inbound owner DM accepted from configured owner"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p5-telegram-unknown-sender-rejection-20260525T0428Z.json",
+          "description": "unknown sender rejection evidence: live Telegram allowlist policy rejects non-owner sender"
         }
       ],
       "checks": [
@@ -292,8 +297,8 @@
         "denial is terminal"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "P5 is active. Native Telegram is configured and connected; owner outbound status and owner inbound DM are proven. Remaining gate evidence is unknown sender rejection, protected prompt behavior, and mobile policy-bypass denial.",
-      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0425Z.json"
+      "disposition": "P5 is active. Native Telegram is configured and connected; owner outbound status, owner inbound DM, and policy-level unknown sender rejection are proven. Remaining gate evidence is protected prompt behavior and any live second-account rejection if required before PASS.",
+      "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T0428Z.json"
     },
     {
       "id": "P6",

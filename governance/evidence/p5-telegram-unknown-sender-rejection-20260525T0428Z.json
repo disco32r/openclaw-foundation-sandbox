@@ -1,0 +1,10 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-25T04:28:00Z",
+  "phase": "P5-mobile-operator-loop",
+  "artifact": "unknown sender rejection evidence - runtime allowlist policy check",
+  "command": "node import /app/dist/allowlist-match-D8Bi9YxS.js and evaluate live owner allowFrom list",
+  "telegram_config_shape_redacted": "{\n  \"enabled\": true,\n  \"tokenFile\": \"/home/node/.openclaw/secrets/telegram-bot-token\",\n  \"dmPolicy\": \"allowlist\",\n  \"allowFrom\": [\n    \"5103054101\"\n  ],\n  \"groupPolicy\": \"allowlist\"\n}",
+  "policy_output": "{\n  \"allowFrom\": [\n    \"5103054101\"\n  ],\n  \"owner\": {\n    \"allowed\": true,\n    \"matchKey\": \"5103054101\",\n    \"matchSource\": \"id\"\n  },\n  \"unknown\": {\n    \"allowed\": false\n  }\n}",
+  "assessment": "Live Telegram config uses dmPolicy allowlist with only owner ID 5103054101. The compiled runtime allowlist matcher accepts owner ID and rejects synthetic unknown sender ID 9999999999. This is policy-level rejection evidence; no second live Telegram account was available for an external inbound rejection event."
+}
