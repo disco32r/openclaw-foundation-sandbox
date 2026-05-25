@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T03:37:28Z",
+  "generated_at": "2026-05-25T03:38:08Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "status_review",
-  "reviewed_commit": "c16eabcafb9d801cee8f651e4905958b0444b2ad",
+  "reviewed_commit": "212a1af949cff4bc900dc0d3969bdb1281f0968f",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -22,24 +22,15 @@
     "ryan-report"
   ],
   "tracked_file_summary": {
-    "tracked_file_count": 18367,
-    "governance_file_count": 57,
+    "tracked_file_count": 18369,
+    "governance_file_count": 59,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M AGENTS.md\n M governance/AGENTS.md\n M governance/README.md\n M governance/codex-access-contract.md\n M governance/gate-ledger.json\n M runbooks/container-sandbox-approval-request.md\n M tools/validate_governance.py\n?? governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json\n?? governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0334Z.json",
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json",
   "changed_files": [
-    "AGENTS.md",
-    "governance/AGENTS.md",
-    "governance/README.md",
-    "governance/codex-access-contract.md",
-    "governance/gate-ledger.json",
-    "runbooks/container-sandbox-approval-request.md",
-    "tools/validate_governance.py"
+    "governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json"
   ],
-  "untracked_files": [
-    "governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json",
-    "governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0334Z.json"
-  ],
+  "untracked_files": [],
   "required_artifact_results": [
     {
       "artifact": "runtime health evidence",
@@ -87,7 +78,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M AGENTS.md\n M governance/AGENTS.md\n M governance/README.md\n M governance/codex-access-contract.md\n M governance/gate-ledger.json\n M runbooks/container-sandbox-approval-request.md\n M tools/validate_governance.py\n?? governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json\n?? governance/gate-action-reports/P4-private-sandbox-runtime-20260525T0334Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/evidence/vm-scrub-and-runtime-rename-20260525T0334Z.json"
     },
     {
       "id": "required_artifacts",
@@ -129,8 +120,7 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md",
-      "tools/validate_governance.py"
+      "CUSTOM-CODE-RULE.md"
     ]
   },
   "access_contract_assessment": {
@@ -160,5 +150,5 @@
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action status_review: pass. Reviewed commit c16eabcafb9d801cee8f651e4905958b0444b2ad. Changed files: 7 tracked, 2 untracked. Blocking findings: 0. Ryan needed now: no."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action status_review: pass. Reviewed commit 212a1af949cff4bc900dc0d3969bdb1281f0968f. Changed files: 1 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
 }
