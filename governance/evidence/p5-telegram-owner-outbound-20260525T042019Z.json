@@ -1,0 +1,12 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "20260525T042019Z",
+  "phase": "P5-mobile-operator-loop",
+  "artifact": "mobile status evidence - outbound owner delivery attempt",
+  "owner_telegram_user_id": "5103054101",
+  "command": "openclaw message send --channel telegram --target 5103054101 --message <P5 test> --json",
+  "return_code": 0,
+  "send_output_redacted": "{\n  \"action\": \"send\",\n  \"channel\": \"telegram\",\n  \"dryRun\": false,\n  \"handledBy\": \"plugin\",\n  \"messageId\": \"17563\",\n  \"payload\": {\n    \"ok\": true,\n    \"messageId\": \"17563\",\n    \"chatId\": \"5103054101\"\n  }\n}",
+  "channels_logs_redacted": "Log file: /tmp/openclaw/openclaw-2026-05-25.log\nChannel: telegram\nNo matching log lines.\n",
+  "assessment": "Outbound message attempt through native OpenClaw Telegram. Return code 0 indicates mobile delivery command accepted; live owner reply is still required for owner intake proof."
+}
