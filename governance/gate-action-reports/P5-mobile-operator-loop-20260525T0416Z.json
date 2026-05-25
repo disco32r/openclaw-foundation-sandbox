@@ -1,0 +1,148 @@
+{
+  "schema_version": "2026-05-24",
+  "generated_at": "2026-05-25T04:18:36Z",
+  "gate_id": "P5",
+  "phase_name": "mobile-operator-loop",
+  "gate_status": "ACTIVE",
+  "action": "status_review",
+  "reviewed_commit": "359dc3681666c70ac99eb582cdb308495ba263b2",
+  "reviewer": "codex-repo-compliance-reviewer",
+  "overall_status": "blocked",
+  "repo_review_scope": [
+    "blueprint",
+    "phase-gates",
+    "gate-ledger",
+    "community-evidence",
+    "deny-register",
+    "custom-code-rule",
+    "codex-access-contract",
+    "changed-files",
+    "mechanical-checks",
+    "intervention-balance",
+    "ryan-report"
+  ],
+  "tracked_file_summary": {
+    "tracked_file_count": 18376,
+    "governance_file_count": 66,
+    "tool_file_count": 4
+  },
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]",
+  "changed_files": [],
+  "untracked_files": [],
+  "required_artifact_results": [
+    {
+      "artifact": "owner pairing evidence",
+      "status": "fail",
+      "evidence": [
+        "missing:owner pairing evidence"
+      ],
+      "assessment": "Required artifact is missing."
+    },
+    {
+      "artifact": "unknown sender rejection evidence",
+      "status": "fail",
+      "evidence": [
+        "missing:unknown sender rejection evidence"
+      ],
+      "assessment": "Required artifact is missing."
+    },
+    {
+      "artifact": "protected prompt evidence",
+      "status": "fail",
+      "evidence": [
+        "missing:protected prompt evidence"
+      ],
+      "assessment": "Required artifact is missing."
+    },
+    {
+      "artifact": "mobile status evidence",
+      "status": "fail",
+      "evidence": [
+        "missing:mobile status evidence"
+      ],
+      "assessment": "Required artifact is missing."
+    }
+  ],
+  "mechanical_checks": [
+    {
+      "id": "git_status",
+      "ok": true,
+      "command": "git status --short --branch",
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]"
+    },
+    {
+      "id": "required_artifacts",
+      "ok": false,
+      "command": "repo artifact existence scan",
+      "output_summary": "missing ['owner pairing evidence', 'unknown sender rejection evidence', 'protected prompt evidence', 'mobile status evidence']"
+    },
+    {
+      "id": "gate_review_packet",
+      "ok": false,
+      "command": "load gate review packet",
+      "output_summary": "verdict:None"
+    }
+  ],
+  "plan_compliance_assessment": {
+    "status": "pass",
+    "assessment": "Blueprint, phase definition, ledger, and active phase alignment are present.",
+    "evidence": [
+      "gate:P5",
+      "phase:mobile-operator-loop",
+      "active:P5"
+    ]
+  },
+  "community_evidence_assessment": {
+    "status": "pass",
+    "assessment": "Candidate register satisfies community evidence structure.",
+    "evidence": [
+      "candidate_rows:4"
+    ]
+  },
+  "deny_register_assessment": {
+    "status": "pass",
+    "assessment": "Deny register is present and entries require re-review before replay.",
+    "evidence": [
+      "deny_rows:5"
+    ]
+  },
+  "custom_code_assessment": {
+    "status": "pass",
+    "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
+    "evidence": [
+      "CUSTOM-CODE-RULE.md"
+    ]
+  },
+  "access_contract_assessment": {
+    "status": "pass",
+    "assessment": "Codex access contract contains the required project-command boundary.",
+    "evidence": [
+      "governance/codex-access-contract.md"
+    ]
+  },
+  "intervention_balance_assessment": {
+    "status": "pass",
+    "requires_ryan_now": false,
+    "protected_boundary_pending": true,
+    "approval_packet_present": false,
+    "safe_local_next_actions": [
+      "produce or attach missing phase evidence: owner pairing evidence, unknown sender rejection evidence, protected prompt evidence, mobile status evidence",
+      "generate or attach the phase gate review packet",
+      "draft the protected-boundary approval packet before any mutation"
+    ],
+    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "evidence": [
+      "phase_ryan_required:True",
+      "gate_status:ACTIVE",
+      "artifact_failures:4",
+      "review_verdict:None",
+      "approval_packet_present:False"
+    ]
+  },
+  "gate_review_verdict": null,
+  "blocking_findings": [
+    "Missing required artifacts: ['owner pairing evidence', 'unknown sender rejection evidence', 'protected prompt evidence', 'mobile status evidence']",
+    "missing review_packet"
+  ],
+  "ryan_report": "Gate P5 (mobile-operator-loop) action status_review: blocked. Reviewed commit 359dc3681666c70ac99eb582cdb308495ba263b2. Changed files: 0 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: no."
+}
