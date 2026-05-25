@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T03:48:00Z",
+  "generated_at": "2026-05-25T03:48:07Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "status_review",
-  "reviewed_commit": "755a203362187a9f7832ec35e58a5757dce5955e",
+  "reviewed_commit": "4e022b99a3c76358a9a126c9578c8d27d00ccccc",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -26,10 +26,8 @@
     "governance_file_count": 61,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json",
-  "changed_files": [
-    "governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json"
-  ],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]",
+  "changed_files": [],
   "untracked_files": [],
   "required_artifact_results": [
     {
@@ -78,7 +76,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 1]\n M governance/evidence/ssh-wrapper-and-github-auth-20260525T0347Z.json"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap [ahead 2]"
     },
     {
       "id": "required_artifacts",
@@ -131,15 +129,12 @@
     ]
   },
   "intervention_balance_assessment": {
-    "status": "pass",
-    "requires_ryan_now": false,
+    "status": "blocked",
+    "requires_ryan_now": true,
     "protected_boundary_pending": true,
     "approval_packet_present": true,
-    "safe_local_next_actions": [
-      "validate, review, and commit/push current repo-local changes",
-      "refresh the gate action report after safe-local evidence changes"
-    ],
-    "assessment": "Safe-local work remains available or the gate does not currently require Ryan intervention.",
+    "safe_local_next_actions": [],
+    "assessment": "Ryan is needed now because no safe-local prep remains and the next action crosses a protected boundary.",
     "evidence": [
       "phase_ryan_required:True",
       "gate_status:ACTIVE",
@@ -150,5 +145,5 @@
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action status_review: pass. Reviewed commit 755a203362187a9f7832ec35e58a5757dce5955e. Changed files: 1 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: no."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action status_review: pass. Reviewed commit 4e022b99a3c76358a9a126c9578c8d27d00ccccc. Changed files: 0 tracked, 0 untracked. Blocking findings: 0. Ryan needed now: yes."
 }
