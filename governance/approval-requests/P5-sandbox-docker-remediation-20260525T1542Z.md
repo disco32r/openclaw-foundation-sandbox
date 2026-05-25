@@ -35,7 +35,7 @@ P5_SANDBOX_APPROVED=1 sh governance/approval-requests/P5-sandbox-docker-remediat
 P5_SANDBOX_APPROVED=1 sh governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh validate
 ```
 
-This builds an OpenClaw gateway image tagged from the current repo HEAD with Docker CLI support, builds the sandbox image, writes `/opt/openclaw-data/runtime/oc/compose.p5-sandbox.yml`, mounts `/var/run/docker.sock` into the gateway, adds the host Docker group, restarts only `openclaw-gateway`, and validates health, loopback exposure, Docker CLI/socket access, sandbox explain output, and exec approval policy.
+This builds an OpenClaw gateway image tagged from the current repo HEAD with Docker CLI support, builds the sandbox image, writes `/opt/openclaw-data/runtime/oc/compose.p5-sandbox.yml`, mounts `/var/run/docker.sock` into the gateway, adds the host Docker group, restarts only `openclaw-gateway` under Docker Compose project `oc`, and validates health, loopback exposure, Docker CLI/socket access, sandbox explain output, and exec approval policy.
 
 ## Rollback Command
 

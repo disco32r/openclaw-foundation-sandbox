@@ -13,11 +13,11 @@ SANDBOX_IMAGE="${SANDBOX_IMAGE:-openclaw-sandbox:bookworm-slim}"
 DOCKER_SOCKET="${DOCKER_SOCKET:-/var/run/docker.sock}"
 
 compose_base() {
-  docker compose --env-file "$COMPOSE_ENV" -f docker-compose.yml -f "$COMPOSE_OVERRIDE" "$@"
+  docker compose -p oc --env-file "$COMPOSE_ENV" -f docker-compose.yml -f "$COMPOSE_OVERRIDE" "$@"
 }
 
 compose_p5() {
-  docker compose --env-file "$COMPOSE_ENV" -f docker-compose.yml -f "$COMPOSE_OVERRIDE" -f "$SANDBOX_COMPOSE" "$@"
+  docker compose -p oc --env-file "$COMPOSE_ENV" -f docker-compose.yml -f "$COMPOSE_OVERRIDE" -f "$SANDBOX_COMPOSE" "$@"
 }
 
 require_approval() {

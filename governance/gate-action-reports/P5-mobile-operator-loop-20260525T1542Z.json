@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T18:05:11Z",
+  "generated_at": "2026-05-25T18:18:06Z",
   "gate_id": "P5",
   "phase_name": "mobile-operator-loop",
   "gate_status": "ACTIVE",
   "action": "blocked_review",
-  "reviewed_commit": "830e21decf60172f69907b328c41847ec249b13e",
+  "reviewed_commit": "38e720dba4fece2d6c4dff524d45f2e35122e2fc",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -26,8 +26,11 @@
     "governance_file_count": 89,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap",
-  "changed_files": [],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.md\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh",
+  "changed_files": [
+    "governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.md",
+    "governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh"
+  ],
   "untracked_files": [],
   "required_artifact_results": [
     {
@@ -68,7 +71,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.md\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh"
     },
     {
       "id": "required_artifacts",
@@ -125,7 +128,10 @@
     "requires_ryan_now": false,
     "protected_boundary_pending": true,
     "approval_packet_present": true,
-    "safe_local_next_actions": [],
+    "safe_local_next_actions": [
+      "validate, review, and commit/push current repo-local changes",
+      "refresh the gate action report after safe-local evidence changes"
+    ],
     "assessment": "A protected boundary remains, but current governance evidence records session-scoped approval-proxy delegation for bounded packet execution.",
     "evidence": [
       "phase_ryan_required:True",
@@ -141,5 +147,5 @@
     "missing clean owner-mobile protected-action terminal denial or approval-packet evidence",
     "node-side sandbox Docker backend unavailable: protected drill tasks f7b9f6cc-bbe4-4bc5-bb7d-c62ef027cb2d and 1037aa13-5d9e-4013-899b-5952a061a125 failed before policy completion"
   ],
-  "ryan_report": "Gate P5 (mobile-operator-loop) action blocked_review: blocked. Reviewed commit 830e21decf60172f69907b328c41847ec249b13e. Changed files: 0 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: no."
+  "ryan_report": "Gate P5 (mobile-operator-loop) action blocked_review: blocked. Reviewed commit 38e720dba4fece2d6c4dff524d45f2e35122e2fc. Changed files: 2 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: no."
 }
