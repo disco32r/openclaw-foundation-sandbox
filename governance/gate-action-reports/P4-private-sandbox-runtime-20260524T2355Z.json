@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T03:00:00Z",
+  "generated_at": "2026-05-25T03:23:00Z",
   "gate_id": "P4",
   "phase_name": "private-sandbox-runtime",
   "gate_status": "ACTIVE",
   "action": "activate",
-  "reviewed_commit": "9e94d9b3b70e9eeee2743e6eed439705e7f3aca9",
+  "reviewed_commit": "edad40bf0eb294cce919211eccee3b531595e6ee",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "pass",
   "repo_review_scope": [
@@ -148,5 +148,5 @@
   },
   "gate_review_verdict": "pass",
   "blocking_findings": [],
-  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: pass. Hosted model usability is now proven through native openai-codex OAuth plus secrets reload and a successful gateway-backed openai-codex/gpt-5.5 inference result. Non-authoritative old workspace/quarantine/trash/OpenWebUI artifacts were removed and the workspace root now points agents to the active source/runtime. Ryan needed now: no for governance-only phase promotion; yes only for protected mutation."
+  "ryan_report": "Gate P4 (private-sandbox-runtime) action activate: pass. Hosted model usability is proven through native openai-codex OAuth plus secrets reload and successful openai-codex/gpt-5.5 inference. The VM filesystem now has one source repo at /opt/openclaw, SSH lands there, old repo/checkouts and global OpenClaw clutter are removed, and only active runtime data remains under /opt/openclaw-data. Ryan needed now: no for governance-only phase promotion; yes only for protected mutation."
 }
