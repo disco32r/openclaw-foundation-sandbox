@@ -27,6 +27,10 @@ require_approval() {
   fi
 }
 
+ensure_backup_dir() {
+  sudo install -d -m 0750 -o openclaw -g openclaw "$STATE_ROOT/backups" "$BACKUP_DIR"
+}
+
 preflight() {
   cd "$REPO_ROOT"
   test -f "$COMPOSE_ENV"
@@ -111,7 +115,7 @@ build_images() {
 apply_runtime() {
   require_approval
   cd "$REPO_ROOT"
-  mkdir -p "$BACKUP_DIR"
+  ensure_backup_dir
   cp -p "$COMPOSE_ENV" "$BACKUP_DIR/compose.env"
   cp -p "$COMPOSE_OVERRIDE" "$BACKUP_DIR/compose.override.yml"
   [ ! -f "$SANDBOX_COMPOSE" ] || cp -p "$SANDBOX_COMPOSE" "$BACKUP_DIR/compose.p5-sandbox.yml.preexisting"
@@ -143,7 +147,7 @@ rollback_runtime() {
   require_approval
   cd "$REPO_ROOT"
   if [ -f "$SANDBOX_COMPOSE" ]; then
-    mkdir -p "$BACKUP_DIR"
+    ensure_backup_dir
     cp -p "$SANDBOX_COMPOSE" "$BACKUP_DIR/compose.p5-sandbox.yml.rollback-copy"
     rm -f "$SANDBOX_COMPOSE"
   fi

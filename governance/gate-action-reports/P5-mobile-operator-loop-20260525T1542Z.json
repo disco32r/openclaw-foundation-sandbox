@@ -1,11 +1,11 @@
 {
   "schema_version": "2026-05-24",
-  "generated_at": "2026-05-25T15:42:48Z",
+  "generated_at": "2026-05-25T18:04:27Z",
   "gate_id": "P5",
   "phase_name": "mobile-operator-loop",
   "gate_status": "ACTIVE",
   "action": "blocked_review",
-  "reviewed_commit": "d5eef15d83524ec1c295f62660f11be38ed32d6d",
+  "reviewed_commit": "bee35f871d183d4d7027e6eb15cd6c01002ba2b1",
   "reviewer": "codex-repo-compliance-reviewer",
   "overall_status": "blocked",
   "repo_review_scope": [
@@ -26,9 +26,19 @@
     "governance_file_count": 88,
     "tool_file_count": 4
   },
-  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap",
-  "changed_files": [],
-  "untracked_files": [],
+  "git_status": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/AGENTS.md\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.md\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh\n M governance/gate-action-reports/P5-mobile-operator-loop-20260525T1542Z.json\n M governance/gate-ledger.json\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n?? governance/evidence/p5-session-approval-delegation-and-telegram-failure-20260525T180427Z.json",
+  "changed_files": [
+    "governance/AGENTS.md",
+    "governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.md",
+    "governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh",
+    "governance/gate-action-reports/P5-mobile-operator-loop-20260525T1542Z.json",
+    "governance/gate-ledger.json",
+    "governance/operating-method.md",
+    "tools/generate_gate_action_report.py"
+  ],
+  "untracked_files": [
+    "governance/evidence/p5-session-approval-delegation-and-telegram-failure-20260525T180427Z.json"
+  ],
   "required_artifact_results": [
     {
       "artifact": "owner pairing evidence",
@@ -68,7 +78,7 @@
       "id": "git_status",
       "ok": true,
       "command": "git status --short --branch",
-      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap"
+      "output_summary": "## codex/foundation-governance-bootstrap...origin/codex/foundation-governance-bootstrap\n M governance/AGENTS.md\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.md\n M governance/approval-requests/P5-sandbox-docker-remediation-20260525T1542Z.sh\n M governance/gate-action-reports/P5-mobile-operator-loop-20260525T1542Z.json\n M governance/gate-ledger.json\n M governance/operating-method.md\n M tools/generate_gate_action_report.py\n?? governance/evidence/p5-session-approval-delegation-and-telegram-failure-20260525T180427Z.json"
     },
     {
       "id": "required_artifacts",
@@ -110,7 +120,8 @@
     "status": "pass",
     "assessment": "Changed custom code is limited to governance validation or proof tooling and remains under the custom-code rule.",
     "evidence": [
-      "CUSTOM-CODE-RULE.md"
+      "CUSTOM-CODE-RULE.md",
+      "tools/generate_gate_action_report.py"
     ]
   },
   "access_contract_assessment": {
@@ -121,18 +132,22 @@
     ]
   },
   "intervention_balance_assessment": {
-    "status": "blocked",
-    "requires_ryan_now": true,
+    "status": "pass",
+    "requires_ryan_now": false,
     "protected_boundary_pending": true,
     "approval_packet_present": true,
-    "safe_local_next_actions": [],
-    "assessment": "Ryan is needed now because no safe-local prep remains and the next action crosses a protected boundary.",
+    "safe_local_next_actions": [
+      "validate, review, and commit/push current repo-local changes",
+      "refresh the gate action report after safe-local evidence changes"
+    ],
+    "assessment": "A protected boundary remains, but current governance evidence records session-scoped approval-proxy delegation for bounded packet execution.",
     "evidence": [
       "phase_ryan_required:True",
       "gate_status:ACTIVE",
       "artifact_failures:0",
       "review_verdict:blocked",
-      "approval_packet_present:True"
+      "approval_packet_present:True",
+      "session_approval_delegation_present:True"
     ]
   },
   "gate_review_verdict": "blocked",
@@ -140,5 +155,5 @@
     "missing clean owner-mobile protected-action terminal denial or approval-packet evidence",
     "node-side sandbox Docker backend unavailable: protected drill tasks f7b9f6cc-bbe4-4bc5-bb7d-c62ef027cb2d and 1037aa13-5d9e-4013-899b-5952a061a125 failed before policy completion"
   ],
-  "ryan_report": "Gate P5 (mobile-operator-loop) action blocked_review: blocked. Reviewed commit d5eef15d83524ec1c295f62660f11be38ed32d6d. Changed files: 0 tracked, 0 untracked. Blocking findings: 2. Ryan needed now: yes."
+  "ryan_report": "Gate P5 (mobile-operator-loop) action blocked_review: blocked. Reviewed commit bee35f871d183d4d7027e6eb15cd6c01002ba2b1. Changed files: 7 tracked, 1 untracked. Blocking findings: 2. Ryan needed now: no."
 }

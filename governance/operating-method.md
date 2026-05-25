@@ -59,6 +59,26 @@ Ryan intervention is allowed only when all three are true:
 
 If a phase has `ryan_required=true`, that does not make every step human-blocked. It means phase promotion cannot be claimed until the exact protected action or approval requirement has been satisfied. Before that point, agents must continue bounded safe-local work and report the remaining protected boundary directly.
 
+### Session-Scoped Approval Proxy
+
+Ryan may explicitly delegate approval authority inside the active Codex/OpenClaw work session. When that happens, the agent may execute a previously reviewed protected-boundary packet as Ryan's approval proxy if all of these are true:
+
+- the delegation text is recorded as governance evidence,
+- the action has exact apply, validation, rollback, affected systems, risk, downtime estimate, and stop conditions,
+- the action remains within the delegated scope,
+- the agent records command output and rollback evidence,
+- the action does not approve secrets disclosure, public posting, payment, medical/financial mutation, device actuation, or broad network/security changes beyond the packet scope.
+
+Session delegation does not mark a phase complete. It only satisfies the human-approval precondition for the bounded action. The phase still needs concrete evidence, gate review, gate action report, validator pass, and ledger update.
+
+### Work-Conserving Blocked Gates
+
+A blocked active gate is not permission to idle. If Ryan explicitly directs continuation, agents must keep doing safe-local work that supports the active phase or prepares downstream phases, while preserving pass order. Downstream prep may create intake packets, read-only reviews, candidate evidence, test harnesses, and approval packets, but it may not mark a later phase `PASS` before earlier gates pass.
+
+### Critical Updates
+
+Critical blockers, approval requests, and failed communication paths must be surfaced through the configured owner channel when available. If Telegram or another owner channel is not proven by a current real send/receive check, agents must use the current Codex thread as fallback and keep repairing the native channel.
+
 ## Proof
 
 Completion requires concrete evidence: task record, test output, audit output, diff, screenshot, health check, cost report, rollback proof, approval packet, or failure proof.

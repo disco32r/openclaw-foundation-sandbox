@@ -332,6 +332,11 @@
           "type": "file",
           "path": "governance/custom-code-decisions.jsonl",
           "description": "custom-code qualification for the P5 protected-boundary remediation script"
+        },
+        {
+          "type": "file",
+          "path": "governance/evidence/p5-session-approval-delegation-and-telegram-failure-20260525T180427Z.json",
+          "description": "session approval proxy delegation and owner-reported Telegram failure evidence"
         }
       ],
       "checks": [
@@ -342,7 +347,7 @@
         "denial is terminal"
       ],
       "anti_drift_confirmed": true,
-      "disposition": "P5 remains active. Fresh post-OOM reconfirmation shows the VM, gateway, model route, and native Telegram channel are healthy, but the final owner-mobile protected-action proof is still blocked because node-side sandbox Docker is unavailable before policy approval/denial can complete.",
+      "disposition": "P5 remains active. Ryan has now recorded session-scoped approval-proxy delegation and reported Telegram unusable from the owner side; continue bounded P5 remediation and safe-local downstream prep, but do not mark P5 PASS until native Telegram/protected-action proof exists.",
       "gate_action_report": "governance/gate-action-reports/P5-mobile-operator-loop-20260525T1542Z.json",
       "review_packet": "governance/gate-reviews/P5-mobile-operator-loop-20260525T153133Z.json"
     },

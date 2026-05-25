@@ -37,7 +37,7 @@ python3 tools/generate_gate_action_report.py --gate P1 --action blocked_review -
 
 ## Execution Rule
 
-Only work the `ACTIVE` phase in `governance/gate-ledger.json` unless Ryan explicitly changes the phase or asks for analysis outside the gate. Future work discovered during a phase becomes intake, not direct execution.
+Only work the `ACTIVE` phase in `governance/gate-ledger.json` unless Ryan explicitly changes the phase, delegates session-scoped approval-proxy authority, or asks for safe-local downstream preparation while a gate is blocked. Future work discovered during a phase becomes intake, not direct execution, and downstream prep cannot mark a later phase `PASS` before earlier gates pass.
 
 ## Access Rule
 

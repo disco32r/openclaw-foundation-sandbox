@@ -254,6 +254,15 @@ def intervention_balance_assessment(
         )
         for row in gate.get("evidence", [])
     )
+    has_session_approval_delegation = any(
+        isinstance(row, dict)
+        and (
+            "approval proxy delegation" in str(row.get("description", "")).lower()
+            or "session approval delegation" in str(row.get("description", "")).lower()
+            or "approval-delegation" in str(row.get("path", "")).lower()
+        )
+        for row in gate.get("evidence", [])
+    )
     protected_boundary_pending = bool(phase.get("ryan_required") and gate["status"] == "ACTIVE")
     if changed or untracked:
         safe_local_next_actions.append("validate, review, and commit/push current repo-local changes")
@@ -266,13 +275,16 @@ def intervention_balance_assessment(
     if phase.get("ryan_required") and gate["status"] == "ACTIVE" and not has_approval_packet:
         safe_local_next_actions.append("draft the protected-boundary approval packet before any mutation")
 
-    requires_ryan_now = bool(protected_boundary_pending and not safe_local_next_actions)
-    status = "blocked" if requires_ryan_now else "pass"
-    assessment = (
-        "Ryan is needed now because no safe-local prep remains and the next action crosses a protected boundary."
-        if requires_ryan_now
-        else "Safe-local work remains available or the gate does not currently require Ryan intervention."
+    requires_ryan_now = bool(
+        protected_boundary_pending and not safe_local_next_actions and not has_session_approval_delegation
     )
+    status = "blocked" if requires_ryan_now else "pass"
+    if requires_ryan_now:
+        assessment = "Ryan is needed now because no safe-local prep remains and the next action crosses a protected boundary."
+    elif protected_boundary_pending and has_session_approval_delegation:
+        assessment = "A protected boundary remains, but current governance evidence records session-scoped approval-proxy delegation for bounded packet execution."
+    else:
+        assessment = "Safe-local work remains available or the gate does not currently require Ryan intervention."
     return {
         "status": status,
         "requires_ryan_now": requires_ryan_now,
@@ -286,6 +298,7 @@ def intervention_balance_assessment(
             f"artifact_failures:{len(artifact_failures)}",
             f"review_verdict:{review_verdict}",
             f"approval_packet_present:{has_approval_packet}",
+            f"session_approval_delegation_present:{has_session_approval_delegation}",
         ],
     }
 

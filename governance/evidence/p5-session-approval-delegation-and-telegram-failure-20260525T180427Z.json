@@ -1,0 +1,21 @@
+{
+  "created_at": "20260525T180427Z",
+  "delegation_interpretation": "Ryan explicitly delegated session-scoped approval-proxy authority for OpenClaw approval-system work and instructed agents not to stop at a single protected-boundary blocker. This delegation is bounded by reviewed packets, validation, rollback, stop conditions, and governance evidence.",
+  "immediate_actions": [
+    "Create a thread-level hourly heartbeat fallback.",
+    "Patch governance operating method and agent rules for session-scoped approval proxy and work-conserving blocked gates.",
+    "Patch gate action reports so session approval delegation prevents false 'Ryan needed now' deadlocks while preserving gate blockers.",
+    "Continue P5 sandbox remediation and Telegram repair."
+  ],
+  "kind": "session approval proxy delegation and Telegram failure feedback",
+  "phase": "P5-mobile-operator-loop",
+  "repo_head_at_record": "bee35f871d183d4d7027e6eb15cd6c01002ba2b1",
+  "ryan_feedback_exact": [
+    "telegrams is not healthy becasue I cannot communicsate to you on it.",
+    "what approval do you need? this session does not require it and I have given you permission to design teh approval system in openclaw such that you can proxy my appprvoal.",
+    "change the system design to allow for what i just said and if there was somehting criitical that NEEZDS me, send it to me in telegram. Neither tgelgram bot works for me right now and that was part of your goal. Dont stop becuase of one fuckign blocker do shit.",
+    "i also told oyu i want hourly updates and receiced zero"
+  ],
+  "schema_version": "2026-05-24",
+  "telegram_interpretation": "Telegram is not considered healthy until a current real send/receive proof works for Ryan. Channel connected status alone is insufficient."
+}
