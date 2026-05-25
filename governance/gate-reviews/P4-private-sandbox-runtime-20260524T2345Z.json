@@ -99,7 +99,7 @@
     "assessment": "The sandbox is live and OpenClaw native exec approvals are enforced with security=full, ask=always, askFallback=deny, and no allowlist entries. Model auth remains blocked separately."
   },
   "blocking_findings": [
-    "Missing model status evidence.",
+    "Model status evidence exists but `models status --check` exits 1.",
     "Hosted model usability is blocked because openai-codex auth is missing and no usable model API key is present in the inspected environment."
   ],
   "next_action": "Configure a hosted model credential through the native OpenClaw model auth path, rerun models status --check, then regenerate P4 review and action report."
